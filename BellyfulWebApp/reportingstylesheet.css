@@ -1,0 +1,379 @@
+﻿.tab {
+    overflow: hidden;
+    
+}
+
+    /* Style the buttons inside the tab */
+    .tab button {
+        font-family: 'Montserrat';
+        font-weight: lighter;
+        font-size: 28px;
+        color: #4d4c4c;
+        background-color: inherit;
+        float: left;
+        border: 1px;
+        border-style: solid;
+        border-left: none;
+        border-top: none;
+        border-right: none;
+        border-color: #4d4c4c;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        
+    }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            border: 5px;
+            border-style: solid;
+            border-color: #ce92b9;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            color: #C759A0;
+            border: 5px;
+            border-style: solid;
+            border-color: #ce92b9;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+        }
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    
+    
+}
+/* adds coloums for styling page*/
+.column {
+    float: left;  
+    padding-right: 10px;
+    
+}
+.text {
+    width: 5%;
+    font-family: 'Nunito';
+    color: #4d4c4c;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 52px; 
+}
+.left, .right {
+    width: 25%;
+    
+}
+
+.left2 {
+    width: 25%;
+}
+.right2{
+    width:10%
+}
+
+.middle{
+    width: 10%;
+}
+
+.middleLeft, .middleRight{
+    width: 15%;
+    
+}
+
+
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+.btn {
+    font-family: 'Nunito';
+    font-weight: bold;
+    font-size: 14px;
+    color: #ffffff;
+    border: none;
+    background-color: #209BFF;
+    border-radius: 12px;
+    display: block;
+    float: left;
+    padding: 5px 20px 5px 20px;
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    padding: 10px;
+    font-family: 'Nunito';
+    color: #4d4c4c;
+}
+
+select {
+    display: block;
+    padding: 5px 5px;
+    border-radius: 5px;
+    
+    color: #4d4c4c;
+}
+
+
+
+
+
+option{
+    padding: 5px;
+}
+
+#items{
+    width: 100%;
+   
+}
+
+#archiveDate {
+    width: 100%;
+    padding: 5px;
+    border-color: #4d4c4c;
+    font-size: 16px;
+    font-family: 'Nunito';
+}
+
+#start {
+    width: 90%;
+    display: block;
+    padding: 4.5px 4.5px;
+    border: 1px solid #4d4c4c;
+    font-size: 14px;
+    font-family: 'Nunito';
+    color: #4d4c4c;
+    margin-top: 7px;
+}
+
+#date{
+    width: 100%;
+}
+
+.center {
+    padding: 33px 0 0 10px;
+}
+
+p {
+    width: 50%;
+    border: 0.5px;
+    border-style: solid;
+    border-left: none;
+    border-top: none;
+    border-right: none;
+    border-color: #4d4c4c;
+    font-family: 'Nunito';
+    color: #4d4c4c;
+}
+
+table {
+    width: 70%;
+}
+
+td {
+    font-family: 'Nunito';
+    font-size: 12px;
+    color: #4d4c4c;
+    background: #E8E8E8;
+    padding: 10px;
+}
+/*a column of blank cells for formatting*/
+.blank {
+    background: #FFF;
+    width: 5%;
+    padding: 0;
+}
+
+.btnHeadMain {
+    font-family: 'Montserrat';
+    width: 100%;
+    font-size: 20px;
+    text-align: left;
+    color: #A35DDD;
+    background: none;
+    border: none;
+    padding: 10px, 0, 10px, 0;
+    cursor: pointer;
+    text-align: left;
+}
+
+.btnHeadSmall {
+    font-family: 'Nunito';
+    font-size: 12px;
+    color: #4d4c4c;
+    background: none;
+    border: none;
+    padding: 10px, 0, 10px, 0;
+   
+    cursor: pointer;
+}
+/*a small grey triangle to be inserted inside a div*/
+.triangle-down {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #4d4c4c;
+}
+
+/* a cicle with a triangle inside*/
+.circle {
+    display: inline-block;
+    width: 50%;
+    height: 0;
+    padding-bottom: 50%;
+   
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background: #A35DDD;
+    position: relative;
+    border: none;
+}
+
+    .circle:before {
+        content: '';
+        display: block;
+
+        border-left: solid 5px transparent;
+        border-top: solid 5px #FFF;
+        border-right: solid 5px transparent;
+        position: absolute;
+        top: 40%;
+        left: 20%;
+        
+        
+        
+    }
+#mealTble {
+    width: 70%;
+}
+#stockTble {
+    width: 30%;
+}
+
+td.meal {
+    text-align: left;
+    width: 40%;
+    background: none;
+}
+
+th.totalh {
+    font-family: 'Nunito';
+    font-weight: bold;
+    font-size: 20px;
+    color: #4d4c4c;
+}
+
+th.nameh {
+    font-family: 'Nunito';
+    font-size: 20px;
+    color: #4d4c4c;
+}
+
+th.deliveries {
+    width: 25%;
+}
+
+td.total {
+    width: 6%;
+    font-family: 'Nunito';
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: #4d4c4c;
+    background: none;
+}
+
+td.entry {
+    width: 18%;
+    text-align: center;
+    font-family: 'Nunito';
+    font-size: 24px;
+    color: #4d4c4c;
+    background-color: #E8E8E8;
+   border: 3px solid #fff
+}
+
+td.stockItem {
+    width: 70%;
+    font-family: 'Nunito';
+    font-weight: bold;
+    font-size: 20px;
+    color: #4d4c4c;
+    background: none;
+
+}
+
+td.stock {
+    width: 6%;
+    font-family: 'Nunito';
+    text-align: center;
+    font-weight: bold;
+    font-size: 24px;
+    color: #4d4c4c;
+    
+}
+
+.addBtn {
+    width: 60%;
+    text-align: left;
+    padding: 5px 0 5px 10px;
+    font-family: 'Nunito';
+    font-size: 16px;
+    color: #4d4c4c;
+    border: 1px solid #4d4c4c; 
+    background: none;
+    cursor: pointer;
+}
+
+#search {
+    margin-right:10%;
+    float: right;
+
+    
+}
+
+
+input[type=text], select {
+    width: 100%;
+    padding: 6px 10px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 1px;
+    box-sizing: border-box;
+    font-family: 'Nunito';
+    font-size: 16px;
+    color: #4d4c4c;
+}
+
+
+input::placeholder {
+    font-family: 'Nunito';
+    font-size: 16px;
+    color: #4d4c4c;    
+}
+
+.arrowBtn {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    width: 35px;
+    height: 100%;
+    cursor: pointer;
+}

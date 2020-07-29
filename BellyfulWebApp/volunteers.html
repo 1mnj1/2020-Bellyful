@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="sidebarstylesheet.css">
+<link rel="stylesheet" type="text/css" href="mainstylesheet.css">
+<link rel="stylesheet" type="text/css" href="volunteersstylesheet.css">
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+<html>
+<head>
+    <meta charset="utf-8" / >
+    <title> </title>
+</head>
+<body>
+    <div id="main">
+        <div id="mySidepanel" class="sidepanel">
+            <div style="padding:20px;">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+                <div class="tab">
+                    <button class="tablinks active" onclick="openTab(event, 'Info')">Info</button>
+                    <button class="tablinks" onclick="openTab(event, 'Updates')">Updates</button>
+                </div>
+                <!--Tab content for info tab-->
+                <div id="Info" class="tabcontent" style="display: block;">
+                    <form>
+                        <br />
+                        <label for="dlName">Deliverer's name</label>
+                        <input type="text" id="delName" name="dlName" /><br /><br />
+
+                        <label for="dlAdd">Address</label>
+                        <input type="text" id="delAdd" name="dlAdd"><br /><br />
+
+                        <label for="dlEmail">Email address</label>
+                        <input type="text" id="delEmai" name="dlEmail"><br /><br />
+
+                        <label for="dlPhone">Phone Number </label>
+                        <input type="text" id="delPhone" name="dlPhone"><br /><br />
+
+                        <label for="dlContactName">To contact in case of emergency</label>
+                        <input type="text" id="delContactName" name="dlContactName"><br /><br />
+
+                        <label for="dlContactNum">Emergency contact phone number</label>
+                        <input type="text" id="delContactNum" name="dlContactNum"><br /><br />
+
+                        <label for="dlStatus"> Status </label>
+                        <select name="dlStatus" id="statusSel ">
+                            <option value="Active">Active</option>
+                            <option value="Cookathon">Cookathons Only</option>
+                            <option value="On Leave">On leave</option>
+                            <option value="Left">Left</option>
+                        </select> <br /><br />
+
+                        <label for="dlNotes">Notes</label>
+                        <input type="text" id="delNotes" name="dlNotes"><br /><br />
+
+                        <label for="frCheck">
+                            Freezer Keeper
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+                        </label>
+
+                        <label for="dateCompleted"> Date Completed</label>
+                        <input type="date" id="dateInput" name="dlDate" /><br /><br />
+
+                        <label for="hsCheck">
+                            Health and saftey seminar
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+                        </label>
+
+                        <label for="HSdateCompleted"> Date Completed</label>
+                        <input type="date" id="dateInput" name="dlDate" /><br /><br />
+
+                        <button class="btn"> Save </button>
+                        <h1> </h1>
+
+                    </form>
+
+
+
+                </div>
+                <!--Tab content for updates tab-->
+
+                <div id="Updates" class="tabcontent">
+                    <h3>Stats</h3>
+                    <label for="upYear">Year</label>
+                    <select name="upYear" id="upYear ">
+                        <option value="2020">2020</option>
+                        <option value="2019">2019</option>
+                        <option value="2018">2018</option>
+                        <option value="2017">2017</option>
+                        <option value="2016">2016</option>
+                        <option value="2015">2015</option>
+                        <option value="2014">2014</option>
+                        <option value="2013">2013</option>
+                        <option value="2012">2012</option>
+                        <option value="2011">2011</option>
+                        
+                    </select> <br /><br />
+                    <table>
+                        <thead>
+                            <tr>
+                                <!--Headers are buttons that collapse the table colums-->
+                                <th>  </th>
+                                <th>
+                                    <button class="btnHeadSmall">Active Deliveres</button>
+                                </th>
+                                <th>
+                                    <button class="btnHeadSmall">Total Deliveries</button>
+                                </th>
+                                <th>
+                                    <button class="btnHeadSmall">Q1 </button>
+                                </th>
+                                <th>
+                                    <button class="btnHeadSmall">Q2 </button>
+                                </th>
+                                <th>
+                                    <button class="btnHeadSmall">Q3</button>
+                                </th>
+                                <th>
+                                    <button class="btnHeadSmall">Q4 </button>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="col1-del">12</td>
+                                <td class="col2-del">12</td>
+                                <td class="col3-del">0</td>
+                                <td class="col4-del">0</td>
+                                <td class="col5-del">0</td>
+                            </tr>
+                    </table> <br /><br />
+                    <h3>Reimbursments</h3><br />
+                    <label for="show"> Show deliveres from: </label>
+                    <label for="dateCompleted"> <input type="date" id="dateInput" name="dlDate" /> to  <input type="date" id="dateInput" name="dlDate" /> </label> <br />
+                    <button class="btn"> Apply </button> <br /> <br />  <br />
+
+
+                    <label> Total deliveries from date above: </label> <br />
+                    <button class="btn"> Request reiumbursement </button> <br /> <br /> <br />
+
+                    <label> Updates <br /> -------------------</label>
+                </div>
+
+
+            </div>
+        </div>
+        <h1> Volunteers</h1><br />
+        <table id="activeTable">
+            <thead>
+                <tr>
+                    <!--Headers are buttons that collapse the table colums-->
+                    <th><button class="arrowBtn" onclick="collapseColumn('activeD')"> <div class="circle-blue"></div> </button></th>
+                    <th>
+                        <button class="btnHeadMainBlue" onclick="sortTable('activeTable', 1)">Active Deliveres</button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('activeTable', 2)">Total Deliveries</button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('activeTable', 3)">Q1 </button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('activeTable', 4)">Q2 </button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('activeTable', 5)">Q3</button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('activeTable', 6)">Q4 </button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('activeTable', 7)">Since last reimbursement</button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('activeTable', 8)">Status <div class="triangle-down"></div></button>
+                    </th>
+
+                </tr>
+            </thead>
+
+        </table>
+        <br />
+        <table id="freezerTable">
+            <thead>
+                <tr>
+                    <!--Headers are buttons that collapse the table colums-->
+                    <th><button class="arrowBtn" onclick="collapseColumn('col1-freez')"> <div class="circle-green"></div> </button></th>
+                    <th>
+                        <button class="btnHeadMainGreen" onclick="sortTable('freezerTable', 1)">Freezer Keepers</button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('freezerTable', 2)">Address <div class="triangle-down"></div></button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('freezerTable', 3)">Email <div class="triangle-down"></div></button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('freezerTable', 4)">Number <div class="triangle-down"></div></button>
+                    </th>
+                </tr>
+            </thead>
+
+        </table>
+        <br />
+        <table id="volTable">
+            <thead>
+                <tr>
+                    <!--Headers are buttons that collapse the table colums-->
+                    <th>
+                        <button class="arrowBtn" onclick="collapseColumn('col1-vol')"> <div class="circle-purple"></div> </button>
+                    </th>
+
+                    <th>
+                        <button class="btnHeadMainPurple" onclick="sortTable('volTable', 1)">Volunteer list</button>
+                    </th>
+
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('volTable', 2)">Deliver Status <div class="triangle-down"></div></button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('volTable', 3)">Health & Saftey <div class="triangle-down"></div></button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('volTable', 4)">Delivery Process <div class="triangle-down"></div></button>
+                    </th>
+                    <th>
+                        <button class="btnHeadSmall" onclick="sortTable('volTable', 5)">Birthday <div class="triangle-down"></div></button>
+                    </th>
+                </tr>
+            </thead>
+            
+        </table>
+
+        <button class="addBtn" onclick="openNav()"> +Add </button>
+        <br />
+        <table>
+            <thead>
+                <tr>
+                    <!--Headers are buttons that collapse the table colums-->
+                    <th>
+                        <div class="circle-orange"></div>
+                    </th>
+                    <th>
+                        <button class="btnHeadMainOrange" onclick="collapseColumn('col1')">Archived Volunteers</button>
+                    </th>
+                <tr>
+                    <td class="blank"></td>
+                </tr>
+            </thead>
+        </table>
+        <div id="mySidebar" class="sidebar">
+            <nav>
+                <a href="/dashboard.html">Dashboard</a>`
+                <a href="/delivery.html">Delivery Queue</a>
+                <a href="/reporting.html">Reporting</a>
+                <a class="active" href="/volunteers.html">Volunteers</a>
+                <a href="/account.html">Account</a>
+            </nav>
+        </div>
+    </div>
+    <script src="openTab.js"></script>
+    <script src="openSide.js"></script>
+    <script src="collapseColumn.js"></script>
+    <script src="volunteers.js"></script>
+    <script>makeActiveTable(objActive);</script>
+    <script>makeFreezerTable(objFreezer);</script>
+    <script>makeVolunteerTable(objVolunteer);</script>
+</body>
+</html>

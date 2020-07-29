@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<link rel="stylesheet" type="text/css" href="loginstyesheet.css">
+<link rel="stylesheet" type="text/css" href="mainstylesheet.css">
+<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
+<link href='https://fonts.googleapis.com/css?family=Nunito' rel='stylesheet'>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+
+    <form method="post" onsubmit="login()">
+        <div class="imgcontainer">
+            <img src="bellyfulLogo.jpg" alt="Avatar" class="avatar">
+        </div>
+        
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" id="username" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" id="password" required>
+
+            <button type="submit">Login</button>
+            <label>
+                <input type="checkbox" checked="checked" name="remember"> Remember me
+            </label>
+        </div>
+    </form>
+    <script language="javascript">
+        function login() {
+
+        var adminUname = "admin";
+        var adminPwrd = "admin";
+
+            var loggedOn = false;
+
+        var enteredUname = document.getElementById('username').value;
+            var enteredpswame = document.getElementById('password').value;
+            while (!loggedon) {
+                if (adminPwrd != enteredpswame && adminUname != enteredUname) {
+                    alert("Invalid username or password")
+                }
+                if (adminPwrd == enteredpswame && adminUname == enteredUname) {
+                    loggedOn == true;
+                }
+            }
+            window.close();
+            window.open("\dashboard.html");
+        }
+        </script>
+</body>
+</html>

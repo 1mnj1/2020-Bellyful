@@ -1,0 +1,36 @@
+﻿
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    background-color: #FFFFFF;
+    overflow-x: hidden;
+    padding-top: 70px;
+}
+
+    .sidebar a {
+        padding: 20px 8px 20px 32px;
+        text-decoration: none;
+        font-family: 'Montserrat';
+        font-size: 25px;
+        color: #4d4c4c;
+        display: block;
+        transition: 0.5s;
+    }
+
+        .sidebar a.active {
+            background: #ce92b9;
+            color: #ffffff;
+        }
+
+
+        .sidebar a:hover {
+            background: #ce92b9;
+            color: #ffffff;
+            cursor: pointer;
+        }   
+
+           
