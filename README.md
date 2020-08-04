@@ -6,7 +6,7 @@ Requirements:
 * AJAX
 
 
-This application is a stock and delivery management system for the charity Bellyfull.
+This application is a stock and delivery management system for the charity Bellyful. Bellyful provides meals to families with newborn babies, and families with young children who are struggling with illness.
 
 
 ### Useful Links
