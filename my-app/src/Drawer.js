@@ -10,6 +10,11 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles({
   list: {
@@ -36,7 +41,7 @@ export default function SwipeableTemporaryDrawer() {
     setDisplay(!display)
     setState({ ...state, [anchor]: display });
   };
-
+  //Function to create a list
   const list = (anchor) => (
     <div
       className={clsx(classes.list, {
@@ -67,21 +72,25 @@ export default function SwipeableTemporaryDrawer() {
   );
 
   return (
-    <div>
-      {['left', 'right', 'top', 'bottom'].map((anchor) => (
-        
-        <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-          <SwipeableDrawer
-            anchor={anchor}
-            open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
-            onOpen={toggleDrawer(anchor, true)}
-          >
-            {list(anchor)}
-          </SwipeableDrawer>
-        </React.Fragment>
-      ))}
+    <div className={classes.root}>
+ 
+            {['left'].map((anchor) => (
+            
+            <React.Fragment key={anchor}>
+              <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={toggleDrawer(anchor, true)}>
+                <MenuIcon />
+              </IconButton>
+              <SwipeableDrawer
+                anchor={anchor}
+                open={state[anchor]}
+                onClose={toggleDrawer(anchor, false)}
+                onOpen={toggleDrawer(anchor, true)}
+              >
+                {list(anchor)}
+              </SwipeableDrawer>
+            </React.Fragment>
+          ))}
+      
     </div>
   );
 }

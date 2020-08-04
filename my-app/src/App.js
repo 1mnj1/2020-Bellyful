@@ -1,14 +1,16 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import SwipeableTemporaryDrawer from './Drawer'
-
+import MainAppBar from './Menu'
+import LoginTab from './LoginExample'
 
 
 function App() {
   return (
     <div className="App">
+      <MainAppBar/>
       <header className="App-header">
+      <LoginTab/>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -22,7 +24,7 @@ function App() {
           Learn React
         </a>
       </header>
-      <SwipeableTemporaryDrawer></SwipeableTemporaryDrawer>
+      
     </div>
   );
 }
