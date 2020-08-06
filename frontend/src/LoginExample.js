@@ -45,7 +45,7 @@ class LoginTab extends React.Component {
 
 
 
-        if(this.props.loggedIn == false){
+        if(this.props.loggedIn === false){
             return (
                 <form className={classes.form} noValidate >
                     <Paper className={classes.padding}>
