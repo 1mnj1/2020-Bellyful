@@ -54,7 +54,7 @@ export default function MainAppBar(props) {
                 <Toolbar variant="dense">
                     <Drawer></Drawer>
                     <Typography variant="h6" color="inherit">
-                        BellyFul
+                        Bellyful
                     </Typography>
                 </Toolbar>
             </AppBar>
