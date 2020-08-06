@@ -16,9 +16,8 @@ router.post('/', function(req, res, next) {
     req.body.password,
   ]
   //sql query for the data
-  sql = "select person.person_email , login.login_password, login.user_level  from person ,login  where person_email = ?   AND person_phone = login.login_id AND login.login_password = ?"
-  
-  
+  sql = "select person_user_level from person   where person_email = ? and person_pass = ?"
+
   con.query(sql, loginDetails, function (err, result) {
         if (err) throw err;
         console.log("Got a result!\n");
@@ -26,7 +25,7 @@ router.post('/', function(req, res, next) {
         if(result.length == 0){
           res.send("0")
         } else {
-          res.send(String(result[0]["user_level"]))
+          res.send(String(result[0]["person_user_level"]))
         }
         
 

@@ -6,11 +6,17 @@ import LoginTab from './LoginExample'
 
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(0)
+  console.log("Logged status: ",loggedIn)
+
+
   return (
     <div className="App">
-      <MainAppBar/>
+      
+       < MainAppBar/>
+      
       <header className="App-header">
-      <LoginTab/>
+      <LoginTab setLogged = {setLoggedIn} loggedIn = {loggedIn>0} />
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
