@@ -26,7 +26,7 @@ class LoginTab extends React.Component {
                 
                 var data = $("form").serializeArray();
                 console.log(data)
-                var url = "http://"+window.location.hostname+":3000";
+                var url = "http://"+window.location.hostname+":3000/login";
                 console.log(url)
                 $.post( url ,data,  function( returnable ) {
                     console.log(returnable)
