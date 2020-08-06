@@ -12,6 +12,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import { GridOn } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
+import Box from '@material-ui/core/Box'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -84,10 +85,11 @@ export default function SimpleTable() {
 
   return (
       <div classname={classes.root}>
+        <Box></Box>
           <Paper className={classes.paper}>
               <Grid container direction="column" wrap="wrap" spacing={2}>
                   <Grid item xs zeroMinWidth>
-                      <Typography>{tableComp}</Typography>
+                      {tableComp}
                   </Grid>
               </Grid>
           </Paper>
@@ -95,7 +97,7 @@ export default function SimpleTable() {
           <Paper className={classes.paper}>
               <Grid container direction="column" wrap="wrap" spacing={2}>
                   <Grid item xs zeroMinWidth>
-                      <Typography>{tableComp}</Typography>
+                      {tableComp}
                   </Grid>
               </Grid>
           </Paper>
