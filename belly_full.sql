@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2020 at 03:50 AM
+-- Generation Time: Aug 06, 2020 at 01:55 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `bully_full`
+-- Database: `belly_full`
 --
 CREATE DATABASE IF NOT EXISTS `belly_full` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `belly_full`;
@@ -43,16 +43,6 @@ CREATE TABLE `address` (
 -- RELATIONSHIPS FOR TABLE `address`:
 --
 
---
--- Dumping data for table `address`
---
-
-INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_city`, `add_postcode`) VALUES
-(1, 21, 'springwater vale', 'unsworth heights', 'auckland', '0632'),
-(2, 16, 'aberdeen rd', 'suburbia', 'wellington', '0928'),
-(3, 19, 'springwater vale', 'unsworth heights', 'auckland', '0632'),
-(4, 15, 'aberdeen rd', 'suburbia', 'wellington', '0928');
-
 -- --------------------------------------------------------
 
 --
@@ -62,33 +52,26 @@ INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_cit
 DROP TABLE IF EXISTS `delivery`;
 CREATE TABLE `delivery` (
   `delivery_id` int(11) NOT NULL,
-  `vol_phone` varchar(50) NOT NULL,
-  `ref_phone` varchar(50) NOT NULL,
+  `vol_id` int(11) NOT NULL,
+  `ref_id` int(11) NOT NULL,
+  `recipient_id` int(11) NOT NULL,
   `delivery_status` int(11) NOT NULL,
   `delivery_est_time` date NOT NULL DEFAULT current_timestamp(),
   `delivery_start` date DEFAULT NULL,
-  `delivery_end` date DEFAULT NULL,
-  `recipient_phone` varchar(50) NOT NULL
+  `delivery_end` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `delivery`:
 --   `delivery_status`
 --       `delivery_status` -> `stat_id`
---   `recipient_phone`
---       `recipient` -> `person_phone`
---   `ref_phone`
---       `referrer` -> `person_phone`
---   `vol_phone`
---       `volunteer` -> `person_phone`
+--   `recipient_id`
+--       `recipient` -> `person_id`
+--   `ref_id`
+--       `referrer` -> `person_id`
+--   `vol_id`
+--       `volunteer` -> `person_id`
 --
-
---
--- Dumping data for table `delivery`
---
-
-INSERT INTO `delivery` (`delivery_id`, `vol_phone`, `ref_phone`, `delivery_status`, `delivery_est_time`, `delivery_start`, `delivery_end`, `recipient_phone`) VALUES
-(1, '021123456', '021123456', 2, '0000-00-00', NULL, NULL, '02102202041');
 
 -- --------------------------------------------------------
 
@@ -106,16 +89,6 @@ CREATE TABLE `delivery_status` (
 -- RELATIONSHIPS FOR TABLE `delivery_status`:
 --
 
---
--- Dumping data for table `delivery_status`
---
-
-INSERT INTO `delivery_status` (`stat_id`, `stat_name`) VALUES
-(1, 'unassigned'),
-(2, 'assigned'),
-(3, 'delivering'),
-(4, 'done');
-
 -- --------------------------------------------------------
 
 --
@@ -125,7 +98,7 @@ INSERT INTO `delivery_status` (`stat_id`, `stat_name`) VALUES
 DROP TABLE IF EXISTS `freezer`;
 CREATE TABLE `freezer` (
   `freezer_id` int(11) NOT NULL,
-  `person_phone` varchar(50) NOT NULL,
+  `person_id` int(11) NOT NULL,
   `add_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -133,42 +106,9 @@ CREATE TABLE `freezer` (
 -- RELATIONSHIPS FOR TABLE `freezer`:
 --   `add_id`
 --       `address` -> `add_id`
---   `person_phone`
---       `person` -> `person_phone`
+--   `person_id`
+--       `person` -> `person_id`
 --
-
---
--- Dumping data for table `freezer`
---
-
-INSERT INTO `freezer` (`freezer_id`, `person_phone`, `add_id`) VALUES
-(1, '023123456', 4);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `login`
---
-
-DROP TABLE IF EXISTS `login`;
-CREATE TABLE `login` (
-  `login_id` varchar(50) NOT NULL,
-  `login_password` varchar(50) NOT NULL,
-  `user_level` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- RELATIONSHIPS FOR TABLE `login`:
---   `login_id`
---       `person` -> `person_phone`
---
-
---
--- Dumping data for table `login`
---
-
-INSERT INTO `login` (`login_id`, `login_password`, `user_level`) VALUES
-('021123456', 'dogsBetweendogs', 1);
 
 -- --------------------------------------------------------
 
@@ -194,25 +134,6 @@ CREATE TABLE `meal` (
 --       `freezer` -> `freezer_id`
 --
 
---
--- Dumping data for table `meal`
---
-
-INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES
-(1, 1, 1, NULL),
-(2, 1, 1, NULL),
-(3, 1, 1, NULL),
-(4, 1, 1, NULL),
-(5, 1, 1, NULL),
-(6, 1, 1, NULL),
-(7, 1, 1, NULL),
-(8, 1, 1, NULL),
-(10, 1, 1, NULL),
-(11, 2, 1, NULL),
-(12, 2, 1, NULL),
-(13, 2, 1, NULL),
-(14, 2, 1, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -229,14 +150,6 @@ CREATE TABLE `meal_type` (
 -- RELATIONSHIPS FOR TABLE `meal_type`:
 --
 
---
--- Dumping data for table `meal_type`
---
-
-INSERT INTO `meal_type` (`MT_id`, `meal_type`) VALUES
-(1, 'Lasagne'),
-(2, 'Veggie Sandwich');
-
 -- --------------------------------------------------------
 
 --
@@ -245,25 +158,21 @@ INSERT INTO `meal_type` (`MT_id`, `meal_type`) VALUES
 
 DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
+  `person_id` int(11) NOT NULL,
   `person_phone` varchar(50) NOT NULL,
   `person_email` varchar(50) NOT NULL,
   `person_fname` varchar(50) NOT NULL,
-  `person_lname` varchar(50) NOT NULL
+  `person_lname` varchar(50) NOT NULL,
+  `person_pass` varchar(50) NOT NULL,
+  `person_user_level` int(11) NOT NULL DEFAULT 0,
+  `add_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `person`:
+--   `add_id`
+--       `address` -> `add_id`
 --
-
---
--- Dumping data for table `person`
---
-
-INSERT INTO `person` (`person_phone`, `person_email`, `person_fname`, `person_lname`) VALUES
-('02102202041', 'Brian@example.com', 'Brian', 'Jackbox'),
-('021123456', 'bobsoap@soap.com', 'bob', 'soap'),
-('022123456', 'meganC@dogs.com', 'megan', 'cartel'),
-('023123456', 'Bobs@aunty.com', 'Bobs your', 'Aunty');
 
 -- --------------------------------------------------------
 
@@ -273,31 +182,21 @@ INSERT INTO `person` (`person_phone`, `person_email`, `person_fname`, `person_ln
 
 DROP TABLE IF EXISTS `recipient`;
 CREATE TABLE `recipient` (
-  `person_phone` varchar(50) NOT NULL,
+  `person_id` int(11) NOT NULL,
   `rec_dogs` tinyint(1) NOT NULL,
   `rec_children_under_5` int(11) NOT NULL,
   `rec_children_between_5_10` int(11) NOT NULL,
   `rec_children_between_11_17` int(11) NOT NULL,
   `rec_adults` int(11) NOT NULL,
   `rec_dietary_req` varchar(50) NOT NULL,
-  `rec_allergies` varchar(50) NOT NULL,
-  `add_id` int(11) DEFAULT NULL
+  `rec_allergies` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `recipient`:
---   `add_id`
---       `address` -> `add_id`
---   `person_phone`
---       `person` -> `person_phone`
+--   `person_id`
+--       `person` -> `person_id`
 --
-
---
--- Dumping data for table `recipient`
---
-
-INSERT INTO `recipient` (`person_phone`, `rec_dogs`, `rec_children_under_5`, `rec_children_between_5_10`, `rec_children_between_11_17`, `rec_adults`, `rec_dietary_req`, `rec_allergies`, `add_id`) VALUES
-('02102202041', 1, 12, 2, 1, 1, 'None', 'None', 3);
 
 -- --------------------------------------------------------
 
@@ -307,9 +206,8 @@ INSERT INTO `recipient` (`person_phone`, `rec_dogs`, `rec_children_under_5`, `re
 
 DROP TABLE IF EXISTS `referrer`;
 CREATE TABLE `referrer` (
-  `person_phone` varchar(50) NOT NULL,
+  `person_id` int(11) NOT NULL,
   `RT_type` int(11) NOT NULL,
-  `add_id` int(11) NOT NULL,
   `notes` varchar(200) NOT NULL,
   `organisation` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -318,18 +216,9 @@ CREATE TABLE `referrer` (
 -- RELATIONSHIPS FOR TABLE `referrer`:
 --   `RT_type`
 --       `referrer_type` -> `RT_id`
---   `add_id`
---       `address` -> `add_id`
---   `person_phone`
---       `person` -> `person_phone`
+--   `person_id`
+--       `person` -> `person_id`
 --
-
---
--- Dumping data for table `referrer`
---
-
-INSERT INTO `referrer` (`person_phone`, `RT_type`, `add_id`, `notes`, `organisation`) VALUES
-('021123456', 1, 3, 'This guy is real cool\r\n', 'Cool Cats');
 
 -- --------------------------------------------------------
 
@@ -347,14 +236,6 @@ CREATE TABLE `referrer_type` (
 -- RELATIONSHIPS FOR TABLE `referrer_type`:
 --
 
---
--- Dumping data for table `referrer_type`
---
-
-INSERT INTO `referrer_type` (`RT_id`, `RT_type`) VALUES
-(1, 'midwife'),
-(2, 'Plunket');
-
 -- --------------------------------------------------------
 
 --
@@ -363,28 +244,17 @@ INSERT INTO `referrer_type` (`RT_id`, `RT_type`) VALUES
 
 DROP TABLE IF EXISTS `volunteer`;
 CREATE TABLE `volunteer` (
-  `person_phone` varchar(50) NOT NULL,
-  `ice_phone` varchar(50) NOT NULL,
-  `add_id` int(11) DEFAULT NULL
+  `person_id` int(11) NOT NULL,
+  `ice_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- RELATIONSHIPS FOR TABLE `volunteer`:
---   `add_id`
---       `address` -> `add_id`
---   `ice_phone`
---       `person` -> `person_phone`
---   `person_phone`
---       `person` -> `person_phone`
+--   `ice_id`
+--       `person` -> `person_id`
+--   `person_id`
+--       `person` -> `person_id`
 --
-
---
--- Dumping data for table `volunteer`
---
-
-INSERT INTO `volunteer` (`person_phone`, `ice_phone`, `add_id`) VALUES
-('021123456', '022123456', 1),
-('022123456', '023123456', 4);
 
 --
 -- Indexes for dumped tables
@@ -401,9 +271,9 @@ ALTER TABLE `address`
 --
 ALTER TABLE `delivery`
   ADD PRIMARY KEY (`delivery_id`),
-  ADD KEY `fk_delivery_rec` (`recipient_phone`),
-  ADD KEY `fk_delivery_ref` (`ref_phone`),
-  ADD KEY `fk_delivery_vol` (`vol_phone`),
+  ADD KEY `fk_delivery_rec` (`recipient_id`),
+  ADD KEY `fk_delivery_ref` (`ref_id`),
+  ADD KEY `fk_delivery_vol` (`vol_id`),
   ADD KEY `fk_del_status` (`delivery_status`);
 
 --
@@ -418,13 +288,7 @@ ALTER TABLE `delivery_status`
 ALTER TABLE `freezer`
   ADD PRIMARY KEY (`freezer_id`),
   ADD KEY `fk_freezer_add` (`add_id`),
-  ADD KEY `fk_freezer_manager` (`person_phone`);
-
---
--- Indexes for table `login`
---
-ALTER TABLE `login`
-  ADD PRIMARY KEY (`login_id`);
+  ADD KEY `fk_freezer_manager` (`person_id`);
 
 --
 -- Indexes for table `meal`
@@ -445,23 +309,23 @@ ALTER TABLE `meal_type`
 -- Indexes for table `person`
 --
 ALTER TABLE `person`
-  ADD PRIMARY KEY (`person_phone`),
-  ADD UNIQUE KEY `person_email` (`person_email`);
+  ADD PRIMARY KEY (`person_id`),
+  ADD UNIQUE KEY `person_email` (`person_email`),
+  ADD UNIQUE KEY `person_phone` (`person_phone`),
+  ADD KEY `FK_person_add` (`add_id`);
 
 --
 -- Indexes for table `recipient`
 --
 ALTER TABLE `recipient`
-  ADD PRIMARY KEY (`person_phone`),
-  ADD KEY `FK_rec_add` (`add_id`);
+  ADD PRIMARY KEY (`person_id`);
 
 --
 -- Indexes for table `referrer`
 --
 ALTER TABLE `referrer`
-  ADD PRIMARY KEY (`person_phone`),
-  ADD KEY `FK_RT_type` (`RT_type`),
-  ADD KEY `FK_ref_add` (`add_id`);
+  ADD PRIMARY KEY (`person_id`),
+  ADD KEY `FK_RT_type` (`RT_type`);
 
 --
 -- Indexes for table `referrer_type`
@@ -473,9 +337,8 @@ ALTER TABLE `referrer_type`
 -- Indexes for table `volunteer`
 --
 ALTER TABLE `volunteer`
-  ADD PRIMARY KEY (`person_phone`),
-  ADD KEY `fk_vol_add` (`add_id`),
-  ADD KEY `fk_vol_ice` (`ice_phone`);
+  ADD PRIMARY KEY (`person_id`),
+  ADD KEY `fk_vol_ice` (`ice_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -485,43 +348,43 @@ ALTER TABLE `volunteer`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `delivery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `delivery_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `delivery_status`
 --
 ALTER TABLE `delivery_status`
-  MODIFY `stat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `stat_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `freezer`
 --
 ALTER TABLE `freezer`
-  MODIFY `freezer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `freezer_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `meal`
 --
 ALTER TABLE `meal`
-  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `meal_type`
 --
 ALTER TABLE `meal_type`
-  MODIFY `MT_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `MT_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `referrer_type`
 --
 ALTER TABLE `referrer_type`
-  MODIFY `RT_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `RT_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -532,22 +395,16 @@ ALTER TABLE `referrer_type`
 --
 ALTER TABLE `delivery`
   ADD CONSTRAINT `fk_del_status` FOREIGN KEY (`delivery_status`) REFERENCES `delivery_status` (`stat_id`),
-  ADD CONSTRAINT `fk_delivery_rec` FOREIGN KEY (`recipient_phone`) REFERENCES `recipient` (`person_phone`),
-  ADD CONSTRAINT `fk_delivery_ref` FOREIGN KEY (`ref_phone`) REFERENCES `referrer` (`person_phone`),
-  ADD CONSTRAINT `fk_delivery_vol` FOREIGN KEY (`vol_phone`) REFERENCES `volunteer` (`person_phone`);
+  ADD CONSTRAINT `fk_delivery_rec` FOREIGN KEY (`recipient_id`) REFERENCES `recipient` (`person_id`),
+  ADD CONSTRAINT `fk_delivery_ref` FOREIGN KEY (`ref_id`) REFERENCES `referrer` (`person_id`),
+  ADD CONSTRAINT `fk_delivery_vol` FOREIGN KEY (`vol_id`) REFERENCES `volunteer` (`person_id`);
 
 --
 -- Constraints for table `freezer`
 --
 ALTER TABLE `freezer`
   ADD CONSTRAINT `fk_freezer_add` FOREIGN KEY (`add_id`) REFERENCES `address` (`add_id`),
-  ADD CONSTRAINT `fk_freezer_manager` FOREIGN KEY (`person_phone`) REFERENCES `person` (`person_phone`);
-
---
--- Constraints for table `login`
---
-ALTER TABLE `login`
-  ADD CONSTRAINT `fk_login_id` FOREIGN KEY (`login_id`) REFERENCES `person` (`person_phone`);
+  ADD CONSTRAINT `fk_freezer_manager` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
 
 --
 -- Constraints for table `meal`
@@ -558,27 +415,30 @@ ALTER TABLE `meal`
   ADD CONSTRAINT `fk_meal_freezer` FOREIGN KEY (`freezer_id`) REFERENCES `freezer` (`freezer_id`);
 
 --
+-- Constraints for table `person`
+--
+ALTER TABLE `person`
+  ADD CONSTRAINT `FK_person_add` FOREIGN KEY (`add_id`) REFERENCES `address` (`add_id`);
+
+--
 -- Constraints for table `recipient`
 --
 ALTER TABLE `recipient`
-  ADD CONSTRAINT `FK_rec_add` FOREIGN KEY (`add_id`) REFERENCES `address` (`add_id`),
-  ADD CONSTRAINT `FK_rec_phone` FOREIGN KEY (`person_phone`) REFERENCES `person` (`person_phone`);
+  ADD CONSTRAINT `FK_rec_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
 
 --
 -- Constraints for table `referrer`
 --
 ALTER TABLE `referrer`
   ADD CONSTRAINT `FK_RT_type` FOREIGN KEY (`RT_type`) REFERENCES `referrer_type` (`RT_id`),
-  ADD CONSTRAINT `FK_ref_add` FOREIGN KEY (`add_id`) REFERENCES `address` (`add_id`),
-  ADD CONSTRAINT `FK_ref_phone` FOREIGN KEY (`person_phone`) REFERENCES `person` (`person_phone`);
+  ADD CONSTRAINT `FK_ref_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
 
 --
 -- Constraints for table `volunteer`
 --
 ALTER TABLE `volunteer`
-  ADD CONSTRAINT `fk_vol_add` FOREIGN KEY (`add_id`) REFERENCES `address` (`add_id`),
-  ADD CONSTRAINT `fk_vol_ice` FOREIGN KEY (`ice_phone`) REFERENCES `person` (`person_phone`),
-  ADD CONSTRAINT `fk_vol_phone` FOREIGN KEY (`person_phone`) REFERENCES `person` (`person_phone`);
+  ADD CONSTRAINT `fk_vol_ice` FOREIGN KEY (`ice_id`) REFERENCES `person` (`person_id`),
+  ADD CONSTRAINT `fk_vol_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
