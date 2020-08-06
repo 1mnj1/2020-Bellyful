@@ -35,7 +35,7 @@ class LoginTab extends React.Component {
                     console.log("User level = ",returnable)
                     if(returnable>0){
                         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
-                        $(setLogged(true))
+                        $(setLogged(returnable))
                     }
                     // this.props.setLogged(true)
                 });

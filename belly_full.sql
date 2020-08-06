@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 06, 2020 at 11:12 PM
+-- Generation Time: Aug 07, 2020 at 01:16 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -217,7 +217,7 @@ CREATE TABLE `person` (
   `person_email` varchar(50) NOT NULL,
   `person_fname` varchar(50) NOT NULL,
   `person_lname` varchar(50) NOT NULL,
-  `person_pass` varchar(50) DEFAULT NULL,
+  `person_pass` varchar(50) NOT NULL DEFAULT 'P@ssword',
   `person_user_level` int(11) NOT NULL DEFAULT 0,
   `add_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -227,9 +227,9 @@ CREATE TABLE `person` (
 --
 
 INSERT INTO `person` (`person_id`, `person_phone`, `person_email`, `person_fname`, `person_lname`, `person_pass`, `person_user_level`, `add_id`) VALUES
-(1, '02102202041', 'bobsoap@gmail.com', 'bob', 'soap', NULL, 2, 5),
-(2, '021123456789', 'joan@gmail.com', 'Joan', 'Ark', NULL, 1, 6),
-(3, '02102202042', 'mrsBrown@gmail.com', 'Betty', 'Brown', NULL, 0, NULL);
+(1, '02102202041', 'bobsoap@gmail.com', 'bob', 'soap', 'P@ssword', 2, 5),
+(2, '021123456789', 'joan@gmail.com', 'Joan', 'Ark', 'P@ssword', 1, 6),
+(3, '02102202042', 'mrsBrown@gmail.com', 'Betty', 'Brown', 'P@ssword', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -311,15 +311,16 @@ INSERT INTO `referrer_type` (`RT_id`, `RT_type`) VALUES
 DROP TABLE IF EXISTS `volunteer`;
 CREATE TABLE `volunteer` (
   `person_id` int(11) NOT NULL,
-  `ice_id` int(11) NOT NULL
+  `ice_id` int(11) NOT NULL,
+  `branch_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `volunteer`
 --
 
-INSERT INTO `volunteer` (`person_id`, `ice_id`) VALUES
-(2, 3);
+INSERT INTO `volunteer` (`person_id`, `ice_id`, `branch_id`) VALUES
+(2, 3, 1);
 
 --
 -- Triggers `volunteer`
@@ -423,7 +424,8 @@ ALTER TABLE `referrer_type`
 --
 ALTER TABLE `volunteer`
   ADD PRIMARY KEY (`person_id`),
-  ADD KEY `fk_vol_ice` (`ice_id`);
+  ADD KEY `fk_vol_ice` (`ice_id`),
+  ADD KEY `fk_branch_id` (`branch_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -542,6 +544,7 @@ ALTER TABLE `referrer`
 -- Constraints for table `volunteer`
 --
 ALTER TABLE `volunteer`
+  ADD CONSTRAINT `fk_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
   ADD CONSTRAINT `fk_vol_ice` FOREIGN KEY (`ice_id`) REFERENCES `person` (`person_id`),
   ADD CONSTRAINT `fk_vol_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
 COMMIT;
