@@ -50,7 +50,7 @@ export default function MainAppBar(props) {
     <React.Fragment>
         <CssBaseline />
         <HideOnScroll {...props}>
-            <AppBar position="fixed">
+            <AppBar position="fixed" style = {{background: "#8E2876"}}>
                 <Toolbar variant="dense">
                     <Drawer></Drawer>
                     <Typography variant="h6" color="inherit">
