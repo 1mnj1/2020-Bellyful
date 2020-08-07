@@ -7,12 +7,18 @@ import Vol_Table from './Volunteers'
 
 
 function App() {
+  const [loggedIn, setLoggedIn] = React.useState(0)
+  console.log("Logged status: ",loggedIn)
+
+
   return (
-    <div className="App">
-      <MainAppBar/>
+    
+    <div className="App" style={{
+      backgroundColor: 'pink'
+    }}>
+      < MainAppBar/>
       <header className="App-header">
-      {/* <LoginTab/> */}
-      <Vol_Table/>
+      <LoginTab setLogged = {setLoggedIn} loggedIn = {loggedIn>0} />
       </header>
       
     </div>
