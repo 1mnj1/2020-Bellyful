@@ -13,6 +13,9 @@ import Typography from '@material-ui/core/Typography';
 import { GridOn } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
 import Box from '@material-ui/core/Box'
+import Collapsible from 'react-collapsible'
+import './sass/main.scss'
+
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -25,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 3),
   },
   paper: {
-    maxWidth: 600,
     margin: `${theme.spacing(1)}px auto`,
     padding: theme.spacing(2),
   },
@@ -53,10 +55,11 @@ const rows = [
 
 
 
-export default function SimpleTable() {
+export default function SimpleTable(props) {
   const classes = useStyles();
 
-  const tableComp = <TableContainer component={Paper}>
+  //Creating a reusable TABLE OBJECT that can be placed in multiple areas with a simple call
+  const tableComp = (<TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
@@ -81,26 +84,39 @@ export default function SimpleTable() {
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </TableContainer>)
 
-  return (
-      <div classname={classes.root}>
-        <Box></Box>
-          <Paper className={classes.paper}>
-              <Grid container direction="column" wrap="wrap" spacing={2}>
-                  <Grid item xs zeroMinWidth>
-                      {tableComp}
+  // if(props.loggedIn > 0){
+    return (
+        <div classname={classes.root}>
+          <Collapsible trigger = "Volunteer Table 1"
+          transitionTime={100} 
+          triggerClassName = 'CustomTriggerCSS--open'
+          triggerOpenedClassName = 'CustomTriggerCSS'>
+            <Paper className={classes.paper}>
+                <Grid container direction="column" wrap="wrap" spacing={2}>
+                    <Grid item xs zeroMinWidth>
+                        {tableComp}
+                    </Grid>
+                </Grid>
+            </Paper>
+            </Collapsible>
+            <Collapsible trigger = "Volunteer table 2" 
+            transitionTime={100} 
+            triggerClassName = 'CustomTriggerCSS--open'
+            triggerOpenedClassName = 'CustomTriggerCSS'
+            >
+              <Paper className={classes.paper}>
+                  <Grid container direction="column" wrap="wrap" spacing={2}>
+                      <Grid item xs zeroMinWidth>
+                          {tableComp}
+                      </Grid>
                   </Grid>
-              </Grid>
-          </Paper>
-          <Divider/>
-          <Paper className={classes.paper}>
-              <Grid container direction="column" wrap="wrap" spacing={2}>
-                  <Grid item xs zeroMinWidth>
-                      {tableComp}
-                  </Grid>
-              </Grid>
-          </Paper>
-      </div>
-  );
-}
+              </Paper>
+            </Collapsible>
+        </div>
+    );
+  // } else {
+  // return null
+  // };
+    }

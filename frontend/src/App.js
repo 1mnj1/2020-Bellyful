@@ -18,7 +18,8 @@ function App() {
     }}>
       < MainAppBar/>
       <header className="App-header">
-      <LoginTab setLogged = {setLoggedIn} loggedIn = {loggedIn>0} />
+      {/* <LoginTab setLogged = {setLoggedIn} loggedIn = {loggedIn>0} /> */}
+      <Vol_Table /*loggedIn = {loggedIn}*//>
       </header>
       
     </div>
