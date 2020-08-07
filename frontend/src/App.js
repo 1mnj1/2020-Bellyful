@@ -4,7 +4,7 @@ import './App.css';
 import MainAppBar from './Menu'
 import LoginTab from './LoginExample'
 import Vol_Table from './Volunteers'
-import 
+import { useCookies} from 'react-cookie'
 
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
       < MainAppBar setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0}/>
       <header className="App-header">
       <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
+      <Vol_Table loggedIn = {cookie.user_level}/>
       </header>
       
     </div>

@@ -86,7 +86,7 @@ export default function SimpleTable(props) {
       </Table>
     </TableContainer>)
 
-  // if(props.loggedIn > 0){
+  if(props.loggedIn > 0){
     return (
         <div classname={classes.root}>
           <Collapsible trigger = "Volunteer Table 1"
@@ -116,7 +116,7 @@ export default function SimpleTable(props) {
             </Collapsible>
         </div>
     );
-  // } else {
-  // return null
-  // };
+  } else {
+  return null
+  };
     }
