@@ -4,11 +4,14 @@ import './App.css';
 import MainAppBar from './Menu'
 import LoginTab from './LoginExample'
 import Vol_Table from './Volunteers'
+import 
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(0)
-  console.log("Logged status: ",loggedIn)
+  // const [loggedIn, setLoggedIn] = React.useState(0)
+  const [cookie, setCookie] = useCookies(["user_level"]);
+  console.log("Logged status: ",cookie)
+
 
 
   return (
@@ -16,10 +19,9 @@ function App() {
     <div className="App" style={{
       backgroundColor: 'pink'
     }}>
-      < MainAppBar/>
+      < MainAppBar setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0}/>
       <header className="App-header">
-      {/* <LoginTab setLogged = {setLoggedIn} loggedIn = {loggedIn>0} /> */}
-      <Vol_Table /*loggedIn = {loggedIn}*//>
+      <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
       </header>
       
     </div>
