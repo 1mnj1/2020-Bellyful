@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2020 at 01:16 AM
+-- Generation Time: Aug 07, 2020 at 04:25 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -312,15 +312,16 @@ DROP TABLE IF EXISTS `volunteer`;
 CREATE TABLE `volunteer` (
   `person_id` int(11) NOT NULL,
   `ice_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL
+  `branch_id` int(11) NOT NULL,
+  `vol_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `volunteer`
 --
 
-INSERT INTO `volunteer` (`person_id`, `ice_id`, `branch_id`) VALUES
-(2, 3, 1);
+INSERT INTO `volunteer` (`person_id`, `ice_id`, `branch_id`, `vol_status`) VALUES
+(2, 3, 1, 1);
 
 --
 -- Triggers `volunteer`
@@ -332,6 +333,28 @@ set person.person_user_level = 1
 where person.person_id = (select person.person_id from person, volunteer where person.person_id = volunteer.person_id)
 $$
 DELIMITER ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `vol_status`
+--
+
+DROP TABLE IF EXISTS `vol_status`;
+CREATE TABLE `vol_status` (
+  `VS_id` int(11) NOT NULL,
+  `VS_stat` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `vol_status`
+--
+
+INSERT INTO `vol_status` (`VS_id`, `VS_stat`) VALUES
+(1, 'Cookathons only'),
+(2, 'Deliveries Only'),
+(3, 'Deliveries and Cookathons'),
+(4, 'On Leave');
 
 --
 -- Indexes for dumped tables
@@ -425,7 +448,14 @@ ALTER TABLE `referrer_type`
 ALTER TABLE `volunteer`
   ADD PRIMARY KEY (`person_id`),
   ADD KEY `fk_vol_ice` (`ice_id`),
-  ADD KEY `fk_branch_id` (`branch_id`);
+  ADD KEY `fk_branch_id` (`branch_id`),
+  ADD KEY `fk_vol_status` (`vol_status`);
+
+--
+-- Indexes for table `vol_status`
+--
+ALTER TABLE `vol_status`
+  ADD PRIMARY KEY (`VS_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -484,6 +514,12 @@ ALTER TABLE `person`
 --
 ALTER TABLE `referrer_type`
   MODIFY `RT_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `vol_status`
+--
+ALTER TABLE `vol_status`
+  MODIFY `VS_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
@@ -546,7 +582,8 @@ ALTER TABLE `referrer`
 ALTER TABLE `volunteer`
   ADD CONSTRAINT `fk_branch_id` FOREIGN KEY (`branch_id`) REFERENCES `branch` (`branch_id`),
   ADD CONSTRAINT `fk_vol_ice` FOREIGN KEY (`ice_id`) REFERENCES `person` (`person_id`),
-  ADD CONSTRAINT `fk_vol_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
+  ADD CONSTRAINT `fk_vol_id` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`),
+  ADD CONSTRAINT `fk_vol_status` FOREIGN KEY (`vol_status`) REFERENCES `vol_status` (`VS_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
