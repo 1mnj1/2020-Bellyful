@@ -4,6 +4,8 @@ import './App.css';
 import MainAppBar from './Menu'
 import LoginTab from './LoginExample'
 
+import NewDeliveries from './NewDeliveries'
+
 
 function App() {
   const [loggedIn, setLoggedIn] = React.useState(0)
@@ -12,6 +14,8 @@ function App() {
 
   return (
     <div className="App">
+
+      <NewDeliveries loggedStat = {loggedIn}/>
       
        < MainAppBar/>
       
