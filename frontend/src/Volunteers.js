@@ -52,7 +52,7 @@ export default function SimpleTable(props) {
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   React.useEffect(() => {
     $.post( url ,  function( returnable ) {
-      console.log("VolunteersObj = ",returnable)
+      console.log("VolunteersObj = ", returnable)
       
       // To use an encapsulated function, put a dollar in front of it (it just works ?!)
       

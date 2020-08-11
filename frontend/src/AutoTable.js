@@ -12,40 +12,39 @@ import Collapsible from 'react-collapsible';
 
 export default function AutoTable(props){
 
+  const col_setup = [
+    { title: 'Name', field: 'name' },
+    { title: 'Email Address', field: 'email'},
+    { title: 'Phone', field: 'phone'},
+    { title: 'Status', field: 'status'
+    }
+  ];
+
+  const [state, setState] = React.useState({
+    columns: [],
+    data : []
+  });
+  
+  var url = "http://"+window.location.hostname+":3000/manager/getVolunteers";
+  console.log(url)
+
+  //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
+  React.useEffect(() => {
+    $.post( url ,  function( returnable ) {
+
+      console.log("VolunteersObj = ",returnable)
+      
+      // To use an encapsulated function, put a dollar in front of it (it just works ?!)
+      
+      $(setState(state.data = returnable))
+
+      console.log("State Data = ", state.data)
     
-    $(document).ready(function() {
-        
-        var url = "http://"+window.location.hostname+":3000/volunteerdata";
-        console.log(url);
-        $.post(url, function( returnable ) {
-            console.log(returnable);
-        });
-    });
+      // this.props.setLogged(true)
+  });
+  }, [props.loggedIn ]);
 
-
-
-    const [state, setState] = React.useState({
-        columns: [
-          { title: 'Name', field: 'name' },
-          { title: 'Surname', field: 'surname' },
-          { title: 'Birth Year', field: 'birthYear', type: 'numeric' },
-          {
-            title: 'Birth Place',
-            field: 'birthCity',
-            lookup: { 34: 'İstanbul', 63: 'Şanlıurfa' },
-          },
-        ],
-        data: [
-          { name: 'Mehmet', surname: 'Baran', birthYear: 1987, birthCity: 63 },
-          {
-            name: 'Zerya Betül',
-            surname: 'Baran',
-            birthYear: 2017,
-            birthCity: 34,
-          },
-        ],
-      });
-
+  
     
     
     return(

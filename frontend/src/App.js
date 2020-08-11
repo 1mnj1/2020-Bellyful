@@ -3,6 +3,7 @@ import './App.css';
 import MainAppBar from './Menu'
 import LoginTab from './LoginExample'
 import Vol_Table from './Volunteers'
+import AutoTable from './AutoTable'
 import { useCookies} from 'react-cookie'
 
 
@@ -24,6 +25,7 @@ function App() {
       <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
       <Vol_Table loggedIn = {cookie.user_level}/>
       </header>
+      <AutoTable/>
       
     </div>
   );
