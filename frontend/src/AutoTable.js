@@ -14,14 +14,12 @@ export default function AutoTable(props){
 
     
     $(document).ready(function() {
-            
-            // console.log(data)
-            var url = "http://"+window.location.hostname+":"+port+"/volunteerdata";
-            console.log(url)
-            $.post(url ,null,  function( returnable ) {
-                console.log(returnable)
-            });
         
+        var url = "http://"+window.location.hostname+":3000/volunteerdata";
+        console.log(url);
+        $.post(url, function( returnable ) {
+            console.log(returnable);
+        });
     });
 
 
