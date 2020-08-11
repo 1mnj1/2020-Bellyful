@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{4E7F8B69-F449-423D-9377-07AF8D565C79}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BellyfulWebApp/account.html">
+    <Files>
+      <File FileName="BellyfulWebApp/account.html" Line="18" Column="47" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="BellyfulWebApp" expanded="True">
+            <Node name="BellyfulWebApp" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="account.html" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.BellyfulWebApp PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

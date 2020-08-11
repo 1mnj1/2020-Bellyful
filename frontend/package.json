@@ -12,9 +12,12 @@
     "ajax": "0.0.4",
     "express": "^4.17.1",
     "jquery": "^3.5.1",
+    "material-table": "^1.68.0",
     "mysql": "^2.18.1",
+    "node-sass": "^4.14.1",
     "pakage.json": "^1.0.0",
     "react": "^16.13.1",
+    "react-collapsible": "^2.8.0",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"

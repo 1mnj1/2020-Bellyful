@@ -1,38 +1,36 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import MainAppBar from './Menu'
 import LoginTab from './LoginExample'
+import Vol_Table from './Volunteers'
+import AutoTable from './AutoTable'
+import { useCookies} from 'react-cookie'
+import MaterialTable from 'material-table';
+
 
 import NewDeliveries from './NewDeliveries'
 
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(0)
-  console.log("Logged status: ",loggedIn)
+  // const [loggedIn, setLoggedIn] = React.useState(0)
+  const [cookie, setCookie] = useCookies(["user_level"]);
+  console.log("Logged status: ",cookie)
+
 
 
   return (
-    <div className="App">
+    
 
-      <NewDeliveries loggedStat = {loggedIn}/>
-      
-       < MainAppBar/>
-      
+    <div className="App" style={{
+      backgroundColor: 'pink'
+    }}>
+      < MainAppBar setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0}/>
       <header className="App-header">
-      <LoginTab setLogged = {setLoggedIn} loggedIn = {loggedIn>0} />
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
+      </header>
+      <header className="App-MainContents">
+        <Vol_Table loggedIn = {cookie.user_level}/>
+        <AutoTable/>
       </header>
       
     </div>

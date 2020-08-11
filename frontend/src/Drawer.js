@@ -10,11 +10,9 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { positions } from '@material-ui/system';
 
 const useStyles = makeStyles({
   list: {
@@ -25,7 +23,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SwipeableTemporaryDrawer() {
+export default function SwipeableTemporaryDrawer(props) {
   const classes = useStyles();
   const [state, setState] = React.useState({
     top: false,
@@ -33,7 +31,7 @@ export default function SwipeableTemporaryDrawer() {
     bottom: false,
     right: false,
   });
-  const [display, setDisplay] = React.useState(false)
+  const [display, setDisplay] = React.useState(true)
   const toggleDrawer = (anchor, open) => (event) => {
     if (event && event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
       return;
@@ -42,7 +40,7 @@ export default function SwipeableTemporaryDrawer() {
     setState({ ...state, [anchor]: display });
   };
   //Function to create a list
-  const list = (anchor) => (
+  const list =  (anchor) => (
     <div
       className={clsx(classes.list, {
         [classes.fullList]: anchor === 'top' || anchor === 'bottom',
@@ -87,6 +85,13 @@ export default function SwipeableTemporaryDrawer() {
                 onOpen={toggleDrawer(anchor, true)}
               >
                 {list(anchor)}
+                <List >
+                  
+                    <ListItem button key={"draw_login_li"}>
+                      <ListItemIcon><MailIcon /></ListItemIcon>
+                      <ListItemText primary={props.loggedIn ? "Logout" : "Login"} onClick = {()=>props.setLogged(0)}/>
+                    </ListItem>
+                </List>
               </SwipeableDrawer>
             </React.Fragment>
           ))}

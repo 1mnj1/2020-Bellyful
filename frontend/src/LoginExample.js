@@ -3,6 +3,8 @@ import React from 'react';
 import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox } from '@material-ui/core';
 import { Face, Fingerprint } from '@material-ui/icons'
 import $ from 'jquery'
+import blogo from "./bellyful_logo.jpg"
+
 const styles = theme => ({
     margin: {
         margin: theme.spacing.unit * 2,
@@ -50,6 +52,11 @@ class LoginTab extends React.Component {
                 <form className={classes.form} noValidate >
                     <Paper className={classes.padding}>
                         <div className={classes.margin}>
+                            <Grid>
+                                <Grid item>
+                                    <img src={blogo}></img>
+                                </Grid>
+                            </Grid>
                             <Grid container spacing={8} alignItems="flex-end">
                                 <Grid item>
                                     <Face />
