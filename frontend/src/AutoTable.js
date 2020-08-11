@@ -12,17 +12,16 @@ import Collapsible from 'react-collapsible';
 
 export default function AutoTable(props){
 
-  const col_setup = [
-    { title: 'Name', field: 'name' },
-    { title: 'Email Address', field: 'email'},
-    { title: 'Phone', field: 'phone'},
-    { title: 'Status', field: 'status'
-    }
-  ];
-
   const [state, setState] = React.useState({
-    columns: [],
-    data : []
+    columns: [
+      { title: 'Name', field: 'name' },
+      { title: 'Email', field: 'email' },
+      { title: 'Phone', field: 'phone',},
+      { title: 'Status', field: 'status',},
+    ],
+    data: [
+      { name: 'Chris Macdonald', email: 'chrisjmacdonald@gmail.com', phone: "0226897257", status: 'active' },
+    ],
   });
   
   var url = "http://"+window.location.hostname+":3000/manager/getVolunteers";
@@ -36,7 +35,7 @@ export default function AutoTable(props){
       
       // To use an encapsulated function, put a dollar in front of it (it just works ?!)
       
-      $(setState(state.data = returnable))
+      $(setState(state => ({ ...state, data : returnable})))
 
       console.log("State Data = ", state.data)
     
