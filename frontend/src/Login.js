@@ -49,12 +49,13 @@ class LoginTab extends React.Component {
 
         if(this.props.loggedIn === false){
             return (
+                <header className="App-header">
                 <form className={classes.form} noValidate >
                     <Paper className={classes.padding}>
                         <div className={classes.margin}>
                             <Grid>
                                 <Grid item>
-                                    <img src={blogo}></img>
+                                    <img src={blogo} alt = "Bellyful Logo"></img>
                                 </Grid>
                             </Grid>
                             <Grid container spacing={8} alignItems="flex-end">
@@ -91,6 +92,7 @@ class LoginTab extends React.Component {
                         </div>
                     </Paper>
                 </form>
+                </header>
             );
         } else {
             return null

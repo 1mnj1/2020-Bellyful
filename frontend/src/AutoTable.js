@@ -1,13 +1,8 @@
 import React from 'react'
-import PropTypes from 'prop-types';
-import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
-import TableCell from '@material-ui/core/TableCell';
-import Paper from '@material-ui/core/Paper';
 import MaterialTable from 'material-table'
 import $ from 'jquery'
 import Collapsible from 'react-collapsible';
-
+import './sass/main.scss'
 import { forwardRef } from 'react';
 import AddBox from '@material-ui/icons/AddBox';
 import ArrowDownward from '@material-ui/icons/ArrowDownward';
@@ -50,41 +45,54 @@ export default function AutoTable(props){
 
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Name', field: 'name' },
-      { title: 'Email', field: 'email' },
-      { title: 'Phone', field: 'phone',},
-      { title: 'Status', field: 'status',},
+      { title: 'Name', field: 'Name' },
+      { title: 'Email', field: 'Email' },
+      { title: 'Phone', field: 'Phone',},
+      
     ],
     data: [
-      { name: 'Chris Macdonald', email: 'chrisjmacdonald@gmail.com', phone: "0226897257", status: 'active' },
+      { name: 'Chris Macdonald', email: 'chrisjmacdonald@gmail.com', phone: "0226897257" },
     ],
   });
+  const setColumns = (colNames)=>{
+    var columns = []; 
+    colNames.forEach(element => columns.push({title: element, field: element}));
+    return columns
+  }
   
-  var url = "http://"+window.location.hostname+":3000/manager/getVolunteers";
-  console.log(url)
+  console.log(props.url)
 
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   React.useEffect(() => {
-    $.post( url ,  function( returnable ) {
+    $.post( props.url ,  function( returnable ) {
+      if(returnable === null) return 
+      if (returnable === undefined) return 
+      if(returnable.length === 0) return 
+      var fields = Object.keys(returnable[0])
+      const cols = $(setColumns(fields))
+      console.log("VolunteersCols = ",cols)
+
+      
 
       console.log("VolunteersObj = ",returnable)
       
       // To use an encapsulated function, put a dollar in front of it (it just works ?!)
       
-      $(setState(state => ({ ...state, data : returnable})))
+      $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
 
-      console.log("State Data = ", state.data)
+      
     
       // this.props.setLogged(true)
   });
-  }, [props.loggedIn ]);
+  }, [props.loggedIn,props.url ]);
 
   
     
-    
+  console.log("State Data = ", state.data)
+  console.log("State Data = ", state.columns)
     return(
 
-    <Collapsible trigger = "Volunteer Table 1"
+    <Collapsible trigger = {props.children}
     transitionTime={100} 
     triggerClassName = 'CustomTriggerCSS--open'
     triggerOpenedClassName = 'CustomTriggerCSS'>

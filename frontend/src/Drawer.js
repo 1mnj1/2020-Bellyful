@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
-import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
@@ -12,7 +11,6 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { positions } from '@material-ui/system';
 
 const useStyles = makeStyles({
   list: {
@@ -89,7 +87,7 @@ export default function SwipeableTemporaryDrawer(props) {
                   
                     <ListItem button key={"draw_login_li"}>
                       <ListItemIcon><MailIcon /></ListItemIcon>
-                      <ListItemText primary={props.loggedIn ? "Logout" : "Login"} onClick = {()=>props.setLogged(0)}/>
+                      <ListItemText primary={props.loggedIn ? "Logout" : "Login"} onClick = {()=>{ props.setLogged(0);}}/>
                     </ListItem>
                 </List>
               </SwipeableDrawer>

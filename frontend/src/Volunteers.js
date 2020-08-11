@@ -8,11 +8,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import { GridOn } from '@material-ui/icons';
-import { Divider } from '@material-ui/core';
-import Box from '@material-ui/core/Box'
 import Collapsible from 'react-collapsible'
 import './sass/main.scss'
 import $ from 'jquery'
