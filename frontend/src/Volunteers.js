@@ -15,7 +15,7 @@ import { Divider } from '@material-ui/core';
 import Box from '@material-ui/core/Box'
 import Collapsible from 'react-collapsible'
 import './sass/main.scss'
-
+import $ from 'jquery'
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -38,26 +38,32 @@ function createData(name, address, email, phone, ice) {
   return {name, address, email, phone, ice };
 }
 
-const rows = [
-  createData('Matt', 'address 1', 'email 1', 'phone 1', 'ice 1'),
-  createData('Chris', 'address 2', 'email 2', 'phone 2', 'ice 2'),
-  createData('Megan', 'address 3', 'email 3', 'phone 3', 'ice 3'),
-  createData('Piyathi', 'address 4', 'email 4', 'phone 4', 'ice 4'),
-  createData('Matt', 'address 1', 'email 1', 'phone 1', 'ice 1'),
-  createData('Chris', 'address 2', 'email 2', 'phone 2', 'ice 2'),
-  createData('Megan', 'address 3', 'email 3', 'phone 3', 'ice 3'),
-  createData('Piyathi', 'address 4', 'email 4', 'phone 4', 'ice 4'),
-  createData('Matt', 'address 1', 'email 1', 'phone 1', 'ice 1'),
-  createData('Chris', 'address 2', 'email 2', 'phone 2', 'ice 2'),
-  createData('Megan', 'address 3', 'email 3', 'phone 3', 'ice 3'),
-  createData('Piyathi', 'address 4', 'email 4', 'phone 4', 'ice 4'),
-];
+
 
 
 
 export default function SimpleTable(props) {
-  const classes = useStyles();
+  var requestServer = 0
+  const [rows, setRows] = React.useState([]);
+  // console.log(data)
+  var url = "http://"+window.location.hostname+":3000/manager/getVolunteers";
+  console.log(url)
 
+  //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
+  React.useEffect(() => {
+    $.post( url ,  function( returnable ) {
+      console.log("VolunteersObj = ",returnable)
+      
+      // To use an encapsulated function, put a dollar in front of it (it just works ?!)
+      
+      $(setRows(returnable))
+    
+      // this.props.setLogged(true)
+  });
+  }, [requestServer]);
+    
+  const classes = useStyles();
+  console.log("Rows: ",rows)
   //Creating a reusable TABLE OBJECT that can be placed in multiple areas with a simple call
   const tableComp = (<TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
