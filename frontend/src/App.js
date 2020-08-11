@@ -5,6 +5,8 @@ import LoginTab from './LoginExample'
 import Vol_Table from './Volunteers'
 import AutoTable from './AutoTable'
 import { useCookies} from 'react-cookie'
+import MaterialTable from 'material-table';
+
 
 
 function App() {
@@ -22,10 +24,12 @@ function App() {
     }}>
       < MainAppBar setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0}/>
       <header className="App-header">
-      <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
-      <Vol_Table loggedIn = {cookie.user_level}/>
+        <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
       </header>
-      <AutoTable/>
+      <header className="App-MainContents">
+        <Vol_Table loggedIn = {cookie.user_level}/>
+        <AutoTable/>
+      </header>
       
     </div>
   );

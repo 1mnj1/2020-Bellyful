@@ -3,6 +3,12 @@
   text-align: center;
 }
 
+.App-MainContents {
+  padding: 10%;
+  align-items: center;
+  justify-content: center;
+}
+
 
 .App-header {
   min-height: 100vh;
