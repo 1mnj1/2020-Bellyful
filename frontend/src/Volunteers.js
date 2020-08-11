@@ -46,10 +46,11 @@ export default function SimpleTable(props) {
   var requestServer = 0
   const [vols, setVol] = React.useState([]);
   const [freezers, setFreezers] = React.useState([]);
+  const [Deliveries, setDeliveries] = React.useState([]);
   // console.log(data)
   var volurl = "http://"+window.location.hostname+":3000/manager/getVolunteers";
   var freezerurl = "http://"+window.location.hostname+":3000/manager/getFreezerManager";
-
+  var delurl = "http://"+window.location.hostname+":3000/manager/getDeliveries";
 
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   React.useEffect(() => {
@@ -64,7 +65,12 @@ export default function SimpleTable(props) {
     
   });
   }, [props.loggedIn ]);
+  React.useEffect(() => {
+    $.post( delurl ,  function( returnable ) {
+      $(setDeliveries(returnable))
     
+  });
+  }, [props.loggedIn ]); 
   const classes = useStyles();
   console.log("Rows: ",vols)
   //Creating a reusable TABLE OBJECT that can be placed in multiple areas with a simple call
@@ -124,6 +130,19 @@ export default function SimpleTable(props) {
                   <Grid container direction="column" wrap="wrap" spacing={2}>
                       <Grid item xs zeroMinWidth>
                           {tableComp(freezers)}
+                      </Grid>
+                  </Grid>
+              </Paper>
+            </Collapsible>
+            <Collapsible trigger = "Deliveries table" 
+            transitionTime={100} 
+            triggerClassName = 'CustomTriggerCSS--open'
+            triggerOpenedClassName = 'CustomTriggerCSS'
+            >
+              <Paper className={classes.paper}>
+                  <Grid container direction="column" wrap="wrap" spacing={2}>
+                      <Grid item xs zeroMinWidth>
+                          {tableComp(Deliveries)}
                       </Grid>
                   </Grid>
               </Paper>
