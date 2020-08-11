@@ -60,7 +60,7 @@ export default function SimpleTable(props) {
     
       // this.props.setLogged(true)
   });
-  }, [requestServer]);
+  }, [props.loggedIn ]);
     
   const classes = useStyles();
   console.log("Rows: ",rows)
