@@ -44,70 +44,78 @@ function createData(name, address, email, phone, ice) {
 
 export default function SimpleTable(props) {
   var requestServer = 0
-  const [rows, setRows] = React.useState([]);
+  const [vols, setVol] = React.useState([]);
+  const [freezers, setFreezers] = React.useState([]);
   // console.log(data)
-  var url = "http://"+window.location.hostname+":3000/manager/getVolunteers";
-  console.log(url)
+  var volurl = "http://"+window.location.hostname+":3000/manager/getVolunteers";
+  var freezerurl = "http://"+window.location.hostname+":3000/manager/getFreezerManager";
+
 
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   React.useEffect(() => {
-    $.post( url ,  function( returnable ) {
-      console.log("VolunteersObj = ",returnable)
-      
-      // To use an encapsulated function, put a dollar in front of it (it just works ?!)
-      
-      $(setRows(returnable))
+    $.post( volurl ,  function( returnable ) {
+      $(setVol(returnable))
     
-      // this.props.setLogged(true)
+  });
+  }, [props.loggedIn ]);
+  React.useEffect(() => {
+    $.post( freezerurl ,  function( returnable ) {
+      $(setFreezers(returnable))
+    
   });
   }, [props.loggedIn ]);
     
   const classes = useStyles();
-  console.log("Rows: ",rows)
+  console.log("Rows: ",vols)
   //Creating a reusable TABLE OBJECT that can be placed in multiple areas with a simple call
-  const tableComp = (<TableContainer component={Paper}>
+  const tableComp = (data)=>{
+    if(data == null) return null
+    if (data == undefined) return null
+    if(data.length == 0) return null
+    console.log("Data in table: ",data)
+    
+    return (
+  <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Volunteer</TableCell>
-            <TableCell align="right">Address</TableCell>
-            <TableCell align="right">Email Address</TableCell>
-            <TableCell align="right">Phone Number</TableCell>
-            <TableCell align="right">Emergency Contact</TableCell>
+            {Object.keys(data[0]).map((key) => (<TableCell align="right"><b>{key}</b></TableCell>))}
+            
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.address}</TableCell>
-              <TableCell align="right">{row.email}</TableCell>
-              <TableCell align="right">{row.phone}</TableCell>
-              <TableCell align="right">{row.ice}</TableCell>
+        
+          {//row is a dictionary
+          
+          data.map((row) => {
+            console.log("Row: ",row);
+            return (            
+            <TableRow key={row.id}>
+              {Object.values(row).map((value) => (<TableCell align="right">{value}</TableCell>)) }
+              
+            
             </TableRow>
-          ))}
+          )})}
         </TableBody>
       </Table>
-    </TableContainer>)
+    </TableContainer>)}
 
   if(props.loggedIn > 0){
     return (
         <div classname={classes.root}>
-          <Collapsible trigger = "Volunteer Table 1"
+          <Collapsible trigger = "Volunteer Table"
           transitionTime={100} 
           triggerClassName = 'CustomTriggerCSS--open'
           triggerOpenedClassName = 'CustomTriggerCSS'>
             <Paper className={classes.paper}>
                 <Grid container direction="column" wrap="wrap" spacing={2}>
                     <Grid item xs zeroMinWidth>
-                        {tableComp}
+                        {tableComp(vols)}
                     </Grid>
                 </Grid>
             </Paper>
             </Collapsible>
-            <Collapsible trigger = "Volunteer table 2" 
+            <Collapsible trigger = "Freezer table" 
             transitionTime={100} 
             triggerClassName = 'CustomTriggerCSS--open'
             triggerOpenedClassName = 'CustomTriggerCSS'
@@ -115,7 +123,7 @@ export default function SimpleTable(props) {
               <Paper className={classes.paper}>
                   <Grid container direction="column" wrap="wrap" spacing={2}>
                       <Grid item xs zeroMinWidth>
-                          {tableComp}
+                          {tableComp(freezers)}
                       </Grid>
                   </Grid>
               </Paper>
