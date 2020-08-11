@@ -3,7 +3,9 @@ import logo from './logo.svg';
 import './App.css';
 import MainAppBar from './Menu'
 import LoginTab from './LoginExample'
-import { useCookies } from 'react-cookie';
+import Vol_Table from './Volunteers'
+import { useCookies} from 'react-cookie'
+
 
 function App() {
   // const [loggedIn, setLoggedIn] = React.useState(0)
@@ -14,12 +16,14 @@ function App() {
 
   return (
     
+
     <div className="App" style={{
       backgroundColor: 'pink'
     }}>
       < MainAppBar setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0}/>
       <header className="App-header">
       <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
+      <Vol_Table loggedIn = {cookie.user_level}/>
       </header>
       
     </div>
