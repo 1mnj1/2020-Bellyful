@@ -42,7 +42,7 @@ export default function MainAppBar(props) {
         <HideOnScroll {...props}>
             <AppBar position="fixed" style = {{background: "rgb(225, 127, 188)"}}>
                 <Toolbar variant="dense">
-                    <Drawer loggedIn = {props.loggedIn} setLogged = {props.setLogged}></Drawer>
+                    <Drawer loggedIn = {props.loggedIn} setLogged = {props.setLogged} setPage = {props.setPage}></Drawer>
                     <Typography variant="h6" color="inherit">
                         Bellyful
                     </Typography>

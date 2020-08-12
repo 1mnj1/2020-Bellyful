@@ -11,7 +11,7 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-
+import AssessmentIcon from '@material-ui/icons/Assessment';
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -38,33 +38,17 @@ export default function SwipeableTemporaryDrawer(props) {
     setState({ ...state, [anchor]: display });
   };
   //Function to create a list
-  const list =  (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-      })}
-      role="presentation"
-      onClick={toggleDrawer(anchor, false)}
-      onKeyDown={toggleDrawer(anchor, false)}
-    >
-      <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+  
+  const listItem =  (text,icon,page) => (
+ 
+      (
+        
+          <ListItem button key={text} onClick = {()=>props.setPage(page)}>
+            <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-    </div>
+        )
+      
   );
 
   return (
@@ -81,15 +65,27 @@ export default function SwipeableTemporaryDrawer(props) {
                 open={state[anchor]}
                 onClose={toggleDrawer(anchor, false)}
                 onOpen={toggleDrawer(anchor, true)}
-              >
-                {list(anchor)}
-                <List >
-                  
-                    <ListItem button key={"draw_login_li"}>
-                      <ListItemIcon><MailIcon /></ListItemIcon>
-                      <ListItemText primary={props.loggedIn ? "Logout" : "Login"} onClick = {()=>{ props.setLogged(0);}}/>
-                    </ListItem>
-                </List>
+              > 
+                <div
+                  className={clsx(classes.list, {
+                    [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+                  })}
+                  role="presentation"
+                  onClick={toggleDrawer(anchor, false)}
+                  onKeyDown={toggleDrawer(anchor, false)}
+                > <List>
+                    {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,1) : null       }
+
+                  </List>
+                  <Divider />
+                  <List >
+                    
+                      <ListItem button key={"draw_login_li"} onClick = {()=>{ props.setLogged(0);}}>
+                        <ListItemIcon><MailIcon /></ListItemIcon>
+                        <ListItemText primary={props.loggedIn>0 ? "Logout" : "Login"} />
+                      </ListItem>
+                  </List>
+                </div>
               </SwipeableDrawer>
             </React.Fragment>
           ))}

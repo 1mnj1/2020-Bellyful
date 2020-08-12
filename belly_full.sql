@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 07, 2020 at 04:25 AM
+-- Generation Time: Aug 12, 2020 at 02:21 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -30,14 +30,15 @@ USE `belly_full`;
 --
 
 DROP TABLE IF EXISTS `address`;
-CREATE TABLE `address` (
-  `add_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `address` (
+  `add_id` int(11) NOT NULL AUTO_INCREMENT,
   `add_num` varchar(11) DEFAULT NULL,
   `add_street` varchar(50) DEFAULT NULL,
   `add_suburb` varchar(50) DEFAULT NULL,
   `add_city` varchar(50) NOT NULL,
-  `add_postcode` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `add_postcode` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`add_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `address`
@@ -58,12 +59,15 @@ INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_cit
 --
 
 DROP TABLE IF EXISTS `branch`;
-CREATE TABLE `branch` (
-  `branch_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `branch` (
+  `branch_id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` int(11) NOT NULL,
   `branch_name` varchar(50) NOT NULL,
-  `add_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `add_id` int(11) NOT NULL,
+  PRIMARY KEY (`branch_id`),
+  KEY `fk_branch_manager` (`person_id`),
+  KEY `fk_branch_add` (`add_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `branch`
@@ -72,6 +76,17 @@ CREATE TABLE `branch` (
 INSERT INTO `branch` (`branch_id`, `person_id`, `branch_name`, `add_id`) VALUES
 (1, 2, 'North Shore', 5);
 
+--
+-- Triggers `branch`
+--
+DROP TRIGGER IF EXISTS `Branch_level`;
+DELIMITER $$
+CREATE TRIGGER `Branch_level` BEFORE INSERT ON `branch` FOR EACH ROW update person
+set person.person_user_level = 3
+where person.person_id IN (select person.person_id from person, branch where person.person_id = branch.person_id)
+$$
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -79,16 +94,21 @@ INSERT INTO `branch` (`branch_id`, `person_id`, `branch_name`, `add_id`) VALUES
 --
 
 DROP TABLE IF EXISTS `delivery`;
-CREATE TABLE `delivery` (
-  `delivery_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `delivery` (
+  `delivery_id` int(11) NOT NULL AUTO_INCREMENT,
   `vol_id` int(11) NOT NULL,
   `ref_id` int(11) NOT NULL,
   `recipient_id` int(11) NOT NULL,
   `delivery_status` int(11) NOT NULL,
   `delivery_est_time` date NOT NULL DEFAULT current_timestamp(),
   `delivery_start` date DEFAULT NULL,
-  `delivery_end` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `delivery_end` date DEFAULT NULL,
+  PRIMARY KEY (`delivery_id`),
+  KEY `fk_delivery_rec` (`recipient_id`),
+  KEY `fk_delivery_ref` (`ref_id`),
+  KEY `fk_delivery_vol` (`vol_id`),
+  KEY `fk_del_status` (`delivery_status`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `delivery`
@@ -104,10 +124,11 @@ INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `deli
 --
 
 DROP TABLE IF EXISTS `delivery_status`;
-CREATE TABLE `delivery_status` (
-  `stat_id` int(11) NOT NULL,
-  `stat_name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `delivery_status` (
+  `stat_id` int(11) NOT NULL AUTO_INCREMENT,
+  `stat_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`stat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `delivery_status`
@@ -128,12 +149,16 @@ INSERT INTO `delivery_status` (`stat_id`, `stat_name`) VALUES
 --
 
 DROP TABLE IF EXISTS `freezer`;
-CREATE TABLE `freezer` (
-  `freezer_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `freezer` (
+  `freezer_id` int(11) NOT NULL AUTO_INCREMENT,
   `person_id` int(11) NOT NULL,
   `add_id` int(11) NOT NULL,
-  `branch_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `branch_id` int(11) NOT NULL,
+  PRIMARY KEY (`freezer_id`),
+  KEY `fk_freezer_add` (`add_id`),
+  KEY `fk_freezer_manager` (`person_id`),
+  KEY `fk_freezer_branch` (`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `freezer`
@@ -149,7 +174,7 @@ DROP TRIGGER IF EXISTS `insertFreezer`;
 DELIMITER $$
 CREATE TRIGGER `insertFreezer` BEFORE INSERT ON `freezer` FOR EACH ROW update person
 set person.person_user_level = 2
-where person.person_id = (select person.person_id from person, freezer where person.person_id = freezer.person_id)
+where person.person_id IN (select person.person_id from person, freezer where person.person_id = freezer.person_id)
 $$
 DELIMITER ;
 
@@ -160,12 +185,16 @@ DELIMITER ;
 --
 
 DROP TABLE IF EXISTS `meal`;
-CREATE TABLE `meal` (
-  `meal_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `meal` (
+  `meal_id` int(11) NOT NULL AUTO_INCREMENT,
   `meal_type` int(11) NOT NULL,
   `freezer_id` int(11) NOT NULL,
-  `delivery_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `delivery_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`meal_id`),
+  KEY `FK_meal_delivery` (`delivery_id`),
+  KEY `FK_meal_type` (`meal_type`),
+  KEY `fk_meal_freezer` (`freezer_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `meal`
@@ -173,7 +202,7 @@ CREATE TABLE `meal` (
 
 INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES
 (1, 2, 1, 1),
-(2, 2, 1, NULL),
+(2, 1, 1, 1),
 (3, 2, 1, NULL),
 (4, 2, 1, NULL),
 (5, 2, 1, NULL),
@@ -189,10 +218,11 @@ INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES
 --
 
 DROP TABLE IF EXISTS `meal_type`;
-CREATE TABLE `meal_type` (
-  `MT_id` int(11) NOT NULL,
-  `meal_type` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `meal_type` (
+  `MT_id` int(11) NOT NULL AUTO_INCREMENT,
+  `meal_type` varchar(50) NOT NULL,
+  PRIMARY KEY (`MT_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `meal_type`
@@ -211,25 +241,30 @@ INSERT INTO `meal_type` (`MT_id`, `meal_type`) VALUES
 --
 
 DROP TABLE IF EXISTS `person`;
-CREATE TABLE `person` (
-  `person_id` int(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `person` (
+  `person_id` int(11) NOT NULL AUTO_INCREMENT,
   `person_phone` varchar(50) NOT NULL,
   `person_email` varchar(50) NOT NULL,
   `person_fname` varchar(50) NOT NULL,
   `person_lname` varchar(50) NOT NULL,
   `person_pass` varchar(50) NOT NULL DEFAULT 'P@ssword',
   `person_user_level` int(11) NOT NULL DEFAULT 0,
-  `add_id` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `add_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`person_id`),
+  UNIQUE KEY `person_email` (`person_email`),
+  UNIQUE KEY `person_phone` (`person_phone`),
+  KEY `FK_person_add` (`add_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `person`
 --
 
 INSERT INTO `person` (`person_id`, `person_phone`, `person_email`, `person_fname`, `person_lname`, `person_pass`, `person_user_level`, `add_id`) VALUES
-(1, '02102202041', 'bobsoap@gmail.com', 'bob', 'soap', 'P@ssword', 2, 5),
-(2, '021123456789', 'joan@gmail.com', 'Joan', 'Ark', 'P@ssword', 1, 6),
-(3, '02102202042', 'mrsBrown@gmail.com', 'Betty', 'Brown', 'P@ssword', 0, NULL);
+(1, '02102202041', 'bob@gmail.com', 'bob', 'soap', 'qwerty1234567890', 2, 5),
+(2, '021123456789', 'joan@gmail.com', 'Joan', 'Ark', 'qwerty', 3, 6),
+(3, '02102202042', 'mrsBrown@gmail.com', 'Betty', 'Brown', 'P@ssword', 0, NULL),
+(4, '0211471133', 'piyathim@gmail.com', 'Piyathi', 'Munasinghe', 'P@ssword', 1, 5);
 
 -- --------------------------------------------------------
 
@@ -238,7 +273,7 @@ INSERT INTO `person` (`person_id`, `person_phone`, `person_email`, `person_fname
 --
 
 DROP TABLE IF EXISTS `recipient`;
-CREATE TABLE `recipient` (
+CREATE TABLE IF NOT EXISTS `recipient` (
   `person_id` int(11) NOT NULL,
   `rec_dogs` tinyint(1) NOT NULL,
   `rec_children_under_5` int(11) NOT NULL,
@@ -246,7 +281,8 @@ CREATE TABLE `recipient` (
   `rec_children_between_11_17` int(11) NOT NULL,
   `rec_adults` int(11) NOT NULL,
   `rec_dietary_req` varchar(50) NOT NULL,
-  `rec_allergies` varchar(50) NOT NULL
+  `rec_allergies` varchar(50) NOT NULL,
+  PRIMARY KEY (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -263,11 +299,13 @@ INSERT INTO `recipient` (`person_id`, `rec_dogs`, `rec_children_under_5`, `rec_c
 --
 
 DROP TABLE IF EXISTS `referrer`;
-CREATE TABLE `referrer` (
+CREATE TABLE IF NOT EXISTS `referrer` (
   `person_id` int(11) NOT NULL,
   `RT_type` int(11) NOT NULL,
   `notes` varchar(200) NOT NULL,
-  `organisation` varchar(50) NOT NULL
+  `organisation` varchar(50) NOT NULL,
+  PRIMARY KEY (`person_id`),
+  KEY `FK_RT_type` (`RT_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -284,10 +322,11 @@ INSERT INTO `referrer` (`person_id`, `RT_type`, `notes`, `organisation`) VALUES
 --
 
 DROP TABLE IF EXISTS `referrer_type`;
-CREATE TABLE `referrer_type` (
-  `RT_id` int(11) NOT NULL,
-  `RT_type` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `referrer_type` (
+  `RT_id` int(11) NOT NULL AUTO_INCREMENT,
+  `RT_type` varchar(50) NOT NULL,
+  PRIMARY KEY (`RT_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `referrer_type`
@@ -309,11 +348,15 @@ INSERT INTO `referrer_type` (`RT_id`, `RT_type`) VALUES
 --
 
 DROP TABLE IF EXISTS `volunteer`;
-CREATE TABLE `volunteer` (
+CREATE TABLE IF NOT EXISTS `volunteer` (
   `person_id` int(11) NOT NULL,
   `ice_id` int(11) NOT NULL,
   `branch_id` int(11) NOT NULL,
-  `vol_status` int(11) NOT NULL
+  `vol_status` int(11) NOT NULL,
+  PRIMARY KEY (`person_id`),
+  KEY `fk_vol_ice` (`ice_id`),
+  KEY `fk_branch_id` (`branch_id`),
+  KEY `fk_vol_status` (`vol_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -321,7 +364,8 @@ CREATE TABLE `volunteer` (
 --
 
 INSERT INTO `volunteer` (`person_id`, `ice_id`, `branch_id`, `vol_status`) VALUES
-(2, 3, 1, 1);
+(2, 3, 1, 1),
+(4, 1, 1, 1);
 
 --
 -- Triggers `volunteer`
@@ -330,7 +374,7 @@ DROP TRIGGER IF EXISTS `insertVol`;
 DELIMITER $$
 CREATE TRIGGER `insertVol` AFTER INSERT ON `volunteer` FOR EACH ROW update person
 set person.person_user_level = 1
-where person.person_id = (select person.person_id from person, volunteer where person.person_id = volunteer.person_id)
+where person.person_id IN (select person.person_id from person, volunteer where person.person_id = volunteer.person_id)
 $$
 DELIMITER ;
 
@@ -341,10 +385,11 @@ DELIMITER ;
 --
 
 DROP TABLE IF EXISTS `vol_status`;
-CREATE TABLE `vol_status` (
-  `VS_id` int(11) NOT NULL,
-  `VS_stat` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `vol_status` (
+  `VS_id` int(11) NOT NULL AUTO_INCREMENT,
+  `VS_stat` varchar(50) NOT NULL,
+  PRIMARY KEY (`VS_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `vol_status`
@@ -355,171 +400,6 @@ INSERT INTO `vol_status` (`VS_id`, `VS_stat`) VALUES
 (2, 'Deliveries Only'),
 (3, 'Deliveries and Cookathons'),
 (4, 'On Leave');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `address`
---
-ALTER TABLE `address`
-  ADD PRIMARY KEY (`add_id`);
-
---
--- Indexes for table `branch`
---
-ALTER TABLE `branch`
-  ADD PRIMARY KEY (`branch_id`),
-  ADD KEY `fk_branch_manager` (`person_id`),
-  ADD KEY `fk_branch_add` (`add_id`);
-
---
--- Indexes for table `delivery`
---
-ALTER TABLE `delivery`
-  ADD PRIMARY KEY (`delivery_id`),
-  ADD KEY `fk_delivery_rec` (`recipient_id`),
-  ADD KEY `fk_delivery_ref` (`ref_id`),
-  ADD KEY `fk_delivery_vol` (`vol_id`),
-  ADD KEY `fk_del_status` (`delivery_status`);
-
---
--- Indexes for table `delivery_status`
---
-ALTER TABLE `delivery_status`
-  ADD PRIMARY KEY (`stat_id`);
-
---
--- Indexes for table `freezer`
---
-ALTER TABLE `freezer`
-  ADD PRIMARY KEY (`freezer_id`),
-  ADD KEY `fk_freezer_add` (`add_id`),
-  ADD KEY `fk_freezer_manager` (`person_id`),
-  ADD KEY `fk_freezer_branch` (`branch_id`);
-
---
--- Indexes for table `meal`
---
-ALTER TABLE `meal`
-  ADD PRIMARY KEY (`meal_id`),
-  ADD KEY `FK_meal_delivery` (`delivery_id`),
-  ADD KEY `FK_meal_type` (`meal_type`),
-  ADD KEY `fk_meal_freezer` (`freezer_id`);
-
---
--- Indexes for table `meal_type`
---
-ALTER TABLE `meal_type`
-  ADD PRIMARY KEY (`MT_id`);
-
---
--- Indexes for table `person`
---
-ALTER TABLE `person`
-  ADD PRIMARY KEY (`person_id`),
-  ADD UNIQUE KEY `person_email` (`person_email`),
-  ADD UNIQUE KEY `person_phone` (`person_phone`),
-  ADD KEY `FK_person_add` (`add_id`);
-
---
--- Indexes for table `recipient`
---
-ALTER TABLE `recipient`
-  ADD PRIMARY KEY (`person_id`);
-
---
--- Indexes for table `referrer`
---
-ALTER TABLE `referrer`
-  ADD PRIMARY KEY (`person_id`),
-  ADD KEY `FK_RT_type` (`RT_type`);
-
---
--- Indexes for table `referrer_type`
---
-ALTER TABLE `referrer_type`
-  ADD PRIMARY KEY (`RT_id`);
-
---
--- Indexes for table `volunteer`
---
-ALTER TABLE `volunteer`
-  ADD PRIMARY KEY (`person_id`),
-  ADD KEY `fk_vol_ice` (`ice_id`),
-  ADD KEY `fk_branch_id` (`branch_id`),
-  ADD KEY `fk_vol_status` (`vol_status`);
-
---
--- Indexes for table `vol_status`
---
-ALTER TABLE `vol_status`
-  ADD PRIMARY KEY (`VS_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `address`
---
-ALTER TABLE `address`
-  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `branch`
---
-ALTER TABLE `branch`
-  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `delivery`
---
-ALTER TABLE `delivery`
-  MODIFY `delivery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `delivery_status`
---
-ALTER TABLE `delivery_status`
-  MODIFY `stat_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `freezer`
---
-ALTER TABLE `freezer`
-  MODIFY `freezer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `meal`
---
-ALTER TABLE `meal`
-  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `meal_type`
---
-ALTER TABLE `meal_type`
-  MODIFY `MT_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `person`
---
-ALTER TABLE `person`
-  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT for table `referrer_type`
---
-ALTER TABLE `referrer_type`
-  MODIFY `RT_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `vol_status`
---
-ALTER TABLE `vol_status`
-  MODIFY `VS_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
