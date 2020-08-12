@@ -23,7 +23,8 @@ function App() {
       backgroundColor: "rgb(239, 230, 215)"
     }}>
       < MainAppBar  setPage = {setPage} setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level}/>
-      <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />
+      {/* ONLY THE LOGIN PAGE IS DISPLAYED IF THE USER LEVEL IS 0 */}
+      {cookie.user_level!=0 ? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />}
 
       {page == 1 && cookie.user_level>2 ? <Reporting/> : null}
       

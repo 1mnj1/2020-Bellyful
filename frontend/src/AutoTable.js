@@ -42,7 +42,9 @@ const tableIcons = {
 
 
 export default function AutoTable(props){
-
+  // Auto tabble is passed a series of props: url and children
+  //url is the url for the post eg localhost:3001/managers/getVolunteers
+  //children is text - MAKE SURE IT IS NOT ANOTHER RENDERED COMPONENT
   const [state, setState] = React.useState({
     columns: [
       { title: 'Name', field: 'Name' },
@@ -70,11 +72,11 @@ export default function AutoTable(props){
       if(returnable.length === 0) return 
       var fields = Object.keys(returnable[0])
       const cols = $(setColumns(fields))
-      console.log("VolunteersCols = ",cols)
+      // console.log("VolunteersCols = ",cols)
 
       
 
-      console.log("VolunteersObj = ",returnable)
+      // console.log("VolunteersObj = ",returnable)
       
       // To use an encapsulated function, put a dollar in front of it (it just works ?!)
       
@@ -97,7 +99,7 @@ export default function AutoTable(props){
     triggerClassName = 'CustomTriggerCSS--open'
     triggerOpenedClassName = 'CustomTriggerCSS'>
         <MaterialTable
-        title= {state.tableName}
+        title= {null}
         columns={state.columns}
         data={state.data}
         icons={tableIcons}

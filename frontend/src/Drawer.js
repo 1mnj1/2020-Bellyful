@@ -38,11 +38,11 @@ export default function SwipeableTemporaryDrawer(props) {
     setState({ ...state, [anchor]: display });
   };
   //Function to create a list
-  
+  //This is passed text, an <icon/> and a page number
   const listItem =  (text,icon,page) => (
  
       (
-        
+        //set up the item, on click re-renders the main app page setting the state of page to whatever is sent to this function
           <ListItem button key={text} onClick = {()=>props.setPage(page)}>
             <ListItemIcon>{icon}</ListItemIcon>
             <ListItemText primary={text} />
@@ -73,7 +73,9 @@ export default function SwipeableTemporaryDrawer(props) {
                   role="presentation"
                   onClick={toggleDrawer(anchor, false)}
                   onKeyDown={toggleDrawer(anchor, false)}
-                > <List>
+                > 
+                  <List>
+                    {/* If the user's logged in status is greater than 2 (managers are level 3) show reporting tab */}
                     {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,1) : null       }
 
                   </List>
