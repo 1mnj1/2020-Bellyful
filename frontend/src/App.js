@@ -13,7 +13,7 @@ function App() {
   const [cookie, setCookie] = useCookies(["user_level"]);
   const [page,setPage] = React.useState(0)
   console.log("Logged status: ",cookie)
-  
+  const resetPage = (newPage)=>(page == newPage? setPage(0) : setPage(newPage))
 
 
   return (
@@ -22,7 +22,7 @@ function App() {
     <div className="App" style={{
       backgroundColor: "rgb(239, 230, 215)"
     }}>
-      < MainAppBar  setPage = {setPage} setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level}/>
+      < MainAppBar  setPage = {resetPage} setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level}/>
       {/* ONLY THE LOGIN PAGE IS DISPLAYED IF THE USER LEVEL IS 0 */}
       {cookie.user_level!=0 ? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />}
 

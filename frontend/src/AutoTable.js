@@ -47,13 +47,11 @@ export default function AutoTable(props){
   //children is text - MAKE SURE IT IS NOT ANOTHER RENDERED COMPONENT
   const [state, setState] = React.useState({
     columns: [
-      { title: 'Name', field: 'Name' },
-      { title: 'Email', field: 'Email' },
-      { title: 'Phone', field: 'Phone',},
+      { },
       
     ],
     data: [
-      { name: 'Chris Macdonald', email: 'chrisjmacdonald@gmail.com', phone: "0226897257" },
+      {},
     ],
   });
   const setColumns = (colNames)=>{
