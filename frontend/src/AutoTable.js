@@ -1,24 +1,16 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import $ from 'jquery'
 import Collapsible from 'react-collapsible';
 import './sass/main.scss'
+import Popup from 'reactjs-popup'
+
+
 import { forwardRef } from 'react';
-import AddBox from '@material-ui/icons/AddBox';
-import ArrowDownward from '@material-ui/icons/ArrowDownward';
-import Check from '@material-ui/icons/Check';
-import ChevronLeft from '@material-ui/icons/ChevronLeft';
-import ChevronRight from '@material-ui/icons/ChevronRight';
-import Clear from '@material-ui/icons/Clear';
-import DeleteOutline from '@material-ui/icons/DeleteOutline';
-import Edit from '@material-ui/icons/Edit';
-import FilterList from '@material-ui/icons/FilterList';
-import FirstPage from '@material-ui/icons/FirstPage';
-import LastPage from '@material-ui/icons/LastPage';
-import Remove from '@material-ui/icons/Remove';
-import SaveAlt from '@material-ui/icons/SaveAlt';
-import Search from '@material-ui/icons/Search';
-import ViewColumn from '@material-ui/icons/ViewColumn';
+import {AddBox, ArrowDownward, Check, ChevronLeft,ChevronRight,Clear,
+  DeleteOutline,Edit,FilterList,FirstPage,LastPage,Remove,SaveAlt,Search,ViewColumn, Add, Height} from '@material-ui/icons'
+import { Tooltip, Paper, Grid, Button } from '@material-ui/core';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -39,6 +31,10 @@ const tableIcons = {
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
     ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
+
+
+// USING MATERIAL TABLE 
+//https://material-table.com/#/
 
 
 export default function AutoTable(props){
@@ -72,25 +68,32 @@ export default function AutoTable(props){
       var fields = Object.keys(returnable[0])
       const cols = $(setColumns(fields))
       // console.log("VolunteersCols = ",cols)
-
-      
-
       // console.log("VolunteersObj = ",returnable)
       
       // To use an encapsulated function, put a dollar in front of it (it just works ?!)
       
       $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
-
-      
-    
       // this.props.setLogged(true)
   });
   }, [props.url,props.form ]);
 
+
+  const [modalState,setModalState] = React.useState({
+    open: false
+  })
+
+  const openModal = () => {
+    setModalState(state => ({open: true}))
+  }
+
+  const closeModal = () => {
+    setModalState(state => ({open: false}))
+  }
   
     
     return(
 
+    <>
     <Collapsible trigger = {props.children}
     transitionTime={100} 
     triggerClassName = 'CustomTriggerCSS--open'
@@ -100,45 +103,27 @@ export default function AutoTable(props){
         columns={state.columns}
         data={state.data}
         icons={tableIcons}
-        editable={{
-          onRowAdd: (newData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data.push(newData);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            }),
-          onRowUpdate: (newData, oldData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                if (oldData) {
-                  setState((prevState) => {
-                    const data = [...prevState.data];
-                    data[data.indexOf(oldData)] = newData;
-                    return { ...prevState, data };
-                  });
-                }
-              }, 600);
-            }),
-          onRowDelete: (oldData) =>
-            new Promise((resolve) => {
-              setTimeout(() => {
-                resolve();
-                setState((prevState) => {
-                  const data = [...prevState.data];
-                  data.splice(data.indexOf(oldData), 1);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            }),
+        detailPanel = {rowData => {
+          return(
+            <Paper>
+              Hello World
+            </Paper>
+          )
         }}
+        actions = {[  //Add actions to rows and to toolbar
+          {
+            icon: () => <AddBox/>,
+            tooltip: 'Add Volunteer',
+            isFreeAction: true,   //This means it will be row independent and hover in the toolbar
+            //When clicked, Open a drawer to display a form to add a volunteer
+            onClick : openModal
+          }
+        ]}
       />
       </Collapsible>
+      <Popup open={modalState.open} closeOnDocumentClick onClose = {closeModal} position='center center' modal>
+        <Paper>Hello World</Paper>
+      </Popup>
+    </>
     )
-    
 }
