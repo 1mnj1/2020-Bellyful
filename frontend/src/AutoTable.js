@@ -60,7 +60,8 @@ export default function AutoTable(props){
 
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   React.useEffect(() => {
-    $.post( props.url ,  function( returnable ) {
+    
+    $.post( props.url ,props.form,  function( returnable ) {
       if(returnable === null) return 
       if (returnable === undefined) return 
       if(returnable.length === 0) return 
@@ -74,7 +75,7 @@ export default function AutoTable(props){
       $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
       // this.props.setLogged(true)
   });
-  }, [props.loggedIn,props.url ]);
+  }, [props.url,props.form ]);
 
 
   const [modalState,setModalState] = React.useState({
@@ -90,8 +91,6 @@ export default function AutoTable(props){
   }
   
     
-  console.log("State Data = ", state.data)
-  console.log("State Data = ", state.columns)
     return(
 
     <>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 12, 2020 at 02:21 AM
+-- Generation Time: Aug 13, 2020 at 04:32 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -23,6 +23,30 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `belly_full` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE `belly_full`;
 
+DELIMITER $$
+--
+-- Functions
+--
+DROP FUNCTION IF EXISTS `delivery_type`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `delivery_type` (`rec_person` INT(11)) RETURNS VARCHAR(50) CHARSET utf8mb4 READS SQL DATA
+    COMMENT 'If there is more than one delivery, the type is a follow up'
+BEGIN
+	DECLARE delType varchar(50);
+    SELECT IF(del.del_count<=0,'New','Follow Up') INTO delType  from (SELECT count(delivery.delivery_id)  as del_count  from delivery where delivery.recipient_id = rec_person) as del;
+
+    
+    
+    
+    
+    
+    return delType;
+
+
+
+END$$
+
+DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -40,6 +64,11 @@ CREATE TABLE IF NOT EXISTS `address` (
   PRIMARY KEY (`add_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `address`
+--
+
+TRUNCATE TABLE `address`;
 --
 -- Dumping data for table `address`
 --
@@ -70,6 +99,11 @@ CREATE TABLE IF NOT EXISTS `branch` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
+-- Truncate table before insert `branch`
+--
+
+TRUNCATE TABLE `branch`;
+--
 -- Dumping data for table `branch`
 --
 
@@ -83,7 +117,7 @@ DROP TRIGGER IF EXISTS `Branch_level`;
 DELIMITER $$
 CREATE TRIGGER `Branch_level` BEFORE INSERT ON `branch` FOR EACH ROW update person
 set person.person_user_level = 3
-where person.person_id IN (select person.person_id from person, branch where person.person_id = branch.person_id)
+where person.person_id IN (select person.person_id from person, branch where person.person_id = branch.person_id AND person_id <=2)
 $$
 DELIMITER ;
 
@@ -96,8 +130,8 @@ DELIMITER ;
 DROP TABLE IF EXISTS `delivery`;
 CREATE TABLE IF NOT EXISTS `delivery` (
   `delivery_id` int(11) NOT NULL AUTO_INCREMENT,
-  `vol_id` int(11) NOT NULL,
-  `ref_id` int(11) NOT NULL,
+  `vol_id` int(11) DEFAULT NULL,
+  `ref_id` int(11) DEFAULT NULL,
   `recipient_id` int(11) NOT NULL,
   `delivery_status` int(11) NOT NULL,
   `delivery_est_time` date NOT NULL DEFAULT current_timestamp(),
@@ -108,14 +142,20 @@ CREATE TABLE IF NOT EXISTS `delivery` (
   KEY `fk_delivery_ref` (`ref_id`),
   KEY `fk_delivery_vol` (`vol_id`),
   KEY `fk_del_status` (`delivery_status`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `delivery`
+--
+
+TRUNCATE TABLE `delivery`;
 --
 -- Dumping data for table `delivery`
 --
 
 INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, `delivery_est_time`, `delivery_start`, `delivery_end`) VALUES
-(1, 2, 3, 1, 2, '0000-00-00', NULL, NULL);
+(1, 2, 3, 1, 2, '0000-00-00', NULL, NULL),
+(4, NULL, 3, 1, 1, '0000-00-00', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -128,8 +168,13 @@ CREATE TABLE IF NOT EXISTS `delivery_status` (
   `stat_id` int(11) NOT NULL AUTO_INCREMENT,
   `stat_name` varchar(50) NOT NULL,
   PRIMARY KEY (`stat_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `delivery_status`
+--
+
+TRUNCATE TABLE `delivery_status`;
 --
 -- Dumping data for table `delivery_status`
 --
@@ -140,7 +185,8 @@ INSERT INTO `delivery_status` (`stat_id`, `stat_name`) VALUES
 (3, 'In Transit'),
 (4, 'Done'),
 (5, 'Rejected by Branch'),
-(6, 'Rejected by Recipient');
+(6, 'Rejected by Recipient'),
+(7, 'To Contact');
 
 -- --------------------------------------------------------
 
@@ -161,6 +207,11 @@ CREATE TABLE IF NOT EXISTS `freezer` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 --
+-- Truncate table before insert `freezer`
+--
+
+TRUNCATE TABLE `freezer`;
+--
 -- Dumping data for table `freezer`
 --
 
@@ -174,7 +225,7 @@ DROP TRIGGER IF EXISTS `insertFreezer`;
 DELIMITER $$
 CREATE TRIGGER `insertFreezer` BEFORE INSERT ON `freezer` FOR EACH ROW update person
 set person.person_user_level = 2
-where person.person_id IN (select person.person_id from person, freezer where person.person_id = freezer.person_id)
+where person.person_id IN (select person.person_id from person, freezer where person.person_id = freezer.person_id AND person.person_id <= 1)
 $$
 DELIMITER ;
 
@@ -196,6 +247,11 @@ CREATE TABLE IF NOT EXISTS `meal` (
   KEY `fk_meal_freezer` (`freezer_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `meal`
+--
+
+TRUNCATE TABLE `meal`;
 --
 -- Dumping data for table `meal`
 --
@@ -224,6 +280,11 @@ CREATE TABLE IF NOT EXISTS `meal_type` (
   PRIMARY KEY (`MT_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `meal_type`
+--
+
+TRUNCATE TABLE `meal_type`;
 --
 -- Dumping data for table `meal_type`
 --
@@ -254,17 +315,23 @@ CREATE TABLE IF NOT EXISTS `person` (
   UNIQUE KEY `person_email` (`person_email`),
   UNIQUE KEY `person_phone` (`person_phone`),
   KEY `FK_person_add` (`add_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `person`
+--
+
+TRUNCATE TABLE `person`;
 --
 -- Dumping data for table `person`
 --
 
 INSERT INTO `person` (`person_id`, `person_phone`, `person_email`, `person_fname`, `person_lname`, `person_pass`, `person_user_level`, `add_id`) VALUES
-(1, '02102202041', 'bob@gmail.com', 'bob', 'soap', 'qwerty1234567890', 2, 5),
-(2, '021123456789', 'joan@gmail.com', 'Joan', 'Ark', 'qwerty', 3, 6),
+(1, '02102202041', 'bob@gmail.com', 'bob', 'soap', 'qwerty12345', 2, 5),
+(2, '021123456789', 'joan@gmail.com', 'Joan', 'Ark', 'qwerty12345', 1, 6),
 (3, '02102202042', 'mrsBrown@gmail.com', 'Betty', 'Brown', 'P@ssword', 0, NULL),
-(4, '0211471133', 'piyathim@gmail.com', 'Piyathi', 'Munasinghe', 'P@ssword', 1, 5);
+(4, '0211471133', 'piyathim@gmail.com', 'Piyathi', 'Munasinghe', 'P@ssword', 1, 5),
+(5, '0210733503', 'emelina.lidija@hotmail.com', 'Emelina', 'Glavas', 'P@ssword', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -285,6 +352,11 @@ CREATE TABLE IF NOT EXISTS `recipient` (
   PRIMARY KEY (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `recipient`
+--
+
+TRUNCATE TABLE `recipient`;
 --
 -- Dumping data for table `recipient`
 --
@@ -309,6 +381,11 @@ CREATE TABLE IF NOT EXISTS `referrer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Truncate table before insert `referrer`
+--
+
+TRUNCATE TABLE `referrer`;
+--
 -- Dumping data for table `referrer`
 --
 
@@ -328,6 +405,11 @@ CREATE TABLE IF NOT EXISTS `referrer_type` (
   PRIMARY KEY (`RT_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `referrer_type`
+--
+
+TRUNCATE TABLE `referrer_type`;
 --
 -- Dumping data for table `referrer_type`
 --
@@ -360,12 +442,18 @@ CREATE TABLE IF NOT EXISTS `volunteer` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Truncate table before insert `volunteer`
+--
+
+TRUNCATE TABLE `volunteer`;
+--
 -- Dumping data for table `volunteer`
 --
 
 INSERT INTO `volunteer` (`person_id`, `ice_id`, `branch_id`, `vol_status`) VALUES
 (2, 3, 1, 1),
-(4, 1, 1, 1);
+(4, 1, 1, 1),
+(5, 4, 1, 1);
 
 --
 -- Triggers `volunteer`
@@ -374,7 +462,7 @@ DROP TRIGGER IF EXISTS `insertVol`;
 DELIMITER $$
 CREATE TRIGGER `insertVol` AFTER INSERT ON `volunteer` FOR EACH ROW update person
 set person.person_user_level = 1
-where person.person_id IN (select person.person_id from person, volunteer where person.person_id = volunteer.person_id)
+where person.person_id IN (select person.person_id from person, volunteer where person.person_id = volunteer.person_id AND person.person_id <= 0 )
 $$
 DELIMITER ;
 
@@ -391,6 +479,11 @@ CREATE TABLE IF NOT EXISTS `vol_status` (
   PRIMARY KEY (`VS_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
+--
+-- Truncate table before insert `vol_status`
+--
+
+TRUNCATE TABLE `vol_status`;
 --
 -- Dumping data for table `vol_status`
 --

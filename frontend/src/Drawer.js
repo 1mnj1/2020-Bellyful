@@ -7,13 +7,17 @@ import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+// import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+<<<<<<< HEAD
 import LocalShipping from '@material-ui/icons/LocalShipping'
 
+=======
+const pageIndex = require('./pageIndexer')
+>>>>>>> 05d6ce31a50921864aecef13779c72fb3a563db3
 const useStyles = makeStyles({
   list: {
     width: 250,
@@ -78,14 +82,19 @@ export default function SwipeableTemporaryDrawer(props) {
                 > 
                   <List>
                     {/* If the user's logged in status is greater than 2 (managers are level 3) show reporting tab */}
+<<<<<<< HEAD
                     {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,1) : null}
                     {(props.loggedIn>2) ? listItem("Deliverer Portal", <LocalShipping/>, 2) : null}
+=======
+                    {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,pageIndex["reporting"]) : null       }
+                    {(props.loggedIn>2) ? listItem("Delivery Reporting", <AssessmentIcon/>,pageIndex["deliveryreporting"]) : null       }
+>>>>>>> 05d6ce31a50921864aecef13779c72fb3a563db3
 
                   </List>
                   <Divider />
                   <List >
                     
-                      <ListItem button key={"draw_login_li"} onClick = {()=>{ props.setLogged(0);}}>
+                      <ListItem button key={"draw_login_li"} onClick = {()=>props.setLogged(0)}>
                         <ListItemIcon><MailIcon /></ListItemIcon>
                         <ListItemText primary={props.loggedIn>0 ? "Logout" : "Login"} />
                       </ListItem>

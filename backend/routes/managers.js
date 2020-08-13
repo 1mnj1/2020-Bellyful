@@ -73,4 +73,43 @@ router.post('/getFreezerManager', function(req, res, next) {
     });
   
 });
+
+router.post('/getDeliveryDetails', function(req, res, next) {
+  //sql query for the data
+  reQArr = req.body["type[]"]
+  console.log("Request Body: ",req.body)
+  console.log("Request arr Length:", Array.isArray(reQArr) ? reQArr.length : 1)
+  sqlWhere = " AND ("
+  for (var i = 0; i <(Array.isArray(reQArr) ? reQArr.length : 1 ); ++i ){
+    sqlWhere = sqlWhere+(i==0 ? "":"OR")+" lower(delivery_status.stat_name) =  ? "
+  }
+  sqlWhere = sqlWhere +")"
+  sql = "select concat(person.person_fname,' ',person.person_lname) as 'Name', address.add_suburb 'Suburb',delivery_type(person.person_id) as 'Delivery Type', delivery_status.stat_name as 'Delivery Status'\
+  from person ,address, delivery, delivery_status\
+  where person.person_id = delivery.recipient_id\
+  AND person.add_id = address.add_id\
+  AND delivery.delivery_status = delivery_status.stat_id"
+  sql = sql + sqlWhere;
+  
+  // res.send("Got here!")
+  con.query(sql,(Array.isArray(reQArr) ? reQArr : [reQArr]), function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
 module.exports = router;

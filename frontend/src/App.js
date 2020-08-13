@@ -21,6 +21,12 @@ const useStyles = makeStyles({
     bottom: 0
   },
 });
+// import Vol_Table from './Volunteers'
+// import AutoTable from './AutoTable'
+import { useCookies} from 'react-cookie'
+import Reporting from './Reporting'
+import DeliveryReporting from './DeliveryReporting'
+const pageIndex = require('./pageIndexer')
 
 function App() {
 
@@ -49,6 +55,8 @@ function App() {
     </BottomNavigation>
   )
 
+  const resetPage = (newPage)=>(page === newPage? setPage(0) : setPage(newPage))
+  console.log("Cookie: ",cookie.user_level)
 
   return (
     
@@ -58,12 +66,10 @@ function App() {
     }}>
       < MainAppBar  setPage = {resetPage} setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level}/>
       {/* ONLY THE LOGIN PAGE IS DISPLAYED IF THE USER LEVEL IS 0 */}
+      {/* eslint-disable-next-line*/}
       {cookie.user_level!=0 ? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />}
-
-      {page == 1 && cookie.user_level>2 ? <Reporting/> : null}
-      {/* Navigation will only show when on the DeliveryPortal Page */}
-      {page == 2 && cookie.user_level>2 ? DelivererNavigation : null}
-      {/* {page == 2 && cookie.user_level>2 ? <DelivererPortal tabPageNumber = {value}/> : null} */}
+      {page === pageIndex["deliveryreporting"] && cookie.user_level>2 ? <DeliveryReporting/> : null}
+      {page === pageIndex["reporting"] && cookie.user_level>2 ? <Reporting/> : null}
       
     </div>
   );
