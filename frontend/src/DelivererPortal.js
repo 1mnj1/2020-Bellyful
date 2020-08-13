@@ -1,6 +1,20 @@
 import React from 'react';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
+import LocalShippingIcon from '@material-ui/icons/LocalShipping'
+import AcUnitIcon from '@material-ui/icons/AcUnit'
+import PersonIcon from '@material-ui/icons/Person'
 
+import { makeStyles } from '@material-ui/core/styles';
 
+const useStyles = makeStyles({
+    root: {
+      width: '100%',
+      position: 'fixed',
+      bottom: 0
+    },
+  });
 
 
 function DelivererPortal() {
@@ -26,9 +40,8 @@ function DelivererPortal() {
     )
 
     return (
-        <div className="App-MainContents">
-            DelivererNavigation
-        </div>
+        
+        DelivererNavigation
         
 
     );
