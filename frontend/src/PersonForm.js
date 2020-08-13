@@ -88,13 +88,30 @@ function PersonForm() {
             helperText="Enter the Street Name"
             /><br/>
             <TextField
+            label="Suburb"
+            name = "suburb"
+            id="margin-none"
+            required
+            className={classes.textField}
+            helperText="Enter the Suburb"
+            />
+            <TextField
             label="City"
             name = "city"
             id="margin-none"
             required
-            className={classes.fullText}
+            className={classes.textField}
             helperText="Enter the city"
             /><br/>
+            <TextField
+            label="Postcode"
+            name = "postcode"
+            id="margin-none"
+            required
+            className={classes.oneQuarter}
+            style = {{Align:"left"}}
+            helperText="Enter the Post Code"
+            />
         </div>
       
 

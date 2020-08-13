@@ -1,6 +1,6 @@
 import React from 'react';
 import AutoTable from './AutoTable'
-import PersonForm from './PersonForm'
+import ReferrerForm from './Referrer'
 
 
 function Reporting() {
@@ -11,7 +11,7 @@ function Reporting() {
         //reporting screen
       <div className="App-MainContents">
         <AutoTable title = "Volunteers" url = {"http://"+window.location.hostname+":3000/manager/getVolunteers" } showAdder = {true}>
-          <PersonForm/>
+          <ReferrerForm/>
         </AutoTable>
         <AutoTable title = "Freezer Managers" url = {"http://"+window.location.hostname+":3000/manager/getFreezerManager"}>
           
