@@ -1,5 +1,5 @@
 import React from 'react';
-import AutoTable from './AutoTable'
+// import AutoTable from './AutoTable'
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 

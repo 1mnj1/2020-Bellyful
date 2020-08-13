@@ -12,7 +12,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AssessmentIcon from '@material-ui/icons/Assessment';
-import LocalShipping from '@material-ui/icons/LocalShipping'
+// import LocalShipping from '@material-ui/icons/LocalShipping'
 
 const pageIndex = require('./pageIndexer')
 const useStyles = makeStyles({
