@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
 import MaterialTable from 'material-table'
 import $ from 'jquery'
 import Collapsible from 'react-collapsible';
@@ -41,6 +40,7 @@ export default function AutoTable(props){
   // Auto tabble is passed a series of props: url and children
   //url is the url for the post eg localhost:3001/managers/getVolunteers
   //children is text - MAKE SURE IT IS NOT ANOTHER RENDERED COMPONENT
+
   const [state, setState] = React.useState({
     columns: [
       { },
