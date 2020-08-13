@@ -4,7 +4,7 @@ import MainAppBar from './Menu'
 import LoginTab from './Login'
 import { useCookies} from 'react-cookie'
 import Reporting from './Reporting'
-// import DelivererPortal from './DelivererPortal'
+import DelivererPortal from './DelivererPortal'
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -34,24 +34,7 @@ function App() {
   console.log("Logged status: ",cookie)
   const resetPage = (newPage)=>(page == newPage? setPage(0) : setPage(newPage))
 
-  //Used for the Navigation Drawer
-  const classes = useStyles();
-  const [value, setValue] = React.useState('pending');
-  const handleChange = (event, newValue) => {
-      setValue(newValue);
-  }
-
   
-//For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
-
-  const DelivererNavigation = (
-    <BottomNavigation value={value} onChange={handleChange} className={classes.root}>
-        <BottomNavigationAction lable="New Deliveries" value="new" icon={<NotificationsActiveIcon/>}/>
-        <BottomNavigationAction lable="Deliveries" value="deliveries" icon={<LocalShippingIcon/>}/>
-        <BottomNavigationAction lable="Freezers" value="freezers" icon={<AcUnitIcon/>}/>
-        <BottomNavigationAction lable="My Profile" value="profile" icon={<PersonIcon/>}/>
-    </BottomNavigation>
-  )
   
   return (
     
@@ -65,6 +48,7 @@ function App() {
       {cookie.user_level!=0 ? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />}
       {page === pageIndex["deliveryreporting"] && cookie.user_level>2 ? <DeliveryReporting/> : null}
       {page === pageIndex["reporting"] && cookie.user_level>2 ? <Reporting/> : null}
+      {page === pageIndex["delivererportal"] && cookie.user_level>2 ? <DelivererPortal/> : null}
       <ReferrerForm/>
     </div>
   );
