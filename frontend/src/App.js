@@ -8,6 +8,7 @@ import DelivererPortal from './DelivererPortal'
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import DeliveryReporting from './DeliveryReporting'
 
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
@@ -21,11 +22,8 @@ const useStyles = makeStyles({
     bottom: 0
   },
 });
-// import Vol_Table from './Volunteers'
-// import AutoTable from './AutoTable'
-import { useCookies} from 'react-cookie'
-import Reporting from './Reporting'
-import DeliveryReporting from './DeliveryReporting'
+
+
 const pageIndex = require('./pageIndexer')
 
 function App() {
@@ -54,10 +52,7 @@ function App() {
         <BottomNavigationAction lable="My Profile" value="profile" icon={<PersonIcon/>}/>
     </BottomNavigation>
   )
-
-  const resetPage = (newPage)=>(page === newPage? setPage(0) : setPage(newPage))
-  console.log("Cookie: ",cookie.user_level)
-
+  
   return (
     
 
