@@ -12,6 +12,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import LocalShipping from '@material-ui/icons/LocalShipping'
 
 const useStyles = makeStyles({
   list: {
@@ -77,7 +78,8 @@ export default function SwipeableTemporaryDrawer(props) {
                 > 
                   <List>
                     {/* If the user's logged in status is greater than 2 (managers are level 3) show reporting tab */}
-                    {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,1) : null       }
+                    {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,1) : null}
+                    {(props.loggedIn>2) ? listItem("Deliverer Portal", <LocalShipping/>, 2) : null}
 
                   </List>
                   <Divider />
