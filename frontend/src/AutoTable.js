@@ -64,7 +64,8 @@ export default function AutoTable(props){
 
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   React.useEffect(() => {
-    $.post( props.url ,  function( returnable ) {
+    
+    $.post( props.url ,props.form,  function( returnable ) {
       if(returnable === null) return 
       if (returnable === undefined) return 
       if(returnable.length === 0) return 
@@ -84,12 +85,10 @@ export default function AutoTable(props){
     
       // this.props.setLogged(true)
   });
-  }, [props.loggedIn,props.url ]);
+  }, [props.url,props.form ]);
 
   
     
-  console.log("State Data = ", state.data)
-  console.log("State Data = ", state.columns)
     return(
 
     <Collapsible trigger = {props.children}
