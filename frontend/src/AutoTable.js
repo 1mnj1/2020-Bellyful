@@ -5,7 +5,7 @@ import $ from 'jquery'
 import Collapsible from 'react-collapsible';
 import './sass/main.scss'
 import Popup from 'reactjs-popup'
-
+import NormalDrawer from './NormalDrawer'
 
 import { forwardRef } from 'react';
 import {AddBox, ArrowDownward, Check, ChevronLeft,ChevronRight,Clear,
@@ -94,7 +94,7 @@ export default function AutoTable(props){
     return(
 
     <>
-    <Collapsible trigger = {props.children}
+    <Collapsible trigger = {props.title}
     transitionTime={100} 
     triggerClassName = 'CustomTriggerCSS--open'
     triggerOpenedClassName = 'CustomTriggerCSS'>
@@ -103,14 +103,14 @@ export default function AutoTable(props){
         columns={state.columns}
         data={state.data}
         icons={tableIcons}
-        detailPanel = {rowData => {
-          return(
-            <Paper>
-              Hello World
-            </Paper>
-          )
-        }}
-        actions = {[  //Add actions to rows and to toolbar
+        // detailPanel = {rowData => {
+        //   return(
+        //     <Paper>
+        //       Hello World
+        //     </Paper>
+        //   )
+        // }}
+        actions = {props.showAdder?[  //Add actions to rows and to toolbar
           {
             icon: () => <AddBox/>,
             tooltip: 'Add Volunteer',
@@ -118,12 +118,13 @@ export default function AutoTable(props){
             //When clicked, Open a drawer to display a form to add a volunteer
             onClick : openModal
           }
-        ]}
+        ] : null}
       />
       </Collapsible>
-      <Popup open={modalState.open} closeOnDocumentClick onClose = {closeModal} position='center center' modal>
-        <Paper>Hello World</Paper>
-      </Popup>
+      {props.showAdder?(
+      <NormalDrawer anchor = 'right' closeOnDocumentClick onClose = {closeModal} open = {modalState.open}>
+        {props.children}
+      </NormalDrawer>) :null }
     </>
     )
 }

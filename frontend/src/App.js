@@ -7,6 +7,7 @@ import LoginTab from './Login'
 import { useCookies} from 'react-cookie'
 import Reporting from './Reporting'
 import DeliveryReporting from './DeliveryReporting'
+import ReferrerForm from './Referrer'
 const pageIndex = require('./pageIndexer')
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
       {cookie.user_level!=0 ? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />}
       {page === pageIndex["deliveryreporting"] && cookie.user_level>2 ? <DeliveryReporting/> : null}
       {page === pageIndex["reporting"] && cookie.user_level>2 ? <Reporting/> : null}
-      
+      <ReferrerForm/>
     </div>
   );
 }

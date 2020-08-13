@@ -25,7 +25,7 @@ class LoginTab extends React.Component {
 
         $(document).ready(function() {
             
-            $("form").submit(function(e){
+            $("form.LoginForm").submit(function(e){
                 e.stopImmediatePropagation();
                 e.preventDefault();
                 
@@ -39,7 +39,6 @@ class LoginTab extends React.Component {
                         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
                         $(setLogged(returnable))
                     }
-                    // this.props.setLogged(true)
                 });
             });
         });
@@ -50,7 +49,7 @@ class LoginTab extends React.Component {
         
         return (
             <header className="App-header">
-            <form className={classes.form} noValidate >
+            <form className="LoginForm" noValidate >
                 <Paper className={classes.padding}>
                     <div className={classes.margin}>
                         <Grid>
