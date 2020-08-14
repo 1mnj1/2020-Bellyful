@@ -39,29 +39,53 @@ const useStyles = makeStyles((theme) => ({
 
   }));
 
-function VolunteerForm() {
+function RecipientForm(props) {
+  const findItem= (searchItem)=>{
+    for (var i = 0; i <props.formData.length; ++i){
+    
+      if (props.formData[i].name == searchItem) return props.formData[i].value;
+    }
+    return null
+  }
     const classes = useStyles();
-    const [Dogs, setDogs] = React.useState(true);
+    const [Dogs, setDogs] = React.useState(( )=>{ 
+      for (var i = 0; i <props.formData.length; ++i){
+        if (props.formData[i].name == "recDogs") return true;
+      }  
+      return false  
+  });
   // Return a series of text elements to make a form
+  var saveForm = ()=> {
+    var formData = $("form.recipientForm").serializeArray()
+    if(formData.length == 0){
+      formData = [{}]
+    }
+    props.setForm(formData)
+    
+  
+  };
+  
   return (
     <div>
-      
+        <form className = "recipientForm" onChange = {saveForm}>
             <Typography variant="h3" component="h3" gutterBottom>
                 Create Recipient
             </Typography>
             
-            <PersonForm/>
+            <PersonForm formData = { props.formData}/>
             <FormControl className={classes.fullText}>
               <InputLabel id="recDogs">Does the recipient have dogs?</InputLabel>
               <Checkbox
               checked={Dogs}
               onChange={()=>{setDogs(!Dogs)}}
+              name = "recDogs"
               inputProps={{ 'aria-label': 'secondary checkbox' }}
               />
             </FormControl><br/>
             <TextField
               className={classes.textField}
               id="adults"
+              defaultValue = {findItem("adults")}
               label="Adults: "
               placeholder="number"
               type = "number"
@@ -71,6 +95,7 @@ function VolunteerForm() {
               className={classes.textField}
               id="child_under_5"
               label="Children under 5: "
+              defaultValue = {findItem("child_under_5")}
               placeholder="number"
               type = "number"
               name = "child_under_5"
@@ -79,6 +104,7 @@ function VolunteerForm() {
               className={classes.textField}
               id="child_between_5_10"
               label="Children 5 between 10: "
+              defaultValue = {findItem("child_between_5_10")}
               placeholder="number"
               type = "number"
               name = "child_between_5_10"
@@ -88,6 +114,7 @@ function VolunteerForm() {
               id="child_between_11_17"
               label="Children 11 between 17: "
               placeholder="number"
+              defaultValue = {findItem("child_between_11_17")}
               type = "number"
               name = "child_between_11_17"
               />
@@ -97,6 +124,7 @@ function VolunteerForm() {
               id="dietaryReq"
               label="Add Dietary Requirements"
               placeholder="Dietary Requirements"
+              defaultValue = {findItem("dietaryReq")}
               name = "dietaryReq"
               multiline
 
@@ -108,13 +136,14 @@ function VolunteerForm() {
               label="Add any other Allergy notes"
               placeholder="Allergy notes"
               name = "allergyNotes"
+              defaultValue = {findItem("allergyNotes")}
               multiline
 
               />
               
-            
+        </form> 
     </div>
   );
 }
 
-export default VolunteerForm;
+export default RecipientForm;

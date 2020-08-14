@@ -33,15 +33,24 @@ const useStyles = makeStyles((theme) => ({
 
   }));
 
-function PersonForm() {
+function PersonForm(props ) {
     const classes = useStyles();
   // Return a series of text elements to make a form
+
+  const findItem= (searchItem)=>{
+    for (var i = 0; i <props.formData.length; ++i){
+    
+      if (props.formData[i].name == searchItem) return props.formData[i].value;
+    }
+    return null
+  }
   return (
     <div>
           <TextField
             label="First Name"
             id="margin-none"
             required
+            defaultValue = {findItem("fname")}
             name = "fname"
             className={classes.textField}
             helperText="Enter the first name"
@@ -49,6 +58,7 @@ function PersonForm() {
             <TextField
             label="Last Name"
             name = "lname"
+            defaultValue = {findItem("lname")}
             required
             id="margin-none"
             className={classes.textField}
@@ -57,7 +67,8 @@ function PersonForm() {
             <br/>
             <TextField
             label="Email Address"
-            name = "lname"
+            name = "email"
+            defaultValue = {findItem("email")}
             required
             id="margin-none"
             className={classes.fullText}
@@ -66,6 +77,7 @@ function PersonForm() {
             <TextField
             label="Phone Number"
             name = "phone"
+            defaultValue = {findItem("phone")}
             type="number"
             required
             id="margin-none"
@@ -79,6 +91,7 @@ function PersonForm() {
             <TextField
             label="House"
             type="number"
+            defaultValue = {findItem("streetNum")}
             name = "streetNum"
             id="margin-none"
             className={classes.oneQuarter}
@@ -86,6 +99,7 @@ function PersonForm() {
             /><TextField
             label="Street Name"
             name = "streetName"
+            defaultValue = {findItem("streetName")}
             id="margin-none"
             className={classes.threeQuarter}
             helperText="Enter the Street Name"
@@ -93,6 +107,7 @@ function PersonForm() {
             <TextField
             label="Suburb"
             name = "suburb"
+            defaultValue = {findItem("suburb")}
             id="margin-none"
             className={classes.textField}
             helperText="Enter the Suburb"
@@ -100,6 +115,7 @@ function PersonForm() {
             <TextField
             label="City"
             name = "city"
+            defaultValue = {findItem("city")}
             id="margin-none"
             required
             className={classes.textField}
@@ -108,6 +124,7 @@ function PersonForm() {
             <TextField
             label="Postcode"
             name = "postcode"
+            defaultValue = {findItem("postcode")}
             id="margin-none"
             required
             className={classes.fullText}
