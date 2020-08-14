@@ -1,6 +1,6 @@
 import React from 'react';
 import AutoTable from './AutoTable'
-import ReferrerForm from './Referrer'
+import ReferrerForm from './ReferrerForm'
 
 
 function Reporting() {

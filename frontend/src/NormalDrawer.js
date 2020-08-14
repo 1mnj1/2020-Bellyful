@@ -1,6 +1,5 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import { PinDropSharp } from '@material-ui/icons';
 
 
 export default function TemporaryDrawer(props) {

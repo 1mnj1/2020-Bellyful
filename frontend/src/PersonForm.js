@@ -35,7 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 function PersonForm() {
     const classes = useStyles();
-
   // Return a series of text elements to make a form
   return (
     <div>
@@ -54,18 +53,8 @@ function PersonForm() {
             id="margin-none"
             className={classes.textField}
             helperText="Enter the last name"
-            /><br/>
-            <TextField
-            label="Phone Number"
-            name = "phone"
-            required
-            id="margin-none"
-            className={classes.fullText}
-            helperText="Enter the phone number"
-            InputProps={{
-                startAdornment: <InputAdornment position="start">+64</InputAdornment>,
-              }}
-            /><br/>
+            />
+            <br/>
             <TextField
             label="Email Address"
             name = "lname"
@@ -75,7 +64,21 @@ function PersonForm() {
             helperText="Enter the Email"
             /><br/>
             <TextField
+            label="Phone Number"
+            name = "phone"
+            type="number"
+            required
+            id="margin-none"
+            className={classes.fullText}
+            helperText="Enter the phone number"
+            InputProps={{
+                startAdornment: <InputAdornment position="start">+64</InputAdornment>,
+              }}
+            /><br/>
+            
+            <TextField
             label="House"
+            type="number"
             name = "streetNum"
             id="margin-none"
             className={classes.oneQuarter}
@@ -91,7 +94,6 @@ function PersonForm() {
             label="Suburb"
             name = "suburb"
             id="margin-none"
-            required
             className={classes.textField}
             helperText="Enter the Suburb"
             />
@@ -108,7 +110,7 @@ function PersonForm() {
             name = "postcode"
             id="margin-none"
             required
-            className={classes.oneQuarter}
+            className={classes.fullText}
             style = {{Align:"left"}}
             helperText="Enter the Post Code"
             />
