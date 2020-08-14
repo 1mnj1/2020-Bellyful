@@ -81,6 +81,7 @@ export default function SwipeableTemporaryDrawer(props) {
                     {/* If the user's logged in status is greater than 2 (managers are level 3) show reporting tab */}
                     {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,pageIndex["reporting"]) : null       }
                     {(props.loggedIn>2) ? listItem("Delivery Reporting", <AssessmentIcon/>,pageIndex["deliveryreporting"]) : null       }
+                    {(props.loggedIn>2) ? listItem("Deliverer Portal", <LocalShipping/>,pageIndex["delivererportal"]) : null       }
 
                   </List>
                   <Divider />

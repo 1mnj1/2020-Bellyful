@@ -4,11 +4,9 @@ import MainAppBar from './Menu'
 import LoginTab from './Login'
 import { useCookies} from 'react-cookie'
 import Reporting from './Reporting'
-// import DelivererPortal from './DelivererPortal'
+import DelivererPortal from './DelivererPortal'
 import DeliveryReporting from './DeliveryReporting'
-
-
-import RecipientForm from './RecipientForm'
+import ReferrerForm from './Referrer'
 
 
 
@@ -22,10 +20,7 @@ function App() {
   console.log("Logged status: ",cookie)
   const resetPage = (newPage)=>(page === newPage? setPage(0) : setPage(newPage))
 
-
   
-//For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
-
   
   return (
     
@@ -39,7 +34,8 @@ function App() {
       {cookie.user_level!=0 ? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level>0} />}
       {page === pageIndex["deliveryreporting"] && cookie.user_level>2 ? <DeliveryReporting/> : null}
       {page === pageIndex["reporting"] && cookie.user_level>2 ? <Reporting/> : null}
-      <RecipientForm/>
+      {page === pageIndex["delivererportal"] && cookie.user_level>2 ? <DelivererPortal/> : null}
+      <ReferrerForm/>
     </div>
   );
 }
