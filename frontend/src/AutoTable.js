@@ -3,10 +3,7 @@ import MaterialTable from 'material-table'
 import $ from 'jquery'
 import Collapsible from 'react-collapsible';
 import './sass/main.scss'
-<<<<<<< HEAD
-=======
 // import Popup from 'reactjs-popup'
->>>>>>> master
 import NormalDrawer from './NormalDrawer'
 
 import { forwardRef } from 'react';

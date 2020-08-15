@@ -119,10 +119,10 @@ function DelivererPortal() {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     >
-                    <Tab label="New Deliveries" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
+                    <Tab label="New" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                     <Tab label="Deliveries" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
                     <Tab label="Freezers" icon={<AcUnitIcon/>} {...a11yProps(2)} />
-                    <Tab label="My Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
+                    <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
                 </div>
