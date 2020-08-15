@@ -35,7 +35,6 @@ function App() {
       {page === pageIndex["deliveryreporting"] && cookie.user_level>2 ? <DeliveryReporting/> : null}
       {page === pageIndex["reporting"] && cookie.user_level>2 ? <Reporting/> : null}
       {page === pageIndex["delivererportal"] && cookie.user_level>2 ? <DelivererPortal/> : null}
-      <ReferrerForm/>
     </div>
   );
 }
