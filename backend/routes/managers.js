@@ -104,7 +104,23 @@ router.post('/getDeliveryDetails', function(req, res, next) {
     });
 });
 
-
+router.post('/getReferrerStatus', function(req, res, next) {
+  //sql query for the data
+  reQArr = req.body["type[]"]
+  
+  const sql = "select referrer_type.RT_id, referrer_type.RT_type from referrer_type"
+  // res.send("Got here!")
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+});
 
 
 

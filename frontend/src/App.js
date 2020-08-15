@@ -6,7 +6,7 @@ import { useCookies} from 'react-cookie'
 import Reporting from './Reporting'
 import DelivererPortal from './DelivererPortal'
 import DeliveryReporting from './DeliveryReporting'
-import ReferrerForm from './Referrer'
+
 
 
 
@@ -18,7 +18,7 @@ function App() {
   const [cookie, setCookie] = useCookies(["user_level"]);
   const [page,setPage] = React.useState(0)
   console.log("Logged status: ",cookie)
-  const resetPage = (newPage)=>(page == newPage? setPage(0) : setPage(newPage))
+  const resetPage = (newPage)=>(page === newPage? setPage(0) : setPage(newPage))
 
   
   

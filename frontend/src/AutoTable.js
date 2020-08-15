@@ -3,12 +3,16 @@ import MaterialTable from 'material-table'
 import $ from 'jquery'
 import Collapsible from 'react-collapsible';
 import './sass/main.scss'
+<<<<<<< HEAD
+=======
+// import Popup from 'reactjs-popup'
+>>>>>>> master
 import NormalDrawer from './NormalDrawer'
 
 import { forwardRef } from 'react';
 import {AddBox, ArrowDownward, Check, ChevronLeft,ChevronRight,Clear,
-  DeleteOutline,Edit,FilterList,FirstPage,LastPage,Remove,SaveAlt,Search,ViewColumn, Add, Height} from '@material-ui/icons'
-import { Tooltip, Paper, Grid, Button } from '@material-ui/core';
+  DeleteOutline,Edit,FilterList,FirstPage,LastPage,Remove,SaveAlt,Search,ViewColumn,} from '@material-ui/icons'
+// import { Tooltip, Paper, Grid, Button } from '@material-ui/core';
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),

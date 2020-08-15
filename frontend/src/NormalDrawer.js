@@ -1,12 +1,12 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import { PinDropSharp } from '@material-ui/icons';
 
 
 export default function TemporaryDrawer(props) {
 
     const formStyle = {
-        "width": "250",
+        "width": "50vw",
+        "padding-left": "1vw"
         
       };
       
@@ -18,7 +18,7 @@ export default function TemporaryDrawer(props) {
       {
         <React.Fragment key={props.anchor}>
           <Drawer anchor={props.anchor} open={props.open} onClose = {props.onClose} >
-              <div style = {{width: "50vw"}}>
+              <div style = {formStyle}>
                  {props.children}
               </div>
           </Drawer>

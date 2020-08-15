@@ -1,9 +1,15 @@
 import React from 'react';
-import AutoTable from './AutoTable'
 import { makeStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
 import PersonForm from './PersonForm'
-import InputAdornment from '@material-ui/core/InputAdornment';
+import $ from 'jquery'
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+// import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
 const fullWidth = 100;
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,18 +39,21 @@ const useStyles = makeStyles((theme) => ({
 
   }));
 
-function ReferrerForm() {
+function VolunteerForm() {
     const classes = useStyles();
-
   // Return a series of text elements to make a form
   return (
     <div>
-          <PersonForm/>
-
-    </div>
       
-
+            <Typography variant="h3" component="h3" gutterBottom>
+                Create Volunteer
+            </Typography>
+            
+            <PersonForm/>
+            
+            
+    </div>
   );
 }
 
-export default ReferrerForm;
+export default VolunteerForm;

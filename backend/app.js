@@ -6,7 +6,7 @@ var logger = require('morgan');
 const bodyParser = require('body-parser');
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
-
+var freezerRouter = require('./routes/freezerManagers')
 var managerRouter = require('./routes/managers');
 var app = express();
 
@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/manager', managerRouter)
+app.use('/freezer',freezerRouter)
 // app.use('/manager', managerRouter);
 
 // catch 404 and forward to error handler
