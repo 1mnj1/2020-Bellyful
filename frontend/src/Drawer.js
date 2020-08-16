@@ -62,7 +62,7 @@ export default function SwipeableTemporaryDrawer(props) {
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-            <ListItemText primary={text} />
+            <ListItemText primary={text} onClick = {()=>props.setLogged(0)}/>
           </ListItem>
         ))}
       </List>
