@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
 function VolunteerForm() {
 
 
-  const [branchVal, setbranchVal] = React.useState(findItem(""))
+  //const [branchVal, setbranchVal] = React.useState(findItem(""))
   const [vol, setVol] = React.useState([{}]);
 
   const classes = useStyles();
@@ -61,7 +61,7 @@ function VolunteerForm() {
             
             <PersonForm setForm = {setVol} formData = {vol} />
 
-            <FormControl>
+            {/* <FormControl>
               <InputLabel id='lblBranch'>Volunteer Branch</InputLabel>
               <Select name = 'B_Val'
               label = 'Branch'
@@ -72,7 +72,7 @@ function VolunteerForm() {
               >
                 {BranchValue}
               </Select>
-            </FormControl>
+            </FormControl> */}
             
             
     </div>
