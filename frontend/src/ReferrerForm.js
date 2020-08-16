@@ -85,7 +85,7 @@ function ReferrerForm(props) {
   // Return a series of text elements to make a form
   return (
     <div>
-          <form className = "referrerForm" onChange = {saveForm}>
+          <form className = "referrerForm" onChange = {saveForm} style = {props.class}>
             <Typography variant="h3" component="h3" gutterBottom>
                 Create Referral
             </Typography>

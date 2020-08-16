@@ -15,12 +15,19 @@ const useStyles = makeStyles({
       position: 'relative',
       
     },
+    form: {
+        height: '90vh'
+    }
   });
 
 
 function CreateDeliveryNavigation() {
 
-  
+  const formstyle = {
+    "overflow-x": "hidden",
+    "height": "95vh",
+    "overflow-y": "scroll",
+  }
     //Used for the Navigation Drawer
     const classes = useStyles();
     const [value, setValue] = React.useState('Referrer');
@@ -45,8 +52,8 @@ function CreateDeliveryNavigation() {
 
     return (
         <div>
-        {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {ref} currentPage = {currPage}/> : 
-        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} /> : null}
+        {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {ref} currentPage = {currPage} class = {formstyle}/> : 
+        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} class = {formstyle}/> : null}
     
         {DelivererNavigation}
         </div>

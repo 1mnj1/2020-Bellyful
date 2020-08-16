@@ -67,7 +67,7 @@ function RecipientForm(props) {
   
   return (
     <div>
-        <form className = "recipientForm" onChange = {saveForm}>
+        <form className = "recipientForm" onChange = {saveForm} style = {props.class}>
             <Typography variant="h3" component="h3" gutterBottom>
                 Create Recipient
             </Typography>
