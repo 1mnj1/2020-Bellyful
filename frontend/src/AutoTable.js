@@ -43,8 +43,7 @@ export default function AutoTable(props){
 
   const [state, setState] = React.useState({
     columns: [
-      { },
-      
+      {},
     ],
     data: [
       {},
