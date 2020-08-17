@@ -56,7 +56,7 @@ class UnassignedDeliveries extends React.Component {
     componentDidMount() {
         this.setState({loading: true})
 
-        var url = "http://"+window.location.hostname+":3000/manager/getVolunteers";
+        var url = "http://"+window.location.hostname+":3000/manager/getDeliveries";
         console.log(url)
         fetch(url)
         .then((response)=>response.json())
