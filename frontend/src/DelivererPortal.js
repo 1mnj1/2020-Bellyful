@@ -15,6 +15,7 @@ import AcUnitIcon from '@material-ui/icons/AcUnit'
 import PersonIcon from '@material-ui/icons/Person'
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
+import UnassignedDeliveries from './UnassignedDeliveries';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -101,7 +102,13 @@ function DelivererPortal() {
                         Item One
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        Item Two
+                        <div>
+                            <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveries"} form = {{"type": ["To Assign",]}}>
+          
+                            </UnassignedDeliveries>
+                        </div>
+                        Item Two.
+                        This is the delivery page.
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
                         Item Three
