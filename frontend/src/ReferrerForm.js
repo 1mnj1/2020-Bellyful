@@ -38,7 +38,12 @@ const useStyles = makeStyles((theme) => ({
     }, 
 
   }));
-
+  function getAddressID( dict, success ){
+    $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
+  }
+  function getPersonID( dict, success ){
+    $.post("http://"+window.location.hostname+":3000/delivery/getPersonId",dict,success)
+  }
 function ReferrerForm(props) {
     
     const getData = 1
@@ -50,15 +55,17 @@ function ReferrerForm(props) {
       }
       return null
     }
+    console.log(props.formData)
     const [RefType, setRT] = React.useState(null);
     const [selfRef, handleSelfRef] = React.useState((props.formData[0].name == "selfRef"));
+    const [refTypeVal, setrefTypeVal] = React.useState(findItem("RefType"));
     React.useEffect(() => {
     
         $.post( "http://"+window.location.hostname+":3000/manager/getReferrerStatus",  function( returnable ) {
           if(returnable === null) return 
           if (returnable === undefined) return 
           if(returnable.length === 0) return 
-          const data = returnable.map(row=>{var vals = Object.values(row); return (<MenuItem key = {vals[0]} value={vals[0]}>{vals[1]}</MenuItem>)  })
+          const data = returnable.map(row=>{var vals = Object.values(row); return (<MenuItem key = {vals[0]} value={vals[0]} >{vals[1]}</MenuItem>)  })
 
             
 
@@ -70,15 +77,24 @@ function ReferrerForm(props) {
         var formData = $("form.referrerForm").serializeArray()
         if(formData.length == 0){
           formData = [{}]
-        }
-        props.setForm(formData)
+          props.setForm(formData)
+        } 
+        getAddressID(formData, (add_id)=>{
+          formData.push({"name":"address_id", "value" : add_id})
+          getPersonID( formData, (person_id)=> {
+            formData.push({"name":"person_id", "value" : person_id})
+            props.setForm(formData)
+          })
+          
+        })
         
       
       };
 
-    const [refTypeVal, setrefTypeVal] = React.useState(findItem("RefType"));
+    
     
     const handleChange = (event) => {
+      console.log("Changing target: ",event.target.value)
         setrefTypeVal(event.target.value);
     };
     
@@ -109,7 +125,7 @@ function ReferrerForm(props) {
                 label="Referrer Type"
                 labelId="RefType"
                 id="RT"
-                value={refTypeVal}
+                value = {refTypeVal}
                 onChange={handleChange}
                 >
                 {RefType}

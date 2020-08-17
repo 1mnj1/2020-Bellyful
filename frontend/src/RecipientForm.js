@@ -38,7 +38,12 @@ const useStyles = makeStyles((theme) => ({
     }, 
 
   }));
-
+  function getAddressID( dict, success ){
+    $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
+  }
+  function getPersonID( dict, success ){
+    $.post("http://"+window.location.hostname+":3000/delivery/getPersonId",dict,success)
+  }
 function RecipientForm(props) {
   const findItem= (searchItem)=>{
     for (var i = 0; i <props.formData.length; ++i){
@@ -56,11 +61,19 @@ function RecipientForm(props) {
   });
   // Return a series of text elements to make a form
   var saveForm = ()=> {
-    var formData = $("form.recipientForm").serializeArray()
+    var formData = $("form.referrerForm").serializeArray()
     if(formData.length == 0){
       formData = [{}]
-    }
-    props.setForm(formData)
+      props.setForm(formData)
+    } 
+    getAddressID(formData, (add_id)=>{
+      formData.push({"name":"address_id", "value" : add_id})
+      getPersonID( formData, (person_id)=> {
+        formData.push({"name":"person_id", "value" : person_id})
+        props.setForm(formData)
+      })
+      
+    })
     
   
   };

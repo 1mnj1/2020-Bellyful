@@ -7,9 +7,9 @@ import AcUnitIcon from '@material-ui/icons/AcUnit'
 import PersonIcon from '@material-ui/icons/Person'
 import RefferrerForm from './ReferrerForm'
 import RecipientForm from './RecipientForm'
-
+import DeliveryForm from './DeliveryForm'
 import { makeStyles } from '@material-ui/core/styles';
-
+import $ from 'jquery'
 const useStyles = makeStyles({
     root: {
       position: 'relative',
@@ -19,8 +19,19 @@ const useStyles = makeStyles({
         height: '90vh'
     }
   });
+ //Create a function to handle addresses
+function getAddressID( dict, success ){
+  // Gets parsed a dictionary with values
+    // {name: "streetNum", value: ""}
+    // {name: "streetName", value: ""}
+    // {name: "suburb", value: "asdf"}
+    // {name: "city", value: ""}
+    // {name: "postcode", value: ""}
 
-
+  var id = -1;
+  const SetID = (num)=>{return num}
+  $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
+}
 function CreateDeliveryNavigation() {
 
   const formstyle = {
@@ -39,6 +50,7 @@ function CreateDeliveryNavigation() {
     const [delivery, setDelivery] = React.useState([{}]);
     const [currPage, setPage] = React.useState(1)
 
+    const submit = ()=>getAddressID(ref, (returnable)=>console.log(returnable))
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
@@ -50,10 +62,15 @@ function CreateDeliveryNavigation() {
         </BottomNavigation>
     )
 
+
+
+
+
     return (
         <div>
         {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {ref} currentPage = {currPage} class = {formstyle}/> : 
-        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} class = {formstyle}/> : null}
+        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} class = {formstyle}/> : 
+        <DeliveryForm submit = {submit} class = {formstyle}/>}
     
         {DelivererNavigation}
         </div>
