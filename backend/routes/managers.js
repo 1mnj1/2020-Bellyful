@@ -29,6 +29,7 @@ router.post('/getVolunteers', function(req, res, next) {
         }
     });
 });
+
 router.post('/getDeliveries', function(req, res, next) {
   //sql query for the data
   sql = "select concat(person1.person_fname,' ',person1.person_lname) as 'Volunteer',concat(person2.person_fname,' ',person2.person_lname) as 'Recipient', concat(person3.person_fname,' ',person3.person_lname) as 'Referrer',delivery_status.stat_name as 'Status', mealC.meal_count as 'Meals'\
@@ -123,6 +124,28 @@ router.post('/getReferrerStatus', function(req, res, next) {
 });
 
 
+
+
+router.post('/getUnassignedDeliveries', function(req, res, next) {
+  //sql query for the data
+  sql = "select concat(person1.person_fname,' ',person1.person_lname) as 'Volunteer',concat(person2.person_fname,' ',person2.person_lname) as 'Recipient', concat(person3.person_fname,' ',person3.person_lname) as 'Referrer',delivery_status.stat_name as 'Status', mealC.meal_count as 'Meals'\
+  from delivery, person as person1, person as person2, person as person3, delivery_status,(SELECT COUNT(meal.delivery_id) AS meal_count FROM meal, delivery where meal.delivery_id = delivery.delivery_id) as mealC\
+  where delivery_status = 1\
+  AND delivery_status.stat_id = delivery.delivery_status\
+  AND person2.person_id = delivery.recipient_id\
+  AND person3.person_id = delivery.ref_id"
+  // res.send("Got here!")
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+});
 
 
 

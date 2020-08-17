@@ -102,13 +102,14 @@ function DelivererPortal() {
                         Item One
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                        <div>
+
+                            Assigned Deliveries
                             <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveries"} form = {{"type": ["To Assign",]}}>
-          
                             </UnassignedDeliveries>
-                        </div>
-                        Item Two.
-                        This is the delivery page.
+                            Unassigned Deliveries
+                            <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries"} form = {{"type": ["To Assign",]}}>
+                            </UnassignedDeliveries>
+
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
                         Item Three

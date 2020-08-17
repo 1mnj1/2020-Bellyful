@@ -22,9 +22,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function UnassignedDeliveries (props) {
-    // Auto table is passed a series of props: url and children
-    //url is the url for the post eg localhost:3001/managers/getVolunteers
-    //children is text - MAKE SURE IT IS NOT ANOTHER RENDERED COMPONENT
 
     const [state, setState] = React.useState({
         columns: [ {}, ],
@@ -37,6 +34,7 @@ export default function UnassignedDeliveries (props) {
         return columns
     }
     
+    console.log("before the get data request for deliveries")
     console.log(props.url)
 
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
@@ -50,7 +48,9 @@ export default function UnassignedDeliveries (props) {
         if(returnable.length === 0) return 
         var fields = Object.keys(returnable[0])
         const cols = $(setColumns(fields))
+        console.log("before logging the columns")
         console.log("VolunteersCols = ",cols)
+        console.log("before logging the objects")
         console.log("VolunteersObj = ",returnable)
         
         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
