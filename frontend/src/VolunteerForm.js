@@ -10,6 +10,9 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+
+
+
 const fullWidth = 100;
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -39,8 +42,15 @@ const useStyles = makeStyles((theme) => ({
 
   }));
 
+
+
 function VolunteerForm() {
-    const classes = useStyles();
+
+
+  //const [branchVal, setbranchVal] = React.useState(findItem(""))
+  const [vol, setVol] = React.useState([{}]);
+
+  const classes = useStyles();
   // Return a series of text elements to make a form
   return (
     <div>
@@ -49,7 +59,20 @@ function VolunteerForm() {
                 Create Volunteer
             </Typography>
             
-            <PersonForm/>
+            <PersonForm setForm = {setVol} formData = {vol} />
+
+            {/* <FormControl>
+              <InputLabel id='lblBranch'>Volunteer Branch</InputLabel>
+              <Select name = 'B_Val'
+              label = 'Branch'
+              labelId = 'B_Val'
+              id = 'BV'
+              value = {branchVal}
+              onChange = {handleChange}
+              >
+                {BranchValue}
+              </Select>
+            </FormControl> */}
             
             
     </div>
