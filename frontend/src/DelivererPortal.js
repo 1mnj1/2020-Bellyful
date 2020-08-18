@@ -16,6 +16,7 @@ import PersonIcon from '@material-ui/icons/Person'
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
+import FreezerLog from './FreezerLog';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -102,6 +103,7 @@ function DelivererPortal() {
                          {/* Assigned Deliveries */}
                          <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
                         </UnassignedDeliveries>
+                      
                         {/* Unassigned Deliveries */}
                         {/* <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries"}>
                         </UnassignedDeliveries> */}
@@ -118,7 +120,9 @@ function DelivererPortal() {
 
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        Item Three
+                        <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
+
+                        </FreezerLog>
                     </TabPanel>
                     <TabPanel value={value} index={3} dir={theme.direction}>
                         Item Three
