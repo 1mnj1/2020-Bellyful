@@ -1,8 +1,8 @@
 import React, {Text} from "react"
 import $ from 'jquery'
 
-import {Alert, Button} from "react-native"
-
+import Alert from '@material-ui/lab/Alert';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -15,8 +15,8 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
-    maxWidth: 400,
+    width: "100vw",
+    
     // textAlign: "center",
     backgroundColor: theme.palette.background.paper,
   },
@@ -77,21 +77,20 @@ export default function UnassignedDeliveries (props) {
         console.log('fields from object.keys', fields)
         console.log('values from object.values', values)
 
-        const cols = $(setColumns(fields))
         console.log("before logging the columns for props", props.title)
-        console.log("columns = ",cols)
+        console.log("columns = ",fields)
         console.log("before logging the objects for props", props.title)
         console.log("deliveries = ",returnable)
         
         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
         // $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
-        $(setState(state => ({ ...state,columns:cols.toArray(), data : values})))
+        $(setState(state => ({ ...state,columns:fields, data : returnable})))
         // this.props.setLogged(true)
     });
     }, [props.url,props.title]);
 
 
-
+    
 
 
 
@@ -125,75 +124,76 @@ export default function UnassignedDeliveries (props) {
     //   )
 
     // });
-  
+    const createList = state.data.map((row) => {
+      const value = row[state.columns[0]]
+      console.log("Row: ",row, "Value: ", value)
+      const labelId = `checkbox-list-label-${value}`;
+
+      return (
+        <div>
+          <div>
+            <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
+              <ListItemIcon>
+                <Checkbox
+                  edge="start"
+                  checked={checked.indexOf(value) !== -1}
+                  tabIndex={-1}
+                  disableRipple
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
+              </ListItemIcon>
+             
+              <ListItemText
+                primary={row[state.columns[1]]}
+                secondary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      color="textPrimary"
+                    >
+                      {row[state.columns[2]]}
+                    </Typography>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      color="textPrimary"
+                      style={{whiteSpace: 'pre-line'}}
+                    >
+                      <br/>{row[state.columns[3]]}
+                    </Typography>
+                    <Typography
+                      component="span"
+                      variant="body2"
+                      className={classes.inline}
+                      style={{whiteSpace: 'pre-line'}} 
+                    >
+                    {/* the style property allows the use of the newline character */}
+                    <br/> {row[state.columns[4]]} {row[state.columns[4]]>1? "Meals": "Meal"}
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
+            </ListItem>
+          </div>
+          
+        </div>
+      );
+    })
     return (
-      <div>
+      <div style = {{overflowX: "hidden"}}>
         <h2>New Deliveries</h2> 
       <List className={classes.root}>
         {/* {[0, 1, 2, 3].map((value) => { */}
-        {state.columns.map((value) => {
-          const labelId = `checkbox-list-label-${value}`;
-  
-          return (
-            <div>
-              <div>
-                <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checked.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </ListItemIcon>
-                 
-                  <ListItemText
-                    primary="Michael Hill"
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                        >
-                          123 Street, Albany
-                        </Typography>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          color="textPrimary"
-                          style={{whiteSpace: 'pre-line'}}
-                        >
-                          {'\n'} 021123456789
-                        </Typography>
-                        <Typography
-                          component="span"
-                          variant="body2"
-                          className={classes.inline}
-                          style={{whiteSpace: 'pre-line'}} 
-                        >
-                        {/* the style property allows the use of the newline character */}
-                        {'\n'} 2 Meals
-                        </Typography>
-                      </React.Fragment>
-                    }
-                  />
-                </ListItem>
-              </div>
-              
-            </div>
-          );
-        })}
+        {createList}
       </List>
 
       <Button
-        title="I can do this!"
-        color="rgb(225, 127, 188)"
-        onPress={() => Alert.alert('Thank you Joan')}
-      />
+        // color="rgb(225, 127, 188)"
+        onClick={() => <Alert severity="success">Thank you Joan</Alert>}
+      >I can do this!</Button>
 
       </div>
     );

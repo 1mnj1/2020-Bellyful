@@ -99,12 +99,8 @@ function DelivererPortal() {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                        Item One
-                    </TabPanel>
-                    <TabPanel value={value} index={1} dir={theme.direction}>
-
-                        {/* Assigned Deliveries */}
-                        <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveries"}>
+                         {/* Assigned Deliveries */}
+                         <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
                         </UnassignedDeliveries>
                         {/* Unassigned Deliveries */}
                         {/* <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries"}>
@@ -115,6 +111,10 @@ function DelivererPortal() {
                         Test Unassigned Deliveries
                         <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/testUnassignedDeliveries"} form = {{"type": ["To Assign",]}}>
                         </UnassignedDeliveries> */}
+                    </TabPanel>
+                    <TabPanel value={value} index={1} dir={theme.direction}>
+
+                       item Two
 
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
