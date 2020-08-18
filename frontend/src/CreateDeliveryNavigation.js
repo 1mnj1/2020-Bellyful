@@ -22,17 +22,20 @@ const useStyles = makeStyles({
  //Create a function to handle addresses
 function getAddressID( dict, success ){
   // Gets parsed a dictionary with values
-    // {name: "streetNum", value: ""}
-    // {name: "streetName", value: ""}
-    // {name: "suburb", value: "asdf"}
-    // {name: "city", value: ""}
-    // {name: "postcode", value: ""}
-
-  var id = -1;
-  const SetID = (num)=>{return num}
   $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
 }
-function CreateDeliveryNavigation() {
+function submitForms(ref,rec){
+
+  if(ref[0].name != "selfRef"){
+    $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",ref,(success)=>{
+      console.log(success)
+    })
+  }
+ $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(success)=>{
+   console.log(success)
+ })
+}
+function CreateDeliveryNavigation(props) {
 
   const formstyle = {
     "overflow-x": "hidden",
@@ -50,7 +53,7 @@ function CreateDeliveryNavigation() {
     const [delivery, setDelivery] = React.useState([{}]);
     const [currPage, setPage] = React.useState(1)
 
-    const submit = ()=>getAddressID(ref, (returnable)=>console.log(returnable))
+    const submit = ()=>{submitForms(ref,rec);}//  props.closeSelf()}
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 

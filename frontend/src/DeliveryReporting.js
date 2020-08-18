@@ -54,8 +54,8 @@ function DeliveryReporting() {
             <AddIcon className = {classes.extendedIcon} /> Add Delivery
           </Fab>
           {modalState.open ? (
-          <NormalDrawer anchor = 'right' closeOnDocumentClick onClose = {closeModal} open = {modalState.open}>
-            <CreateDeliveryNavigation/>
+          <NormalDrawer anchor = 'right' closeOnDocumentClick onClose = {closeModal} open = {modalState.open}  >
+            <CreateDeliveryNavigation closeSelf = {closeModal} />
           </NormalDrawer>
           ) :null 
         }

@@ -61,15 +61,19 @@ function RecipientForm(props) {
   });
   // Return a series of text elements to make a form
   var saveForm = ()=> {
-    var formData = $("form.referrerForm").serializeArray()
+    var formData = $("form.recipientForm").serializeArray()
     if(formData.length == 0){
       formData = [{}]
       props.setForm(formData)
+      return
     } 
+    var dogs = findItem("recDogs")
     getAddressID(formData, (add_id)=>{
       formData.push({"name":"address_id", "value" : add_id})
       getPersonID( formData, (person_id)=> {
         formData.push({"name":"person_id", "value" : person_id})
+        formData.push({"name":"dogs", "value" : dogs==null?0:1} )
+        console.log(formData)
         props.setForm(formData)
       })
       
