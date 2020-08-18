@@ -1,0 +1,285 @@
+var express = require('express');
+var router = express.Router();
+mysql = require('mysql')
+mysqlDetails = require('./mysqlDetails')
+con = mysqlDetails.con
+
+router.post('/getPersonId', function(req, res, next) {
+    sql = 'select person.person_id as id\
+    from person\
+    WHERE person.person_email LIKE ?\
+    OR person.person_phone like ? AND person.person_email LIKE ? AND person.person_fname LIKE ?\
+    OR person.person_phone like ? AND person.person_email LIKE ? AND person.person_lname LIKE ?'
+//     {name: "fname", value: "Math"}
+// 1: {name: "lname", value: ""}
+// 2: {name: "email", value: ""}
+// 3: {name: "phone", value: ""}
+    const personDetails = [
+        req.body.email,
+        req.body.phone,
+        req.body.email,
+        req.body.fname,
+        req.body.phone,
+        req.body.email,
+        req.body.lname
+    ]
+
+    // res.send("Got here!")
+    con.query(sql,personDetails, function (err, result) {
+          if (err) throw err;
+          if(result.length == 0){
+            res.send("-1")
+          } else {
+            console.log(String(result[0].id))
+            res.send(String(result[0].id))
+          }
+      });
+});
+router.post('/getAddress', function(req, res, next) {
+    console.log(req.body)
+    const addressDetails = [
+        req.body.streetNum,
+        req.body.streetName,
+        req.body.suburb,
+        req.body.city,
+        req.body.postcode
+      ]
+    sql = 'select address.add_id from address\
+    where address.add_num like ?\
+    AND address.add_street like ?\
+    AND address.add_suburb like ?\
+    AND address.add_city like ?\
+    AND address.add_postcode like ?\
+    '
+    
+    // res.send("Got here!")
+    con.query(sql, addressDetails,function (err, result) {
+          if (err) throw err;
+          
+          if(result.length == 0){
+            res.send("-1")
+          } else {
+            res.send(String(result[0].add_id))
+          }
+      });
+});
+function findAddress(req,success){
+  var address_ID = req.body.address_id
+  
+  if(req.body.address_id == -1){
+    
+    sql = "INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_city`, `add_postcode`) VALUES (NULL, ?, ?, ?, ?, ?)"
+
+    //     {name: "fname", value: "Math"}
+    // 1: {name: "lname", value: ""}
+    // 2: {name: "email", value: ""}
+    // 3: {name: "phone", value: ""}
+    const addressDetails = [
+        req.body.streetNum,
+        req.body.streetName,
+        req.body.suburb,
+        req.body.city,
+        req.body.postcode
+
+    ]
+
+    // res.send("Got here!")
+    con.query(sql,addressDetails, function (err, result) {
+          if (err) throw err;
+          console.log("Created address")
+          
+      });
+    sql = 'select address.add_id from address\
+    where address.add_num like ?\
+    AND address.add_street like ?\
+    AND address.add_suburb like ?\
+    AND address.add_city like ?\
+    AND address.add_postcode like ?\
+    '
+     con.query(sql, addressDetails,function (err, result) {
+      if (err) throw err;
+      address_ID = String(result[0].add_id)
+      success(address_ID)
+      
+    });
+  } else {
+    success(address_ID)
+  }
+}
+function findPerson(req,add_id, success){
+  var person_ID = req.body.person_id 
+  if(req.body.person_id == -1){
+    sql = "INSERT INTO `person` (`person_id`, `person_phone`, `person_email`, `person_fname`, `person_lname`, `person_pass`, `person_user_level`, `add_id`) VALUES (NULL, ?, ?, ?, ?, 'P@ssword', '0', ?)"
+
+    //     {name: "fname", value: "Math"}
+    // 1: {name: "lname", value: ""}
+    // 2: {name: "email", value: ""}
+    // 3: {name: "phone", value: ""}
+    const addressDetails = [
+        req.body.phone,
+        req.body.email,
+        req.body.fname,
+        req.body.lname,
+        add_id
+
+    ]
+
+    // res.send("Got here!")
+    con.query(sql,addressDetails, function (err, result) {
+          if (err) throw err;
+          console.log("Created a person!\n");
+          
+      });
+      sql = 'select person.person_id as id\
+      from person\
+      where  person.person_phone like ?  AND person.person_email LIKE ? AND person.person_fname = ? AND person.person_lname = ?'
+     con.query(sql, addressDetails,function (err, result) {
+      if (err) throw err;
+      
+      person_ID = String(result[0].id)
+      success(person_ID)
+      
+    });
+  } else {
+    sql = "UPDATE `person` SET `person_phone` = ?, `person_email` = ?, `person_fname` = ?,\
+     `person_lname` = ? ,  `add_id` = ? WHERE `person`.`person_id` = ?"
+    //     {name: "fname", value: "Math"}
+    // 1: {name: "lname", value: ""}
+    // 2: {name: "email", value: ""}
+    // 3: {name: "phone", value: ""}
+    const addressDetails = [
+        req.body.phone,
+        req.body.email,
+        req.body.fname,
+        req.body.lname,
+        add_id,
+        person_ID
+
+
+    ]
+
+    // res.send("Got here!")
+    con.query(sql,addressDetails, function (err, result) {
+          if (err) throw err;
+          console.log("Updated Person!\n");
+          
+      });
+      success(person_ID)
+  }
+  
+}
+router.post('/submitRecipient', function(req, res, next) {
+  findAddress(req, (add_id)=>{
+    findPerson(req,add_id,(person_id)=>{
+      sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
+      con.query(sql,[person_id], function (err, result) {
+        if (err) throw err;
+        console.log("Checking if recipient exists!\n");
+        var sql = ""
+        var referrerDetails = ""
+        if(result.length > 0){
+          //if the recipient exists, update them.
+          sql = "UPDATE `recipient` SET  `rec_dogs` = ?, `rec_children_under_5` = ?, `rec_children_between_5_10` = ?,\
+           `rec_children_between_11_17` = ?, `rec_adults` = ?, `rec_dietary_req` = ?, `rec_allergies` = ? \
+           WHERE `recipient`.`person_id` = ?"
+           referrerDetails = [
+            req.body.dogs,
+            req.body.child_under_5,
+            req.body.child_between_5_10,
+            req.body.child_between_11_17,
+            req.body.adults,
+            req.body.dietaryReq,
+            req.body.allergyNotes,
+            person_id
+          ]
+        } else {
+          //if the recipient doesnt exist insert
+          sql = "INSERT INTO `recipient` (`person_id`, `rec_dogs`, `rec_children_under_5`, `rec_children_between_5_10`,\
+          `rec_children_between_11_17`, `rec_adults`, `rec_dietary_req`, `rec_allergies`)\
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+          referrerDetails = [
+            person_id,
+            req.body.dogs,
+            req.body.child_under_5,
+            req.body.child_between_5_10,
+            req.body.child_between_11_17,
+            req.body.adults,
+            req.body.dietaryReq,
+            req.body.allergyNotes,
+          ]
+        }
+          
+        // res.send("Got here!")
+        con.query(sql,referrerDetails, function (err, result) {
+              if (err) throw err;
+              console.log("Created a recipient!\n");
+              
+          });
+          sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
+          con.query(sql,[person_id], function (err, result) {
+            if (err) throw err;
+            res.send(String(result[0].person_id))
+          })
+          
+
+                
+        });
+    })
+  })
+});
+
+router.post('/submitReferrer', function(req, res, next) {
+  
+  findAddress(req, (add_id)=>{
+    findPerson(req,add_id,(person_id)=>{
+      sql = 'SELECT  referrer.person_id from referrer where referrer.person_id = ?'
+      con.query(sql,[person_id], function (err, result) {
+        if (err) throw err;
+        console.log("Checking if Referrer exists!\n");
+        var sql = ""
+        var referrerDetails = ""
+        if(result.length > 0){
+          //if the recipient exists, update them.
+          sql = "UPDATE `referrer` SET `RT_type` = ?, \
+          `notes` = ?, `organisation` = ?\
+          WHERE `referrer`.`person_id` = 1"
+           referrerDetails = [
+            req.body.RefType,
+            req.body.refNotes,
+            req.body.refOrg,
+            person_id
+          ]
+        } else {
+          //if the recipient doesnt exist insert
+          sql = "INSERT INTO `referrer` (`person_id`, `RT_type`, `notes`, `organisation`) VALUES (?, ?, ?, ?)"
+          referrerDetails = [
+            person_id,
+            req.body.RefType,
+            req.body.refNotes,
+            req.body.refOrg
+          ]
+        }
+          
+        // res.send("Got here!")
+        con.query(sql,referrerDetails, function (err, result) {
+              if (err) throw err;
+              console.log("Created a referrer!\n");
+              
+          });
+          sql = 'SELECT  referrer.person_id as id from referrer where referrer.person_id = ?'
+          con.query(sql,[person_id], function (err, result) {
+            if (err) throw err;
+            res.send(String(result[0].id))
+          })
+          
+
+                
+        });
+    })
+  })
+});
+
+
+
+
+module.exports = router;

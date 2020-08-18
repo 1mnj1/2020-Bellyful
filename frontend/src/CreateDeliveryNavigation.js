@@ -7,9 +7,9 @@ import AcUnitIcon from '@material-ui/icons/AcUnit'
 import PersonIcon from '@material-ui/icons/Person'
 import RefferrerForm from './ReferrerForm'
 import RecipientForm from './RecipientForm'
-
+import DeliveryForm from './DeliveryForm'
 import { makeStyles } from '@material-ui/core/styles';
-
+import $ from 'jquery'
 const useStyles = makeStyles({
     root: {
       position: 'relative',
@@ -19,9 +19,23 @@ const useStyles = makeStyles({
         height: '90vh'
     }
   });
+ //Create a function to handle addresses
+function getAddressID( dict, success ){
+  // Gets parsed a dictionary with values
+  $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
+}
+function submitForms(ref,rec){
 
-
-function CreateDeliveryNavigation() {
+  if(ref[0].name != "selfRef"){
+    $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",ref,(success)=>{
+      console.log(success)
+    })
+  }
+ $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(success)=>{
+   console.log(success)
+ })
+}
+function CreateDeliveryNavigation(props) {
 
   const formstyle = {
     "overflow-x": "hidden",
@@ -39,6 +53,7 @@ function CreateDeliveryNavigation() {
     const [delivery, setDelivery] = React.useState([{}]);
     const [currPage, setPage] = React.useState(1)
 
+    const submit = ()=>{submitForms(ref,rec);}//  props.closeSelf()}
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
@@ -50,10 +65,15 @@ function CreateDeliveryNavigation() {
         </BottomNavigation>
     )
 
+
+
+
+
     return (
         <div>
         {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {ref} currentPage = {currPage} class = {formstyle}/> : 
-        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} class = {formstyle}/> : null}
+        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} class = {formstyle}/> : 
+        <DeliveryForm submit = {submit} class = {formstyle}/>}
     
         {DelivererNavigation}
         </div>
