@@ -1,6 +1,8 @@
 import React, {Text} from "react"
 import $ from 'jquery'
 
+import {Alert, Button} from "react-native"
+
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -9,6 +11,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +34,29 @@ export default function UnassignedDeliveries (props) {
         var columns = []; 
         colNames.forEach(element => columns.push({title: element, field: element}));
         return columns
+    }
+
+    function onClickAlert() {
+      // TODO: Add in functionality for displaying the logged in user name
+      // Alert.alert(
+      //   "Alert Title",
+      //   "My Alert Msg",
+      //   [
+      //     {
+      //       text: "Cancel",
+      //       onPress: () => console.log("Cancel Pressed"),
+      //       style: "cancel"
+      //     },
+      //     { text: "OK", onPress: () => console.log("OK Pressed") }
+      //   ],
+      //   { cancelable: false }
+      // );
+      
+      // return (
+      //   // Cannot resolve alert? tried to install but wont install
+      //   // <Alert> This is an alert!</Alert>
+        
+      // )
     }
     
     console.log("before the get data request for deliveries")
@@ -94,7 +120,7 @@ export default function UnassignedDeliveries (props) {
     //     <ListItemText 
     //     // id={labelId} 
     //     primary={item.Recipient}
-    //     secondar={item.Meals} 
+    //     secondary={item.Meals} 
     //     />
     //   )
 
@@ -111,57 +137,6 @@ export default function UnassignedDeliveries (props) {
           return (
             <div>
               <div>
-                
-                <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checked.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </ListItemIcon>
-                  {/* {contents} */}
-                  {/* <ListItemText id={labelId} primary={state.data} secondary="secondline text"/> */}
-                  {/* the following line breaks the page */}
-                  <ListItemText 
-                    id={labelId} 
-                    primary={'Julia Jones'}
-                    // primary={state.columns.Recipient}
-                    secondary={labelId}
-                  />
-
-                  {/* title= {null}
-            columns={state.columns}
-            data={state.data}
-            icons={tableIcons} */}
-
-                  {/* <ListItemSecondaryAction>
-                    <IconButton edge="end" aria-label="comments">
-                      <CommentIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction> */}
-                </ListItem>
-
-                <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
-                  <ListItemIcon>
-                    <Checkbox
-                      edge="start"
-                      checked={checked.indexOf(value) !== -1}
-                      tabIndex={-1}
-                      disableRipple
-                      inputProps={{ 'aria-labelledby': labelId }}
-                    />
-                  </ListItemIcon>
-        
-                  <ListItemText 
-                    id={labelId} 
-                    primary={'Megan Johnson'}
-                    secondary={'32 Clemows Lane, Albany'}
-                  />
-
-                </ListItem>
                 <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
                   <ListItemIcon>
                     <Checkbox
@@ -213,144 +188,14 @@ export default function UnassignedDeliveries (props) {
           );
         })}
       </List>
-      <button>I can do this!</button>
+
+      <Button
+        title="I can do this!"
+        color="rgb(225, 127, 188)"
+        onPress={() => Alert.alert('Thank you Joan')}
+      />
+
       </div>
     );
-
-
-
-
-
-    // return(
-
-    //     <>
-    //     <Collapsible trigger = {props.title}
-    //     transitionTime={100} 
-    //     triggerClassName = 'CustomTriggerCSS--open'
-    //     triggerOpenedClassName = 'CustomTriggerCSS'>
-    //         <MaterialTable
-    //         title= {null}
-    //         columns={state.columns}
-    //         data={state.data}
-    //         icons={tableIcons}
-    //         // detailPanel = {rowData => {
-    //         //   return(
-    //         //     <Paper>
-    //         //       Hello World
-    //         //     </Paper>
-    //         //   )
-    //         // }}
-    //         actions = {props.showAdder?[  //Add actions to rows and to toolbar
-    //           {
-    //             icon: () => <AddBox/>,
-    //             tooltip: 'Add Volunteer',
-    //             isFreeAction: true,   //This means it will be row independent and hover in the toolbar
-    //             //When clicked, Open a drawer to display a form to add a volunteer
-    //             onClick : openModal
-    //           }
-    //         ] : null}
-    //       />
-    //       </Collapsible>
-    //       {props.showAdder?(
-    //       <NormalDrawer anchor = 'right' closeOnDocumentClick onClose = {closeModal} open = {modalState.open}>
-    //         {props.children}
-    //       </NormalDrawer>) :null }
-    //     </>
-    //     )
-
-}
-
-// export default UnassignedDeliveries
-
-
-// class UnassignedDeliveries extends React.Component {
-    
-//     constructor() {
-//         super();
-//         this.state = {
-//             loading: false,
-//             deliveryData: {},
-//         }
-//     }
-
-//     componentDidMount() {
-//         this.setState({loading: true})
-
-//         var url = "http://"+window.location.hostname+":3000/manager/getDeliveries";
-//         console.log(url)
-//         fetch(url)
-//         .then((response)=>response.json())
-//         .then((data)=> {
-//             this.setState({
-//                 loading: false,
-//                 deliveryData: data
-//             });
-//         });
-//     }
-
-   
-
-    
-    
-    // render() {
-    //     const text = this.state.loading ? "loading..." : this.state.deliveryData.email
-    //     return (
-    //         <div>
-    //             <p>{text}</p>
-    //         </div>
-    //     );
-    // }
-
-// }
-
-// export default UnassignedDeliveries
-
-
-
-
-// export default function CheckboxList() {
-//   const classes = useStyles();
-//   const [checked, setChecked] = React.useState([0]);
-
-//   const handleToggle = (value) => () => {
-//     const currentIndex = checked.indexOf(value);
-//     const newChecked = [...checked];
-
-//     if (currentIndex === -1) {
-//       newChecked.push(value);
-//     } else {
-//       newChecked.splice(currentIndex, 1);
-//     }
-
-//     setChecked(newChecked);
-//   };
-
-//   return (
-//     <List className={classes.root}>
-//       {[0, 1, 2, 3].map((value) => {
-//         const labelId = `checkbox-list-label-${value}`;
-
-//         return (
-//           <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
-//             <ListItemIcon>
-//               <Checkbox
-//                 edge="start"
-//                 checked={checked.indexOf(value) !== -1}
-//                 tabIndex={-1}
-//                 disableRipple
-//                 inputProps={{ 'aria-labelledby': labelId }}
-//               />
-//             </ListItemIcon>
-//             <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
-//             <ListItemSecondaryAction>
-//               <IconButton edge="end" aria-label="comments">
-//                 <CommentIcon />
-//               </IconButton>
-//             </ListItemSecondaryAction>
-//           </ListItem>
-//         );
-//       })}
-//     </List>
-//   );›
-// }
+      }
 

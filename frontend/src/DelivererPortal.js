@@ -103,12 +103,18 @@ function DelivererPortal() {
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
-                            Assigned Deliveries
-                            <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveries"} form = {{"type": ["To Assign",]}}>
-                            </UnassignedDeliveries>
-                            Unassigned Deliveries
-                            <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries"} form = {{"type": ["To Assign",]}}>
-                            </UnassignedDeliveries>
+                        {/* Assigned Deliveries */}
+                        <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveries"}>
+                        </UnassignedDeliveries>
+                        {/* Unassigned Deliveries */}
+                        {/* <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries"}>
+                        </UnassignedDeliveries> */}
+                        {/* Unassigned Deliveries2
+                        <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries2"} form = {{"type": ["To Assign",]}}>
+                        </UnassignedDeliveries>
+                        Test Unassigned Deliveries
+                        <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/testUnassignedDeliveries"} form = {{"type": ["To Assign",]}}>
+                        </UnassignedDeliveries> */}
 
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
