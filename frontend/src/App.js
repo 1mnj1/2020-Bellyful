@@ -22,7 +22,7 @@ console.log(cookie.user_level)
   const resetPage = (newPage)=>(page === newPage? setPage(0) : setPage(newPage))
 
   
-  if(cookie.user_level == undefined || cookie.user_level == null){
+  if(cookie.user_level === undefined || cookie.user_level == null){
     setCookie("user_level", [0,-1], { path: '/' }) 
     return null
   }
