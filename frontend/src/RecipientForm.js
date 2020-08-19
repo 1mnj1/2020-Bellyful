@@ -10,7 +10,6 @@ import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
-import Box from '@material-ui/core/Box';
 const fullWidth = 100;
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -85,7 +84,6 @@ function RecipientForm(props) {
   
   return (
     <div>
-      <Box borderRadius={16}  border={1} >
         <form className = "recipientForm" onChange = {saveForm} style = {props.class}>
             <Typography variant="h3" component="h3" gutterBottom>
                 Create Recipient
@@ -161,7 +159,6 @@ function RecipientForm(props) {
               />
               
         </form> 
-        </Box>
     </div>
   );
 }

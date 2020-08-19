@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Box from '@material-ui/core/Box';
 import $ from 'jquery'
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -47,7 +46,6 @@ function DeliveryForm(props) {
   };
   return (
     <div style = {props.class} >
-      <Box borderRadius={16}  border={1} >
       <form className = "deliveryForm" >
       {/* <Typography variant="h3" component="h3" gutterBottom>
               Create Referral
@@ -67,7 +65,7 @@ function DeliveryForm(props) {
         </FormControl><br/>
       </form>
       <Button variant="contained" onClick = {props.submit}>Submit</Button>
-    </Box>
+
     </div>
   );
 }

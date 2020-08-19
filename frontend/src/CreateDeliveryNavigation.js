@@ -20,7 +20,7 @@ const useStyles = makeStyles({
     }
   });
  
-function submitForms(ref,rec,del){
+function submitForms(ref,rec,del, callback){
   const parseDel = (ref,rec) => {
     
     var delivery = [...del]
@@ -30,6 +30,7 @@ function submitForms(ref,rec,del){
     $.post("http://"+window.location.hostname+":3000/delivery/submitDelivery",delivery,(success)=>{
       console.log("Created a delivery")
     })
+    callback()
   }
 
   if(ref[0].name !== "selfRef"){
@@ -68,7 +69,7 @@ function CreateDeliveryNavigation(props) {
     const [delivery, setDelivery] = React.useState([{}]);
     const [currPage, setPage] = React.useState(1)
 
-    const submit = ()=>{submitForms(ref,rec, delivery)}//  props.closeSelf()}
+    const submit = ()=>{submitForms(ref,rec, delivery, props.closeSelf)}//  props.closeSelf()}
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 

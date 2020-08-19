@@ -10,7 +10,6 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
-import Box from '@material-ui/core/Box';
 const fullWidth = 100;
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -102,7 +101,6 @@ function ReferrerForm(props) {
   // Return a series of text elements to make a form
   return (
     <div>
-      <Box borderRadius={16}  border={1} >
           <form className = "referrerForm" onChange = {saveForm} style = {props.class}>
             <Typography variant="h3" component="h3" gutterBottom>
                 Create Referral
@@ -155,7 +153,6 @@ function ReferrerForm(props) {
             </div>) : null
           }
           </form>
-          </Box>
     </div>
   );
 }
