@@ -16,7 +16,7 @@ router.post('/', function(req, res, next) {
     req.body.password,
   ]
   //sql query for the data
-  sql = "select person_user_level from person   where person_email = ? and person_pass = ?"
+  sql = "select person_user_level, person_id from person   where person_email = ? and person_pass = ?"
 
   con.query(sql, loginDetails, function (err, result) {
         if (err) throw err;
@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
         if(result.length == 0){
           res.send("0")
         } else {
-          res.send(String(result[0]["person_user_level"]))
+          res.send([String(result[0]["person_user_level"]), String(result[0]["person_id"])])
         }
         
 
