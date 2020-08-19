@@ -8,14 +8,14 @@ router.post('/getNewDeliveries', function(req, res, next) {
 
 
 
-var sql = "Select delivery.delivery_id as id, concat(person.person_fname, ' ', person.person_lname) as name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) as street, person.person_phone as phone, COUNT(meal.meal_id) as meals\
- from delivery\
- join person on delivery.recipient_id = person.person_id\
- join address on address.add_id = person.add_id\
- join delivery_status on delivery.delivery_status = delivery_status.stat_id\
- join meal on meal.delivery_id = delivery.delivery_id\
- where delivery_status.stat_name like \"Unassigned\"\
- group by delivery.delivery_id\
+var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, COUNT(meal.meal_id) AS meals\
+ FROM delivery\
+ JOIN person on delivery.recipient_id = person.person_id\
+ JOIN address on address.add_id = person.add_id\
+ JOIN delivery_status on delivery.delivery_status = delivery_status.stat_id\
+ JOIN meal on meal.delivery_id = delivery.delivery_id\
+ WHERE delivery_status.stat_name like \"Unassigned\"\
+ GROUP BY delivery.delivery_id\
  "
 
 

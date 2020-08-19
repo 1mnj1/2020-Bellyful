@@ -13,6 +13,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 
 
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
@@ -129,6 +131,11 @@ export default function UnassignedDeliveries (props) {
       console.log("Row: ",row, "Value: ", value)
       const labelId = `checkbox-list-label-${value}`;
 
+      console.log("row 1: ", row[state.columns[1]])
+      console.log("row 2: ", row[state.columns[2]])
+      console.log("row 3: ", row[state.columns[3]])
+      console.log("row 4: ", row[state.columns[4]])
+
       return (
         <div>
           <div>
@@ -170,7 +177,7 @@ export default function UnassignedDeliveries (props) {
                       className={classes.inline}
                       style={{whiteSpace: 'pre-line'}} 
                     >
-                    {/* the style property allows the use of the newline character */}
+                    {/* the style whitespace property allows the use of the newline character */}
                     <br/> {row[state.columns[4]]} {row[state.columns[4]]>1? "Meals": "Meal"}
                     </Typography>
                   </React.Fragment>
