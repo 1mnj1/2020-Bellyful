@@ -40,7 +40,7 @@ function PersonForm(props ) {
   const findItem= (searchItem)=>{
     for (var i = 0; i <props.formData.length; ++i){
     
-      if (props.formData[i].name == searchItem) return props.formData[i].value;
+      if (props.formData[i].name === searchItem) return props.formData[i].value;
     }
     return null
   }

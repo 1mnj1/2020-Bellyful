@@ -87,7 +87,7 @@ export default function SwipeableTemporaryDrawer(props) {
                   <Divider />
                   <List >
                     
-                      <ListItem button key={"draw_login_li"} onClick = {()=>props.setLogged(0)}>
+                      <ListItem button key={"draw_login_li"} onClick = {()=>props.setLogged([0,-1])}>
                         <ListItemIcon><MailIcon /></ListItemIcon>
                         <ListItemText primary={props.loggedIn>0 ? "Logout" : "Login"} />
                       </ListItem>

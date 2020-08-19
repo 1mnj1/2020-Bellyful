@@ -1,4 +1,4 @@
-import React, {Text} from "react"
+import React from "react"
 import $ from 'jquery'
 
 import Alert from '@material-ui/lab/Alert';
@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
@@ -32,34 +32,29 @@ export default function UnassignedDeliveries (props) {
         data: [ {}, ],
     });
 
-    const setColumns = (colNames)=>{
-        var columns = []; 
-        colNames.forEach(element => columns.push({title: element, field: element}));
-        return columns
-    }
 
-    function onClickAlert() {
-      // TODO: Add in functionality for displaying the logged in user name
-      // Alert.alert(
-      //   "Alert Title",
-      //   "My Alert Msg",
-      //   [
-      //     {
-      //       text: "Cancel",
-      //       onPress: () => console.log("Cancel Pressed"),
-      //       style: "cancel"
-      //     },
-      //     { text: "OK", onPress: () => console.log("OK Pressed") }
-      //   ],
-      //   { cancelable: false }
-      // );
+    // function onClickAlert() {
+    //   // TODO: Add in functionality for displaying the logged in user name
+    //   // Alert.alert(
+    //   //   "Alert Title",
+    //   //   "My Alert Msg",
+    //   //   [
+    //   //     {
+    //   //       text: "Cancel",
+    //   //       onPress: () => console.log("Cancel Pressed"),
+    //   //       style: "cancel"
+    //   //     },
+    //   //     { text: "OK", onPress: () => console.log("OK Pressed") }
+    //   //   ],
+    //   //   { cancelable: false }
+    //   // );
       
-      // return (
-      //   // Cannot resolve alert? tried to install but wont install
-      //   // <Alert> This is an alert!</Alert>
+    //   // return (
+    //   //   // Cannot resolve alert? tried to install but wont install
+    //   //   // <Alert> This is an alert!</Alert>
         
-      // )
-    }
+    //   // )
+    // }
     
     console.log("before the get data request for deliveries")
     console.log(props.url)

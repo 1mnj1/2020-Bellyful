@@ -3,9 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import PersonForm from './PersonForm'
 import $ from 'jquery'
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+// import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+// import Select from '@material-ui/core/Select';
 // import Divider from '@material-ui/core/Divider';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
@@ -48,21 +48,21 @@ function RecipientForm(props) {
   const findItem= (searchItem)=>{
     for (var i = 0; i <props.formData.length; ++i){
     
-      if (props.formData[i].name == searchItem) return props.formData[i].value;
+      if (props.formData[i].name === searchItem) return props.formData[i].value;
     }
     return null
   }
     const classes = useStyles();
     const [Dogs, setDogs] = React.useState(( )=>{ 
       for (var i = 0; i <props.formData.length; ++i){
-        if (props.formData[i].name == "recDogs") return true;
+        if (props.formData[i].name === "recDogs") return true;
       }  
       return false  
   });
   // Return a series of text elements to make a form
   var saveForm = ()=> {
     var formData = $("form.recipientForm").serializeArray()
-    if(formData.length == 0){
+    if(formData.length === 0){
       formData = [{}]
       props.setForm(formData)
       return

@@ -1,9 +1,9 @@
 import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
+// import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
-import AcUnitIcon from '@material-ui/icons/AcUnit'
+// import AcUnitIcon from '@material-ui/icons/AcUnit'
 import PersonIcon from '@material-ui/icons/Person'
 import RefferrerForm from './ReferrerForm'
 import RecipientForm from './RecipientForm'
@@ -19,14 +19,10 @@ const useStyles = makeStyles({
         height: '90vh'
     }
   });
- //Create a function to handle addresses
-function getAddressID( dict, success ){
-  // Gets parsed a dictionary with values
-  $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
-}
+ 
 function submitForms(ref,rec){
 
-  if(ref[0].name != "selfRef"){
+  if(ref[0].name !== "selfRef"){
     $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",ref,(success)=>{
       console.log(success)
     })
@@ -73,7 +69,7 @@ function CreateDeliveryNavigation(props) {
         <div>
         {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {ref} currentPage = {currPage} class = {formstyle}/> : 
         currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} class = {formstyle}/> : 
-        <DeliveryForm submit = {submit} class = {formstyle}/>}
+        <DeliveryForm submit = {submit} class = {formstyle} formData = {delivery} setForm = {setDelivery}/>}
     
         {DelivererNavigation}
         </div>

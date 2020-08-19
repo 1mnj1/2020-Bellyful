@@ -13,15 +13,19 @@ import DeliveryReporting from './DeliveryReporting'
 const pageIndex = require('./pageIndexer')
 
 function App() {
-
   // const [loggedIn, setLoggedIn] = React.useState(0)
   const [cookie, setCookie] = useCookies(["user_level"]);
+  
+console.log(cookie.user_level)
+  
   const [page,setPage] = React.useState(0)
-  console.log("Logged status: ", cookie.user_level[0]>2)
   const resetPage = (newPage)=>(page === newPage? setPage(0) : setPage(newPage))
 
   
-  
+  if(cookie.user_level == undefined || cookie.user_level == null){
+    setCookie("user_level", [0,-1], { path: '/' }) 
+    return null
+  }
   return (
     
 

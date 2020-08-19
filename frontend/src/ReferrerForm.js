@@ -51,13 +51,13 @@ function ReferrerForm(props) {
     const findItem= (searchItem)=>{
       for (var i = 0; i <props.formData.length; ++i){
       
-        if (props.formData[i].name == searchItem) return props.formData[i].value;
+        if (props.formData[i].name === searchItem) return props.formData[i].value;
       }
       return null
     }
     console.log(props.formData)
     const [RefType, setRT] = React.useState(null);
-    const [selfRef, handleSelfRef] = React.useState((props.formData[0].name == "selfRef"));
+    const [selfRef, handleSelfRef] = React.useState((props.formData[0].name === "selfRef"));
     const [refTypeVal, setrefTypeVal] = React.useState(findItem("RefType"));
     React.useEffect(() => {
     
@@ -75,7 +75,7 @@ function ReferrerForm(props) {
       }, [getData]);
       var saveForm = ()=> {
         var formData = $("form.referrerForm").serializeArray()
-        if(formData.length == 0){
+        if(formData.length === 0){
           formData = [{}]
           props.setForm(formData)
         } 
