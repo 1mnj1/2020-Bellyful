@@ -6,8 +6,7 @@ import { useCookies} from 'react-cookie'
 import Reporting from './Reporting'
 import DelivererPortal from './DelivererPortal'
 import DeliveryReporting from './DeliveryReporting'
-
-
+import FreezerPortal from './FreezerPortal'
 
 
 const pageIndex = require('./pageIndexer')
@@ -38,7 +37,10 @@ console.log(cookie.user_level)
       {cookie.user_level[0]!=0? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level[0]>0} />}
       {page === pageIndex["deliveryreporting"] && cookie.user_level[0]>2 ? <DeliveryReporting/> : null}
       {page === pageIndex["reporting"] && cookie.user_level[0]>2 ? <Reporting/> : null}
+      {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal/> : null}
       {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal/> : null}
+      
+      
     </div>
   );
 }

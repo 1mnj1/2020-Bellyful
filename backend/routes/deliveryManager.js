@@ -169,117 +169,166 @@ function findPerson(req,add_id, success){
   
 }
 router.post('/submitRecipient', function(req, res, next) {
-  findAddress(req, (add_id)=>{
-    findPerson(req,add_id,(person_id)=>{
-      sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
-      con.query(sql,[person_id], function (err, result) {
-        if (err) throw err;
-        console.log("Checking if recipient exists!\n");
-        var sql = ""
-        var referrerDetails = ""
-        if(result.length > 0){
-          //if the recipient exists, update them.
-          sql = "UPDATE `recipient` SET  `rec_dogs` = ?, `rec_children_under_5` = ?, `rec_children_between_5_10` = ?,\
-           `rec_children_between_11_17` = ?, `rec_adults` = ?, `rec_dietary_req` = ?, `rec_allergies` = ? \
-           WHERE `recipient`.`person_id` = ?"
-           referrerDetails = [
-            req.body.dogs,
-            req.body.child_under_5,
-            req.body.child_between_5_10,
-            req.body.child_between_11_17,
-            req.body.adults,
-            req.body.dietaryReq,
-            req.body.allergyNotes,
-            person_id
-          ]
-        } else {
-          //if the recipient doesnt exist insert
-          sql = "INSERT INTO `recipient` (`person_id`, `rec_dogs`, `rec_children_under_5`, `rec_children_between_5_10`,\
-          `rec_children_between_11_17`, `rec_adults`, `rec_dietary_req`, `rec_allergies`)\
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-          referrerDetails = [
-            person_id,
-            req.body.dogs,
-            req.body.child_under_5,
-            req.body.child_between_5_10,
-            req.body.child_between_11_17,
-            req.body.adults,
-            req.body.dietaryReq,
-            req.body.allergyNotes,
-          ]
-        }
-          
-        // res.send("Got here!")
-        con.query(sql,referrerDetails, function (err, result) {
-              if (err) throw err;
-              console.log("Created a recipient!\n");
-              
-          });
-          sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
-          con.query(sql,[person_id], function (err, result) {
-            if (err) throw err;
-            res.send(String(result[0].person_id))
-          })
-          
-
+  try{
+    findAddress(req, (add_id)=>{
+      findPerson(req,add_id,(person_id)=>{
+        sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
+        con.query(sql,[person_id], function (err, result) {
+          if (err) throw err;
+          console.log("Checking if recipient exists!\n");
+          var sql = ""
+          var referrerDetails = ""
+          if(result.length > 0){
+            //if the recipient exists, update them.
+            sql = "UPDATE `recipient` SET  `rec_dogs` = ?, `rec_children_under_5` = ?, `rec_children_between_5_10` = ?,\
+            `rec_children_between_11_17` = ?, `rec_adults` = ?, `rec_dietary_req` = ?, `rec_allergies` = ? \
+            WHERE `recipient`.`person_id` = ?"
+            referrerDetails = [
+              req.body.dogs,
+              req.body.child_under_5,
+              req.body.child_between_5_10,
+              req.body.child_between_11_17,
+              req.body.adults,
+              req.body.dietaryReq,
+              req.body.allergyNotes,
+              person_id
+            ]
+          } else {
+            //if the recipient doesnt exist insert
+            sql = "INSERT INTO `recipient` (`person_id`, `rec_dogs`, `rec_children_under_5`, `rec_children_between_5_10`,\
+            `rec_children_between_11_17`, `rec_adults`, `rec_dietary_req`, `rec_allergies`)\
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+            referrerDetails = [
+              person_id,
+              req.body.dogs,
+              req.body.child_under_5,
+              req.body.child_between_5_10,
+              req.body.child_between_11_17,
+              req.body.adults,
+              req.body.dietaryReq,
+              req.body.allergyNotes,
+            ]
+          }
+            
+          // res.send("Got here!")
+          con.query(sql,referrerDetails, function (err, result) {
+                if (err) throw err;
+                console.log("Created a recipient!\n");
                 
-        });
+            });
+            sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
+            con.query(sql,[person_id], function (err, result) {
+              if (err) throw err;
+              res.send(String(result[0].person_id))
+            })
+            
+
+                  
+          });
+      })
     })
-  })
+  } catch (error) {
+    console.log("Found error: ",error)
+  }
 });
 
 router.post('/submitReferrer', function(req, res, next) {
+  try {
+    
   
-  findAddress(req, (add_id)=>{
-    findPerson(req,add_id,(person_id)=>{
-      sql = 'SELECT  referrer.person_id from referrer where referrer.person_id = ?'
-      con.query(sql,[person_id], function (err, result) {
-        if (err) throw err;
-        console.log("Checking if Referrer exists!\n");
-        var sql = ""
-        var referrerDetails = ""
-        if(result.length > 0){
-          //if the recipient exists, update them.
-          sql = "UPDATE `referrer` SET `RT_type` = ?, \
-          `notes` = ?, `organisation` = ?\
-          WHERE `referrer`.`person_id` = 1"
-           referrerDetails = [
-            req.body.RefType,
-            req.body.refNotes,
-            req.body.refOrg,
-            person_id
-          ]
-        } else {
-          //if the recipient doesnt exist insert
-          sql = "INSERT INTO `referrer` (`person_id`, `RT_type`, `notes`, `organisation`) VALUES (?, ?, ?, ?)"
-          referrerDetails = [
-            person_id,
-            req.body.RefType,
-            req.body.refNotes,
-            req.body.refOrg
-          ]
-        }
-          
-        // res.send("Got here!")
-        con.query(sql,referrerDetails, function (err, result) {
-              if (err) throw err;
-              console.log("Created a referrer!\n");
-              
-          });
-          sql = 'SELECT  referrer.person_id as id from referrer where referrer.person_id = ?'
-          con.query(sql,[person_id], function (err, result) {
-            if (err) throw err;
-            res.send(String(result[0].id))
-          })
-          
-
+    findAddress(req, (add_id)=>{
+      findPerson(req,add_id,(person_id)=>{
+        sql = 'SELECT  referrer.person_id from referrer where referrer.person_id = ?'
+        con.query(sql,[person_id], function (err, result) {
+          if (err) throw err;
+          console.log("Checking if Referrer exists!\n");
+          var sql = ""
+          var referrerDetails = ""
+          if(result.length > 0){
+            //if the recipient exists, update them.
+            sql = "UPDATE `referrer` SET `RT_type` = ?, \
+            `notes` = ?, `organisation` = ?\
+            WHERE `referrer`.`person_id` = 1"
+            referrerDetails = [
+              req.body.RefType,
+              req.body.refNotes,
+              req.body.refOrg,
+              person_id
+            ]
+          } else {
+            //if the recipient doesnt exist insert
+            sql = "INSERT INTO `referrer` (`person_id`, `RT_type`, `notes`, `organisation`) VALUES (?, ?, ?, ?)"
+            referrerDetails = [
+              person_id,
+              req.body.RefType,
+              req.body.refNotes,
+              req.body.refOrg
+            ]
+          }
+            
+          // res.send("Got here!")
+          con.query(sql,referrerDetails, function (err, result) {
+                if (err) throw err;
+                console.log("Created a referrer!\n");
                 
-        });
+            });
+            sql = 'SELECT  referrer.person_id as id from referrer where referrer.person_id = ?'
+            con.query(sql,[person_id], function (err, result) {
+              if (err) throw err;
+              res.send(String(result[0].id))
+            })
+            
+
+                  
+          });
+      })
     })
-  })
+  } catch (error) {
+      console.log(error)
+  }
 });
+router.post('/getBranch', function(req, res, next) {
+  sql = 'select branch.branch_id as id, branch.branch_name as branch from branch'
 
-
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.send([])
+        } else {
+          res.send(result)
+        }
+    });
+});
+router.post('/submitDelivery', function(req, res, next) {
+  var sql = ""
+  console.log("Rquest: ",req.body)
+  if(req.body.ref !== ''){
+    sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
+    `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`)\
+    VALUES (NULL, NULL, ?, ?, '1', 'current_timestamp()', NULL, NULL, ?)"
+    sqlData = [
+      req.body.ref,
+      req.body.rec,
+      req.body.branch
+    ]
+  } else {
+    sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
+    `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`)\
+    VALUES (NULL, NULL, NULL, ?, '1', 'current_timestamp()', NULL, NULL, ?)"
+    sqlData = [
+      req.body.rec,
+      req.body.branch
+    ]
+  }
+  con.query(sql, sqlData, function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.send([])
+        } else {
+          res.send(result)
+        }
+    });
+});
 
 
 module.exports = router;

@@ -20,16 +20,36 @@ const useStyles = makeStyles({
     }
   });
  
-function submitForms(ref,rec){
+function submitForms(ref,rec,del, callback){
+  const parseDel = (ref,rec) => {
+    
+    var delivery = [...del]
+    delivery.push({"name": "ref", "value":ref})
+    delivery.push({"name": "rec", "value":rec})
+    console.log("Del: ",delivery)
+    $.post("http://"+window.location.hostname+":3000/delivery/submitDelivery",delivery,(success)=>{
+      console.log("Created a delivery")
+    })
+    callback()
+  }
 
   if(ref[0].name !== "selfRef"){
-    $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",ref,(success)=>{
-      console.log(success)
+    $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",ref,(referrer)=>{
+      const addRef = (rec)=>parseDel(referrer,rec)
+      $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
+        addRef(recipient)
+        
+      })
+    })
+  } else {
+    $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
+      parseDel(null, recipient)
+      
     })
   }
- $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(success)=>{
-   console.log(success)
- })
+  
+ 
+
 }
 function CreateDeliveryNavigation(props) {
 
@@ -49,7 +69,7 @@ function CreateDeliveryNavigation(props) {
     const [delivery, setDelivery] = React.useState([{}]);
     const [currPage, setPage] = React.useState(1)
 
-    const submit = ()=>{submitForms(ref,rec);}//  props.closeSelf()}
+    const submit = ()=>{submitForms(ref,rec, delivery, props.closeSelf)}//  props.closeSelf()}
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
