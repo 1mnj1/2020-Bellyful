@@ -22,7 +22,6 @@ class LoginTab extends React.Component {
         const { classes } = this.props;
         // State inherited from parent, this is a setter function
         const setLogged = this.props.setLogged
-
         $(document).ready(function() {
             
             $("form.LoginForm").submit(function(e){
@@ -34,7 +33,7 @@ class LoginTab extends React.Component {
                 var url = "http://"+window.location.hostname+":3000/login";
                 console.log(url)
                 $.post( url ,data,  function( returnable ) {
-                    console.log("User level = ",returnable)
+                    console.log("User level = ",returnable[0])
                     if(returnable>0){
                         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
                         $(setLogged(returnable))
