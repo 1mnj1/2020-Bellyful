@@ -190,7 +190,7 @@ export default function UnassignedDeliveries (props) {
     })
     return (
       <div style = {{overflowX: "hidden"}}>
-        <h2>New Deliveries</h2> 
+        <h2>{props.title}</h2> 
       <List className={classes.root}>
         {createList}
       </List>

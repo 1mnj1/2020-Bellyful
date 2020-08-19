@@ -17,6 +17,7 @@ import PersonIcon from '@material-ui/icons/Person'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
 import FreezerLog from './FreezerLog';
+import MyOustanding from './MyOutstanding'
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -101,28 +102,20 @@ function DelivererPortal() {
                 >
                     <TabPanel value={value} index={0} dir={theme.direction}>
                          {/* Assigned Deliveries */}
-                         <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
+                         <UnassignedDeliveries title = "Branch Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
                         </UnassignedDeliveries>
                       
-                        {/* Unassigned Deliveries */}
-                        {/* <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries"}>
-                        </UnassignedDeliveries> */}
-                        {/* Unassigned Deliveries2
-                        <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries2"} form = {{"type": ["To Assign",]}}>
-                        </UnassignedDeliveries>
-                        Test Unassigned Deliveries
-                        <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/testUnassignedDeliveries"} form = {{"type": ["To Assign",]}}>
-                        </UnassignedDeliveries> */}
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
-                       item Two
+                        <MyOustanding title = "My Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}/>
+
 
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
+                        {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
 
-                        </FreezerLog>
+                        </FreezerLog> */}
                     </TabPanel>
                     <TabPanel value={value} index={3} dir={theme.direction}>
                         Item Three
@@ -137,9 +130,9 @@ function DelivererPortal() {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     >
-                    <Tab label="New" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
-                    <Tab label="Deliveries" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                    <Tab label="Freezers" icon={<AcUnitIcon/>} {...a11yProps(2)} />
+                    <Tab label="Branch Outstanding" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
+                    <Tab label="My Outstanding" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
+                    <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
                     <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
