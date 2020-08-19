@@ -1,8 +1,6 @@
 import React, {Text} from "react"
 import $ from 'jquery'
 
-import {Alert, Button} from "react-native"
-
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -130,7 +128,7 @@ export default function FreezerLog (props) {
                       </React.Fragment>
                     }
                   />
-                  <Button title="+" color="808080"></Button>
+                  {/* <Button title="+" color="808080"></Button> */}
                 </ListItem>
               </div>
               {/* <div>
@@ -157,7 +155,7 @@ export default function FreezerLog (props) {
         })}
       </List>
 
-      <Button
+      {/* <Button
         title="Top up"
         color="rgb(225, 127, 188)"
         onPress={() => Alert.alert('Topped up!')}
@@ -167,7 +165,7 @@ export default function FreezerLog (props) {
         title="Taken"
         color="#66B2FF"
         onPress={() => Alert.alert('Taken!')}
-      />
+      /> */}
 
       </div>
     );

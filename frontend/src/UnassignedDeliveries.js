@@ -115,6 +115,10 @@ export default function UnassignedDeliveries (props) {
     };
 
 
+    function setAlert() {
+      return (<Alert severity="success">Thank you Joan</Alert>)
+    }
+
     // const contents = this.state.data.forEach(item => {
     //   // change the title and location key based on your API
     //   return (
@@ -193,14 +197,16 @@ export default function UnassignedDeliveries (props) {
       <div style = {{overflowX: "hidden"}}>
         <h2>New Deliveries</h2> 
       <List className={classes.root}>
-        {/* {[0, 1, 2, 3].map((value) => { */}
         {createList}
       </List>
 
-      <Button
-        // color="rgb(225, 127, 188)"
-        onClick={() => <Alert severity="success">Thank you Joan</Alert>}
-      >I can do this!</Button>
+      <Button 
+        variant="contained" 
+        color="secondary" 
+        onClick={setAlert}
+      >
+        I can do this!
+      </Button>
 
       </div>
     );
