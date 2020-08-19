@@ -34,7 +34,8 @@ class LoginTab extends React.Component {
                 console.log(url)
                 $.post( url ,data,  function( returnable ) {
                     console.log("User level = ",returnable[0])
-                    if(returnable>0){
+                    console.log("Returnable: ",returnable)
+                    if(returnable[0]>0){
                         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
                         $(setLogged(returnable))
                     }
