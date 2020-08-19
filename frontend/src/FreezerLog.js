@@ -165,7 +165,7 @@ export default function FreezerLog (props) {
 
       <Button 
         variant="contained" 
-        color="primary" 
+        color="secondary" 
         onClick={setAlert}
       >
         Top up
@@ -173,7 +173,7 @@ export default function FreezerLog (props) {
 
       <Button 
         variant="contained" 
-        color="secondary" 
+        color="primary" 
         onClick={setAlert}
       >
         Taken
