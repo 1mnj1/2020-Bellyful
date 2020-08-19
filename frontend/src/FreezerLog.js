@@ -1,6 +1,8 @@
 import React, {Text} from "react"
 import $ from 'jquery'
 
+import Alert from '@material-ui/lab/Alert';
+import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -32,6 +34,11 @@ export default function FreezerLog (props) {
         var columns = []; 
         colNames.forEach(element => columns.push({title: element, field: element}));
         return columns
+    }
+
+
+    function setAlert() {
+      return (<Alert severity="success">Freezer Updated!</Alert>)
     }
 
     
@@ -155,17 +162,22 @@ export default function FreezerLog (props) {
         })}
       </List>
 
-      {/* <Button
-        title="Top up"
-        color="rgb(225, 127, 188)"
-        onPress={() => Alert.alert('Topped up!')}
-      />
+      <Button 
+        variant="contained" 
+        color="primary" 
+        onClick={setAlert}
+      >
+        Top up
+      </Button>
 
-<Button
-        title="Taken"
-        color="#66B2FF"
-        onPress={() => Alert.alert('Taken!')}
-      /> */}
+      <Button 
+        variant="contained" 
+        color="secondary" 
+        onClick={setAlert}
+      >
+        Taken
+      </Button>
+
 
       </div>
     );
