@@ -38,7 +38,7 @@ console.log(cookie.user_level)
       {page === pageIndex["deliveryreporting"] && cookie.user_level[0]>2 ? <DeliveryReporting/> : null}
       {page === pageIndex["reporting"] && cookie.user_level[0]>2 ? <Reporting/> : null}
       {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal/> : null}
-      {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal/> : null}
+      {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal user_id = {cookie.user_level[1]}/> : null}
       
       
     </div>

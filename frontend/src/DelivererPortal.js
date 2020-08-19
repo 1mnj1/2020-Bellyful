@@ -64,7 +64,7 @@ function a11yProps(index) {
     };
   }
   
-function DelivererPortal() {
+function DelivererPortal(props) {
 
   
     //Used for the Navigation Drawer
@@ -108,7 +108,7 @@ function DelivererPortal() {
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
-                        <MyOustanding title = "My Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}/>
+                        <MyOustanding user_id = {props.user_id} title = "My Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}/>
 
 
                     </TabPanel>
