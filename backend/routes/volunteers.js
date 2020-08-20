@@ -26,10 +26,41 @@ con.query(sql, function (err, result) {
   })
 })
 
+
+router.post('/getDelTime', function(req, res, next) {
+
+var sql = 'select delivery.delivery_est_time as time from delivery where delivery.delivery_id =  ?'
+
+ con.query(sql,[req.body.delivery_id], function (err, result) {
+  if (err) throw err;
+  if(result.length == 0 || result == undefined) {
+    res.send(null) ;return 
+  }
+  res.send(result[0]["time"])
+  
+})
+})
+router.post('/getRefNotes', function(req, res, next) {
+  
+  var sql = 'select referrer.notes as notes \
+   from referrer\
+   join delivery on delivery.ref_id = referrer.person_id\
+   where delivery.delivery_id = ?'
+  
+   con.query(sql,[req.body.delivery_id], function (err, result) {
+    if (err) throw err;
+    if(result.length == 0 || result == undefined) {
+      res.send(null) ;return 
+    }
+    
+    res.send(result[0]["notes"])
+  })
+  })
+
 router.post('/getToContactDeliveries', function(req, res, next) {
 
 
-  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, COUNT(meal.meal_id) AS meals\
+  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, COUNT(meal.meal_id) AS meals, person.person_email AS email\
   FROM delivery\
   JOIN person on delivery.recipient_id = person.person_id\
   JOIN address on address.add_id = person.add_id\
@@ -65,7 +96,30 @@ router.post('/getToContactDeliveries', function(req, res, next) {
         res.send(result)
       })
     })
-
+    router.post('/updateDelDeets', function(req, res, next) {
+      var datetime = (req.body.DelTime.replace("T", " "))+":00"
+      var data = [
+        req.body.refNotes,
+        req.body.delivery_id,
+        
+      ]
+      var data2 = [
+        datetime,
+        req.body.delivery_id
+      ]
+      var sql = "UPDATE `referrer` SET `notes` = ? \
+      WHERE `referrer`.`person_id` = (select delivery.ref_id from delivery where delivery.delivery_id = ?)"
+      var sql2 = " UPDATE `delivery` SET `delivery_est_time` = ? WHERE `delivery`.`delivery_id` = ? "
+      
+      
+      
+      con.query(sql,data, function (err, result) {
+          if (err) throw err;
+        })
+      con.query(sql2,data2, function (err, result) {
+        if (err) throw err;
+      })
+    })
 
 
 module.exports = router;

@@ -1,5 +1,5 @@
 import React from "react"
-import $ from 'jquery'
+import $, { data } from 'jquery'
 import Divider from '@material-ui/core/Divider';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
@@ -32,7 +32,6 @@ export default function UnassignedDeliveries (props) {
         columns: [ {}, ],
         data: [ {}, ],
     });
-
     
 
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
@@ -68,9 +67,9 @@ export default function UnassignedDeliveries (props) {
       visible[value] = !visible[value]
       setState(state => ({ ...state,visible: visible}))
     };
-    const renderDropdown = (value)=>{
+    const renderDropdown = (value,phone,email)=>{
       
-      return <DeliveryDetail delivery_id ={value}/>
+      return <DeliveryDetail delivery_id ={value} phone = {phone} email = {email}/>
     }
     const createList = state.data.map((row) => {
       const value = row[state.columns[0]]
@@ -90,15 +89,18 @@ export default function UnassignedDeliveries (props) {
                       variant="body2"
                       className={classes.inline}
                       color="textPrimary"
+                      //name
                     >
                       {row[state.columns[2]]}
                     </Typography>
+                    
                     <Typography
                       component="span"
                       variant="body2"
                       className={classes.inline}
                       color="textPrimary"
                       style={{whiteSpace: 'pre-line'}}
+                      // street
                     >
                       <br/>{row[state.columns[3]]}
                     </Typography>
@@ -107,6 +109,7 @@ export default function UnassignedDeliveries (props) {
                       variant="body2"
                       className={classes.inline}
                       style={{whiteSpace: 'pre-line'}} 
+                      //phone
                     >
                     {/* the style whitespace property allows the use of the newline character */}
                     <br/> {row[state.columns[4]]} {row[state.columns[4]]>1? "Meals": "Meal"}
@@ -116,7 +119,7 @@ export default function UnassignedDeliveries (props) {
               />
             </ListItem>
             {
-              state.visible[value] ? renderDropdown(value) : null
+              state.visible[value] ? renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) : null
               
 
             }
