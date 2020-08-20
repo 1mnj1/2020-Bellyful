@@ -118,7 +118,7 @@ export default function DeliveryDetail (props) {
         {renderMeals()}
          
         <form className = "Delivery_Detail">
-            <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"absolute" ,    top: "12vh",    left: "66vw",     width: mobileCheck()?"80%":"25%"}}>
+            <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"relative" ,    marginTop: "-2vh",    marginLeft: "66vw",     width: mobileCheck()?"80%":"25%"}}>
                 Update
             </Button>
             <TextField
