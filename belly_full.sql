@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2020 at 01:59 AM
+-- Generation Time: Aug 20, 2020 at 07:49 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -73,7 +73,22 @@ INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_cit
 (3, '23', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
 (4, '24', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
 (5, '19', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
-(6, '18', 'springwater vale', 'unsworth heights', 'auckland', '0632');
+(6, '18', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
+(7, '262', 'annandale road', 'taupaki', 'auckland', '0543'),
+(8, '3', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
+(9, '3', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
+(10, '', '', '', '', ''),
+(11, '', '', '', '', ''),
+(12, '1', 'annandale road', 'unsworth heights', 'auckland', '0632'),
+(13, '1', 'annandale road', 'unsworth heights', 'auckland', '0632'),
+(14, '21', 'springwater vale', 'unsworth heights', 'auckland', '06433'),
+(15, '2', 'annandale road', 'unsworth heights', 'auckland', '0632'),
+(16, '21', 'meg st.', 'Megamind', 'auckland', '09928'),
+(17, '2', 'bayview rd', 'bayview', 'auckland', '0632'),
+(18, '9', 'calypso way', 'unsworth heights', 'auckland', '0632'),
+(19, '21', 'springwater vale', 'unsworth heights', 'albanyHeights', '123123'),
+(20, '21', 'springwater vale', 'unsworth heights', 'albanyHeights', '123123'),
+(21, '4', 'springwater vale', 'unsworth heights', 'auckland', '0632');
 
 -- --------------------------------------------------------
 
@@ -84,7 +99,7 @@ INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_cit
 DROP TABLE IF EXISTS `branch`;
 CREATE TABLE `branch` (
   `branch_id` int(11) NOT NULL,
-  `person_id` int(11) NOT NULL,
+  `manager_id` int(11) NOT NULL,
   `branch_name` varchar(50) NOT NULL,
   `add_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -93,8 +108,9 @@ CREATE TABLE `branch` (
 -- Dumping data for table `branch`
 --
 
-INSERT INTO `branch` (`branch_id`, `person_id`, `branch_name`, `add_id`) VALUES
-(1, 2, 'North Shore', 5);
+INSERT INTO `branch` (`branch_id`, `manager_id`, `branch_name`, `add_id`) VALUES
+(1, 3, 'North Shore', 5),
+(2, 5, 'Rodney', 12);
 
 --
 -- Triggers `branch`
@@ -103,7 +119,8 @@ DROP TRIGGER IF EXISTS `Branch_level`;
 DELIMITER $$
 CREATE TRIGGER `Branch_level` BEFORE INSERT ON `branch` FOR EACH ROW update person
 set person.person_user_level = 3
-where person.person_id IN (select person.person_id from person, branch where person.person_id = branch.person_id AND person_id <=2)
+where person.person_id IN (select person.person_id from person
+join branch on person.person_id = branch.manager_id AND person.person_id <=2)
 $$
 DELIMITER ;
 
@@ -120,9 +137,9 @@ CREATE TABLE `delivery` (
   `ref_id` int(11) DEFAULT NULL,
   `recipient_id` int(11) NOT NULL,
   `delivery_status` int(11) NOT NULL,
-  `delivery_est_time` date NOT NULL DEFAULT current_timestamp(),
-  `delivery_start` date DEFAULT NULL,
-  `delivery_end` date DEFAULT NULL,
+  `delivery_est_time` datetime NOT NULL DEFAULT current_timestamp(),
+  `delivery_start` timestamp NULL DEFAULT NULL,
+  `delivery_end` timestamp NULL DEFAULT NULL,
   `branch_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -131,8 +148,11 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`) VALUES
-(1, 2, 3, 1, 2, '0000-00-00', NULL, NULL, 1),
-(4, NULL, 3, 1, 1, '0000-00-00', NULL, NULL, 1);
+(1, 2, 3, 1, 7, '2020-08-12 05:38:00', NULL, NULL, 1),
+(4, 2, 3, 1, 7, '0000-00-00 00:00:00', NULL, NULL, 1),
+(5, 4, 3, 19, 1, '0000-00-00 00:00:00', NULL, NULL, 1),
+(11, NULL, 9, 5, 1, '0000-00-00 00:00:00', NULL, NULL, 2),
+(12, NULL, 9, 9, 1, '0000-00-00 00:00:00', NULL, NULL, 1);
 
 -- --------------------------------------------------------
 
@@ -212,9 +232,9 @@ CREATE TABLE `meal` (
 INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES
 (1, 2, 1, 1),
 (2, 1, 1, 1),
-(3, 2, 1, NULL),
-(4, 2, 1, NULL),
-(5, 2, 1, NULL),
+(3, 2, 1, 4),
+(4, 2, 1, 4),
+(5, 2, 1, 5),
 (6, 2, 1, NULL),
 (7, 1, 1, NULL),
 (8, 3, 1, NULL),
@@ -269,7 +289,14 @@ INSERT INTO `person` (`person_id`, `person_phone`, `person_email`, `person_fname
 (2, '021123456789', 'joan@gmail.com', 'Joan', 'Ark', 'qwerty12345', 3, 6),
 (3, '02102202042', 'mrsBrown@gmail.com', 'Betty', 'Brown', 'P@ssword', 0, NULL),
 (4, '0211471133', 'piyathim@gmail.com', 'Piyathi', 'Munasinghe', 'P@ssword', 1, 5),
-(5, '0210733503', 'emelina.lidija@hotmail.com', 'Emelina', 'Glavas', 'love', 3, 4);
+(5, '0210262532522122', 'emelina.lidija@hotmail.com', 'Emelina', 'Glavas', 'love', 3, 1),
+(9, '02102625325', 'mblawrence00@gmail.com', 'Mathew', 'Lawrence', 'P@ssword', 0, 1),
+(10, '02202220222', 'linda@gmail.com', 'Linda', 'Glavas', 'P@ssword', 0, 7),
+(11, '0220', 'd\'ark@gmail.com', 'Joan', 'd\'ark', 'P@ssword', 0, 1),
+(15, '229292', 'em@gmail.com', 'Emelina', 'Glavas', 'P@ssword', 0, 12),
+(19, '20020002020', 'themeg@gmail.com', 'Megan', 'Johnson', 'P@ssword', 0, 16),
+(20, '02002000', 'cjmac@gmail.com', 'Chris', 'Macdonald', 'P@ssword', 0, 17),
+(21, '0299292928', 'dani@gmail.com', 'Dan', 'Frazer', 'P@ssword', 0, 18);
 
 -- --------------------------------------------------------
 
@@ -294,7 +321,10 @@ CREATE TABLE `recipient` (
 --
 
 INSERT INTO `recipient` (`person_id`, `rec_dogs`, `rec_children_under_5`, `rec_children_between_5_10`, `rec_children_between_11_17`, `rec_adults`, `rec_dietary_req`, `rec_allergies`) VALUES
-(1, 1, 0, 0, 0, 1, 'None', 'None');
+(1, 1, 0, 0, 0, 1, 'None', 'None'),
+(5, 1, 1, 1, 1, 1, 'blah', 'de de de de de de de  blah'),
+(9, 1, 1, 1, 1, 1, '1', '1'),
+(19, 1, 0, 0, 0, 1, 'None', 'None');
 
 -- --------------------------------------------------------
 
@@ -315,7 +345,9 @@ CREATE TABLE `referrer` (
 --
 
 INSERT INTO `referrer` (`person_id`, `RT_type`, `notes`, `organisation`) VALUES
-(3, 5, 'Good Guy', 'Cool Cats');
+(3, 5, ' Bruhhhhhhhhhhhhhhhhhhhhhhhh', 'Cool Cats'),
+(9, 7, 'blah', 'Self Referral'),
+(20, 5, 'None', 'Massey Uni');
 
 -- --------------------------------------------------------
 
@@ -413,8 +445,8 @@ ALTER TABLE `address`
 --
 ALTER TABLE `branch`
   ADD PRIMARY KEY (`branch_id`),
-  ADD KEY `fk_branch_manager` (`person_id`),
-  ADD KEY `fk_branch_add` (`add_id`);
+  ADD KEY `fk_branch_add` (`add_id`),
+  ADD KEY `fk_branch_manager` (`manager_id`);
 
 --
 -- Indexes for table `delivery`
@@ -508,19 +540,19 @@ ALTER TABLE `vol_status`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `branch`
 --
 ALTER TABLE `branch`
-  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `branch_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `delivery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `delivery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `delivery_status`
@@ -550,7 +582,7 @@ ALTER TABLE `meal_type`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `referrer_type`
@@ -573,7 +605,7 @@ ALTER TABLE `vol_status`
 --
 ALTER TABLE `branch`
   ADD CONSTRAINT `fk_branch_add` FOREIGN KEY (`add_id`) REFERENCES `address` (`add_id`),
-  ADD CONSTRAINT `fk_branch_manager` FOREIGN KEY (`person_id`) REFERENCES `person` (`person_id`);
+  ADD CONSTRAINT `fk_branch_manager` FOREIGN KEY (`manager_id`) REFERENCES `person` (`person_id`);
 
 --
 -- Constraints for table `delivery`
