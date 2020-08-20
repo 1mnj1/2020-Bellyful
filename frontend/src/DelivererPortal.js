@@ -80,7 +80,6 @@ function DelivererPortal(props) {
     const handleChangeIndex = (index) => {
         setValue(index);
     }
-
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
@@ -112,6 +111,7 @@ function DelivererPortal(props) {
 
 
                     </TabPanel>
+                    
                     <TabPanel value={value} index={2} dir={theme.direction}>
                         {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
 
@@ -120,7 +120,10 @@ function DelivererPortal(props) {
                     <TabPanel value={value} index={3} dir={theme.direction}>
                         Item Three
                     </TabPanel>
+                    
                 </SwipeableViews>
+                
+                
                 <AppBar position="static" color="default" className={classes.Navigation_root}>
                 <Tabs
                     value={value}

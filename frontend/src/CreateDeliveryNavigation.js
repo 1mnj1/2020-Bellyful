@@ -42,9 +42,16 @@ function submitForms(ref,rec,del, callback){
       })
     })
   } else {
-    $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
-      parseDel(null, recipient)
-      
+    rec.push({name: "RefType", value: "7"})
+    rec.push({name: "refOrg", value: "Self Referral"})
+    rec.push({name: "refNotes", value: ""})
+
+    $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",rec,(referrer)=>{
+      const addRef = (rec)=>parseDel(referrer,rec)
+      $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
+        addRef(recipient)
+        
+      })
     })
   }
   

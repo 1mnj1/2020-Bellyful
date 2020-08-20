@@ -1,6 +1,6 @@
 import React from "react"
 import $ from 'jquery'
-
+import Divider from '@material-ui/core/Divider';
 import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,7 +11,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-
+import DeliveryDetail from './DeliveryDetail'
 
 
 
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 export default function UnassignedDeliveries (props) {
 
     const [state, setState] = React.useState({
+        visible: [],
         columns: [ {}, ],
         data: [ {}, ],
     });
@@ -43,11 +44,14 @@ export default function UnassignedDeliveries (props) {
         if(returnable === null) return 
         if (returnable === undefined) return 
         if(returnable.length === 0) return 
-
         var fields = Object.keys(returnable[0])
+        var hidden = []
+        for (var i = 0; i < returnable.length; ++i){
+          hidden.push(false)
+        }
         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
         // $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
-        $(setState(state => ({ ...state,columns:fields, data : returnable})))
+        $(setState(state => ({ ...state,visible: hidden,columns:fields, data : returnable})))
         // this.props.setLogged(true)
     });
     }, [props.url,props.user_id]);
@@ -58,20 +62,16 @@ export default function UnassignedDeliveries (props) {
 
 
     const classes = useStyles();
-    const [checked, setChecked] = React.useState([0]);
   
     const handleToggle = (value) => () => {
-      const currentIndex = checked.indexOf(value);
-      const newChecked = [...checked];
-  
-      if (currentIndex === -1) {
-        newChecked.push(value);
-      } else {
-        newChecked.splice(currentIndex, 1);
-      }
-  
-      setChecked(newChecked);
+      var visible = [...state.visible]
+      visible[value] = !visible[value]
+      setState(state => ({ ...state,visible: visible}))
     };
+    const renderDropdown = (value)=>{
+      
+      return <DeliveryDetail delivery_id ={value}/>
+    }
     const createList = state.data.map((row) => {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
@@ -115,14 +115,21 @@ export default function UnassignedDeliveries (props) {
                 }
               />
             </ListItem>
+            {
+              state.visible[value] ? renderDropdown(value) : null
+              
+
+            }
+            
           </div>
-          
+          <Divider component="li" />
         </div>
       );
     })
     return (
-      <div style = {{overflowX: "hidden"}}>
+      <div style = {{overflowX: "hidden", paddingBottom: "20vh"}}>
         <h2>{props.title}</h2> 
+        
         <List className={classes.root}>
             {createList}
         </List>

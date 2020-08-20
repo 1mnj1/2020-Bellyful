@@ -48,6 +48,24 @@ router.post('/getToContactDeliveries', function(req, res, next) {
     })
   })
 
+  router.post('/getMealsForDelivery', function(req, res, next) {
+
+
+    var sql = "select meal_type.meal_type as meal, COUNT(meal.meal_id) as amnt\
+    from meal \
+    join meal_type on meal.meal_type = meal_type.MT_id\
+    WHERE meal.delivery_id = ?\
+    group by meal_type.MT_id\
+     "
+    
+    
+    
+    con.query(sql,[req.body.delivery_id], function (err, result) {
+        if (err) throw err;
+        res.send(result)
+      })
+    })
+
 
 
 module.exports = router;
