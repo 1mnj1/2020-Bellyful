@@ -13,38 +13,40 @@ import Typography from '@material-ui/core/Typography';
 
 
 
-// const fullWidth = 100;
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//       display: 'flex',
-//       flexWrap: 'wrap',
-//     },
-//     textField: {
-//         marginBottom :theme.spacing(1),
-//       marginRight: theme.spacing(1),
-//       width: String(fullWidth/2)+'ch',
-//     },
-//     fullText: {
-//         marginBottom :theme.spacing(1),
-//         marginRight: theme.spacing(1),
-//         width: String(fullWidth)+'ch',
-//     },
-//     threeQuarter:{
-//         marginBottom :theme.spacing(1),
-//         marginRight: theme.spacing(1),
-//         width: String(fullWidth/4*3)+'ch',
-//     }, 
-//     oneQuarter:{
-//         marginBottom :theme.spacing(1),
-//         marginRight: theme.spacing(1),
-//         width: String(fullWidth/4)+'ch',
-//     }, 
-
-//   }));
+const fullWidth = 100;
+const useStyles = makeStyles((theme) => ({
+    root: {
+      display: 'flex',
+      flexWrap: 'wrap',
+    },
+    textField: {
+        marginBottom :theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: String(fullWidth/2)+'ch',
+    },
+    fullText: {
+        marginBottom :theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: String(fullWidth)+'ch',
+    },
+    threeQuarter:{
+        marginBottom :theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: String(fullWidth/4*3)+'ch',
+    }, 
+    oneQuarter:{
+        marginBottom :theme.spacing(1),
+        marginRight: theme.spacing(1),
+        width: String(fullWidth/4)+'ch',
+    }, 
+  }
+));
 
 
 
 function VolunteerForm(props) {
+
+  const classes = useStyles();
 
   const findItem= (searchItem)=>{
     for (var i = 0; i <props.formData.length; ++i){
@@ -90,9 +92,9 @@ function VolunteerForm(props) {
                 Create Volunteer
             </Typography>
             
-            <PersonForm />
+            <PersonForm formData = {props.formData}/>
 
-            <FormControl>
+            <FormControl className = {classes.fullText}>
               <InputLabel id='lblBranches'>Volunteer Branch</InputLabel>
               <Select name = 'B_Val'
               label = 'Branch'
