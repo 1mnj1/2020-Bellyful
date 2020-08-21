@@ -123,12 +123,12 @@ export default function DeliveryDetail (props) {
             </Button>
             <TextField
               style = {{width: mobileCheck()?"80%":"92%"}}
-              
+              autoFocus = {true}
               id="Delivery Notes"
               label="Delivery Notes"
               placeholder="Referral notes"
               name = "refNotes"
-              defaultValue = {state.notes}
+              value = {state.notes}
               multiline
 
               />
