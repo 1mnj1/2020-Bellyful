@@ -81,6 +81,29 @@ router.post('/getFreezerManager', function(req, res, next) {
   
 });
 
+// Gets the number of avaiable meals for all freezers and branches
+router.post('/getFreezerLog', function(req, res, next) {
+  //sql query for the data
+  sql = "SELECT M.meal_type AS 'Meal Type Id', MT.meal_type AS Dish , count(M.meal_type) AS 'Available Meals'\
+  FROM `meal` AS M\
+  JOIN meal_type AS MT ON M.meal_type = MT.MT_id\
+  WHERE M.delivery_id is null\
+  GROUP by M.meal_type"
+  //returns meal type id, meal type name, and available meals
+  // res.send("Got here!")
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
 router.post('/getDeliveryDetails', function(req, res, next) {
   //sql query for the data
   reQArr = req.body["type[]"]
@@ -152,78 +175,5 @@ router.post('/getUnassignedDeliveries', function(req, res, next) {
         }
     });
 });
-
-// // 
-// router.post('/getUnassignedDeliveries2', function(req, res, next) {
-//   console.log("getting data for unassigned deliveries 2\n");
-//   //sql query for the data
-//   sql = "SELECT concat(person2.person_fname,' ',person2.person_lname) AS 'Recipient', concat(pAddress.add_num, ' ', pAddress.add_street, ', ', pAddress.add_suburb) AS 'Address', person2.person_phone AS 'Phone, delivery_status.stat_name AS 'Status', mealC.meal_count AS 'Meals'\
-//   FROM delivery, person AS person2, address AS pAddress, delivery_status, (SELECT COUNT(meal.delivery_id) AS meal_count FROM meal, delivery where meal.delivery_id = delivery.delivery_id) AS mealC\
-//   WHERE delivery_status = 1\
-//   AND delivery_status.stat_id = delivery.delivery_status\
-//   AND person2.person_id = delivery.recipient_id\
-//   AND pAddress.add_id = person2.add_id"
-//   // res.send("Got here!")
-//   con.query(sql, function (err, result) {
-//         if (err) throw err;
-//         console.log("Got a result!\n");
-//         console.log(result)
-//         if(result.length == 0){
-//           res.send(404)
-//           console.log("no results :(")
-//         } else {
-//           res.send(result)
-//         }
-//     });
-// });
-
-
-// router.post('/testUnassignedDeliveries', function(res, res, next) {
-//   sql = "SELECT concat(person_fname, ' ', person_lname) AS 'Recipient', concat(add_num, ' ', add_street, ', ', add_suburb) AS 'Address', person_phone AS 'Phone', mealC.meal_count AS 'Meals', delivery_status.stat_name AS 'Status'\
-//   FROM delivery, person, address, delivery_status, (SELECT COUNT(meal.delivery_id) AS meal_count FROM meal, delivery WHERE meal.delivery_id = delivery.delivery_id) AS mealC\
-//   WHERE delivery_status = 1\
-//   AND delivery_status.stat_id = delivery.delivery_status\
-//   AND person_id = delivery.recipient_id\
-//   AND add_id = person_id.add_id"
-
-//   con.query(sql, function(err, result) {
-//     if (err) throw err;
-//     console.log("Got a result!\n");
-//     console.log(result)
-//     if (result.length == 0) {
-//       res.send(404)
-//     } else {
-//       res.send(result)
-//     }
-//   });
-// });
-
-// router.post('/getUnassignedDeliveries2', function(req, res, next) {
-//   console.log("getting data for unassigned deliveries 2\n");
-//   //sql query for the data
-//   sql = "SELECT concat(person2.person_fname,' ',person2.person_lname) AS 'Recipient', concat(person2.add_id.add_num, ' ', person2.add_id.add_street, ', ', person2.add_id.add_suburb) AS 'Address', delivery_status.stat_name AS 'Status', mealC.meal_count AS 'Meals'\
-//   FROM delivery, person AS person2, delivery_status, (SELECT COUNT(meal.delivery_id) AS meal_count FROM meal, delivery where meal.delivery_id = delivery.delivery_id) AS mealC\
-//   WHERE delivery_status = 1\
-//   AND Status = 'Unassigned'\
-//   AND delivery_status.stat_id = delivery.delivery_status\
-//   AND person2.person_id = delivery.recipient_id\
-//   AND add_id = person2.add_id"
-//   // res.send("Got here!")
-//   con.query(sql, function (err, result) {
-//         if (err) throw err;
-//         console.log("Got a result!\n");
-//         console.log(result)
-//         if(result.length == 0){
-//           res.send(404)
-//           console.log("no results :(")
-//         } else {
-//           res.send(result)
-//         }
-//     });
-// });
-
-
-
-
 
 module.exports = router;

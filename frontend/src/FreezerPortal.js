@@ -17,6 +17,7 @@ import PersonIcon from '@material-ui/icons/Person'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
 import FreezerLog from './FreezerLog';
+import FreezerManagers from './FreezerManagers';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -100,28 +101,17 @@ function FreezerPortal() {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0} dir={theme.direction}>
-                         {/* Assigned Deliveries */}
-                         <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
-                        </UnassignedDeliveries>
-                      
-                        {/* Unassigned Deliveries */}
-                        {/* <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries"}>
-                        </UnassignedDeliveries> */}
-                        {/* Unassigned Deliveries2
-                        <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getUnassignedDeliveries2"} form = {{"type": ["To Assign",]}}>
-                        </UnassignedDeliveries>
-                        Test Unassigned Deliveries
-                        <UnassignedDeliveries title = "Unassigned Deliveries" url = {"http://"+window.location.hostname+":3000/manager/testUnassignedDeliveries"} form = {{"type": ["To Assign",]}}>
-                        </UnassignedDeliveries> */}
+                        <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
+                        </UnassignedDeliveries>                      
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
-
-                       item Two
-
+                       <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManager"}>
+                       </FreezerManagers>
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
+                        {console.log("before getting the freezer log data")}
+                        {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"} userId={}> */}
                         <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
-
                         </FreezerLog>
                     </TabPanel>
                     <TabPanel value={value} index={3} dir={theme.direction}>
