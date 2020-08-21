@@ -137,7 +137,7 @@ export default function DeliveryDetail (props) {
               label="Delivery Notes"
               placeholder="Referral notes"
               name = "refNotes"
-              value = {state.notes}
+              defaultValue = {state.notes}
               multiline
 
               />
