@@ -68,7 +68,6 @@ export default function UnassignedDeliveries (props) {
       setState(state => ({ ...state,visible: visible}))
     };
     const renderDropdown = (value,phone,email)=>{
-      
       return <DeliveryDetail delivery_id ={value} phone = {phone} email = {email}/>
     }
     const createList = state.data.map((row) => {

@@ -129,24 +129,6 @@ router.post('/getReferrerStatus', function(req, res, next) {
     });
 });
 
-router.post('/getBranches', function(req, res, next) {
-  //sql query for the data
-  reQArr = req.body["type[]"]
-  
-  const sql = "select branch_id, branch_name from branch"
-  // res.send("Got here!")
-  con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Got a result!\n");
-        console.log(result)
-        if(result.length == 0){
-          res.send(404)
-        } else {
-          res.send(result)
-        }
-    });
-});
-
 
 
 

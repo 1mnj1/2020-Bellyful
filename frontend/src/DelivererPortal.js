@@ -18,6 +18,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
 import FreezerLog from './FreezerLog';
 import MyOustanding from './MyOutstanding'
+import AutoTable from './AutoTable';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {

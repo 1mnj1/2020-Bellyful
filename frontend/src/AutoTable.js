@@ -104,9 +104,9 @@ export default function AutoTable(props){
         icons={tableIcons}
         // detailPanel = {rowData => {
         //   return(
-        //     <Paper>
+        //     <div>
         //       Hello World
-        //     </Paper>
+        //     </div>
         //   )
         // }}
         actions = {props.showAdder?[  //Add actions to rows and to toolbar

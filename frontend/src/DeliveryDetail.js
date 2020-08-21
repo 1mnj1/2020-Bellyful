@@ -118,22 +118,24 @@ export default function DeliveryDetail (props) {
         {renderMeals()}
          
         <form className = "Delivery_Detail">
-            <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"relative" ,    marginTop: "-2vh",    marginLeft: "66vw",     width: mobileCheck()?"80%":"25%"}}>
-                Update
-            </Button>
+            
             <TextField
               style = {{width: mobileCheck()?"80%":"92%"}}
               
               id="Delivery Notes"
               label="Delivery Notes"
-              placeholder="Referral notes"
               name = "refNotes"
               defaultValue = {state.notes}
               multiline
+              rows = "3"
+              variant = "outlined"
 
               />
                <br/> <br/>
-               
+            <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"relative" ,    marginTop: "-2vh",    marginLeft: "66vw",     width: mobileCheck()?"80%":"25%"}}>
+                Update
+            </Button>
+            <br/><br/>
             <Button variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%"}}>
                 Call
             </Button> 

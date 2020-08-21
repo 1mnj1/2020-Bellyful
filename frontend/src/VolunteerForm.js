@@ -65,7 +65,7 @@ function VolunteerForm(props) {
 
   React.useEffect(() => {
     
-    $.post( "http://"+window.location.hostname+":3000/manager/getBranches",  function( returnable ) {
+    $.post( "http://"+window.location.hostname+":3000/deliveryManager/getBranch",  function( returnable ) {
       if(returnable === null) return 
       if (returnable === undefined) return 
       if(returnable.length === 0) return 
