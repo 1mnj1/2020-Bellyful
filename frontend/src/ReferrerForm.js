@@ -44,59 +44,62 @@ const useStyles = makeStyles((theme) => ({
   function getPersonID( dict, success ){
     $.post("http://"+window.location.hostname+":3000/delivery/getPersonId",dict,success)
   }
+
+
 function ReferrerForm(props) {
     
-    const getData = 1
-    const classes = useStyles();
-    const findItem= (searchItem)=>{
-      for (var i = 0; i <props.formData.length; ++i){
-      
-        if (props.formData[i].name === searchItem) return props.formData[i].value;
-      }
-      return null
+  const getData = 1
+  const classes = useStyles();
+
+  const findItem= (searchItem)=>{
+    for (var i = 0; i <props.formData.length; ++i){
+      if (props.formData[i].name === searchItem) return props.formData[i].value;
     }
-    console.log(props.formData)
-    const [RefType, setRT] = React.useState(null);
-    const [selfRef, handleSelfRef] = React.useState((props.formData[0].name === "selfRef"));
-    const [refTypeVal, setrefTypeVal] = React.useState(findItem("RefType"));
-    React.useEffect(() => {
-    
-        $.post( "http://"+window.location.hostname+":3000/manager/getReferrerStatus",  function( returnable ) {
-          if(returnable === null) return 
-          if (returnable === undefined) return 
-          if(returnable.length === 0) return 
-          const data = returnable.map(row=>{var vals = Object.values(row); return (<MenuItem key = {vals[0]} value={vals[0]} >{vals[1]}</MenuItem>)  })
+  return null
+  }
 
-            
+  console.log("THIS IS THE PROPS.FORMDATA",props.formData)
+  //This contains the key for mapping the reftype drop down
+  const [RefType, setRT] = React.useState(null);
+  //This stores the selected refType
+  const [refTypeVal, setrefTypeVal] = React.useState(findItem("RefType")); 
+  //Handler for self references
+  const [selfRef, handleSelfRef] = React.useState((props.formData[0].name === "selfRef"));
 
-          $(setRT(data))
-          // this.props.setLogged(true)
-      });
-      }, [getData]);
-      var saveForm = ()=> {
-        var formData = $("form.referrerForm").serializeArray()
-        if(formData.length === 0){
-          formData = [{}]
-          props.setForm(formData)
-        } 
-        getAddressID(formData, (add_id)=>{
-          formData.push({"name":"address_id", "value" : add_id})
-          getPersonID( formData, (person_id)=> {
-            formData.push({"name":"person_id", "value" : person_id})
-            props.setForm(formData)
-          })
-          
-        })
-        
-      
-      };
+  React.useEffect(() => {
+  //Returns a list of Referrer types e.g. Plunket, Friend, Family e.t.c.
+    $.post( "http://"+window.location.hostname+":3000/manager/getReferrerStatus",  function( returnable ) {
+      if(returnable === null) return
+      if (returnable === undefined) return 
+      if(returnable.length === 0) return 
 
-    
-    
-    const handleChange = (event) => {
-      console.log("Changing target: ",event.target.value)
-        setrefTypeVal(event.target.value);
-    };
+      const data = returnable.map(row=>{var vals = Object.values(row); return (<MenuItem key = {vals[0]} value={vals[0]} >{vals[1]}</MenuItem>)  })
+
+      $(setRT(data)) //Takes the map of the types
+      // this.props.setLogged(true)
+    });
+  }, [getData]);
+
+
+  var saveForm = ()=> {
+    var formData = $("form.referrerForm").serializeArray()
+    if(formData.length === 0){
+      formData = [{}]
+      props.setForm(formData)
+    } 
+    getAddressID(formData, (add_id)=>{
+      formData.push({"name":"address_id", "value" : add_id})
+      getPersonID( formData, (person_id)=> {
+        formData.push({"name":"person_id", "value" : person_id})
+        props.setForm(formData)
+      })
+    })
+  };
+
+  const handleChange = (event) => {
+    console.log("Changing target: ",event.target.value)
+      setrefTypeVal(event.target.value);
+  };
     
   // Return a series of text elements to make a form
   return (

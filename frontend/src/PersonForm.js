@@ -37,13 +37,14 @@ function PersonForm(props ) {
     const classes = useStyles();
   // Return a series of text elements to make a form
 
-  const findItem= (searchItem)=>{
-    for (var i = 0; i <props.formData.length; ++i){
-    
-      if (props.formData[i].name === searchItem) return props.formData[i].value;
+    const findItem= (searchItem)=>{
+      for (var i = 0; i <props.formData.length; ++i){
+      
+        if (props.formData[i].name === searchItem) return props.formData[i].value;
+      }
+      return null
     }
-    return null
-  }
+    
   return (
     <div>
           <TextField
