@@ -8,16 +8,16 @@ router.post('/getNewDeliveries', function(req, res, next) {
 
 
 
-var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, COUNT(meal.meal_id) AS meals\
- FROM delivery\
- JOIN person on delivery.recipient_id = person.person_id\
- JOIN address on address.add_id = person.add_id\
- JOIN delivery_status on delivery.delivery_status = delivery_status.stat_id\
- JOIN meal on meal.delivery_id = delivery.delivery_id\
- WHERE delivery_status.stat_name like \"Unassigned\"\
- GROUP BY delivery.delivery_id\
- "
-
+var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
+  FROM delivery\
+  JOIN person on delivery.recipient_id = person.person_id\
+  JOIN address on address.add_id = person.add_id\
+  JOIN delivery_status on delivery.delivery_status = delivery_status.stat_id\
+  JOIN recipient on recipient.person_id = person.person_id \
+  WHERE delivery_status.stat_name like \"Unassigned\"\
+  GROUP BY delivery.delivery_id\
+  ORDER BY delivery.delivery_id\
+   "
 
 
 con.query(sql, function (err, result) {
@@ -60,12 +60,12 @@ router.post('/getRefNotes', function(req, res, next) {
 router.post('/getToContactDeliveries', function(req, res, next) {
 
 
-  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, COUNT(meal.meal_id) AS meals, person.person_email AS email\
+  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
   FROM delivery\
   JOIN person on delivery.recipient_id = person.person_id\
   JOIN address on address.add_id = person.add_id\
   JOIN delivery_status on delivery.delivery_status = delivery_status.stat_id\
-  JOIN meal on meal.delivery_id = delivery.delivery_id\
+  JOIN recipient on recipient.person_id = person.person_id \
   WHERE delivery_status.stat_name like 'To Contact'\
   AND delivery.vol_id = ?\
   GROUP BY delivery.delivery_id\
