@@ -25,12 +25,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function UnassignedDeliveries (props) {
-
+export default function MyOutstanding (props) {
+    
     const [state, setState] = React.useState({
         visible: [],
         columns: [ {}, ],
-        data: [ {}, ],
+        data: [  ],
     });
     
 
@@ -53,7 +53,7 @@ export default function UnassignedDeliveries (props) {
         $(setState(state => ({ ...state,visible: hidden,columns:fields, data : returnable})))
         // this.props.setLogged(true)
     });
-    }, [props.url,props.user_id]);
+    }, [props.url,props.user_id ]);
 
 
     
@@ -67,17 +67,42 @@ export default function UnassignedDeliveries (props) {
       visible[value] = !visible[value]
       setState(state => ({ ...state,visible: visible}))
     };
-    const renderDropdown = (value,phone,email)=>{
-      return <DeliveryDetail delivery_id ={value} phone = {phone} email = {email}/>
+    const removeDelivery = (del_id)=>
+    {
+      var oldState = {...state}
+      for (var i = 0; i < oldState.data.length; ++i){
+        if(oldState.data[i][state.columns[0]] == del_id){
+          oldState.visible.splice(i, 1)
+          oldState.data.splice(i, 1)
+          break
+        }
+
+      }
+      setState(oldState)
+      
     }
-    const createList = state.data.map((row) => {
+    const renderDropdown = (value,phone,email)=>{
+<<<<<<< HEAD
+      return <DeliveryDetail delivery_id ={value} phone = {phone} email = {email}/>
+=======
+      
+      return <DeliveryDetail 
+              reloadPage = {removeDelivery} 
+              delivery_id ={value} 
+              phone = {phone} 
+              email = {email}/>
+>>>>>>> master
+    }
+    console.log(state.data.length)
+    console.log(state.data)
+    const createList = state.data.map((row, index) => {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
       return (
         
         <div>
           <div>
-            <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
+            <ListItem key={value} role={undefined} dense button onClick={handleToggle(index)}>
                          
               <ListItemText
                 primary={row[state.columns[1]]}
@@ -118,7 +143,7 @@ export default function UnassignedDeliveries (props) {
               />
             </ListItem>
             {
-              state.visible[value] ? renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) : null
+              state.visible[index] ? renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) : null
               
 
             }
@@ -132,9 +157,10 @@ export default function UnassignedDeliveries (props) {
       <div style = {{overflowX: "hidden", paddingBottom: "20vh"}}>
         <h2>{props.title}</h2> 
         
-        <List className={classes.root}>
+        {state.data.length <= 0 ? 
+        <div className={classes.root} > Nothing to show! </div> : <List className={classes.root}>
             {createList}
-        </List>
+        </List>}
 
       </div>
     );

@@ -98,6 +98,15 @@ export default function DeliveryDetail (props) {
             </React.Fragment> ) 
         })               
     }
+    const updateDelState = (data)=>{
+        var formData = [
+            {"name":"status", "value":data},
+            {"name":"delivery_id", "value":props.delivery_id}
+        ]
+        var reload = (item)=>{props.reloadPage(props.delivery_id)}
+        $.post("http://"+window.location.hostname+":3000/volunteer/updateDelState",formData,reload)
+        
+    }
     const updateNotes = () => {
         var formData = $("form.Delivery_Detail").serializeArray()
         formData.push({"name":"delivery_id", "value":props.delivery_id})
@@ -121,7 +130,7 @@ export default function DeliveryDetail (props) {
             
             <TextField
               style = {{width: mobileCheck()?"80%":"92%"}}
-              
+              autoFocus = {true}
               id="Delivery Notes"
               label="Delivery Notes"
               name = "refNotes"
@@ -155,13 +164,13 @@ export default function DeliveryDetail (props) {
                 style = {{width: mobileCheck()?"80%":"92%"}}
                 value={state.delTime}
             /><br/> <br/>
-            <Button variant="contained"  onClick = {updateText} style = {{width: mobileCheck()?"80%":"92%"}}>
+            <Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Add to Confirmed Deliveries
             </Button> <br/> <br/>
-            <Button variant="contained"  onClick = {updateText} style = {{width: mobileCheck()?"80%":"92%"}}>
+            <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Cancelled by recipient
             </Button> <br/> <br/>
-            <Button variant="contained"  onClick = {updateText} style = {{width: mobileCheck()?"80%":"92%"}}>
+            <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Branch")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Cancelled by me
             </Button> <br/>
 

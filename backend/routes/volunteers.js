@@ -69,6 +69,7 @@ router.post('/getToContactDeliveries', function(req, res, next) {
   WHERE delivery_status.stat_name like 'To Contact'\
   AND delivery.vol_id = ?\
   GROUP BY delivery.delivery_id\
+  ORDER BY delivery.delivery_id\
    "
   
   
@@ -120,6 +121,34 @@ router.post('/getToContactDeliveries', function(req, res, next) {
         if (err) throw err;
       })
     })
+    router.post('/updateDelState', function(req, res, next) {
 
+
+      var sql = ["start TRANSACTION;",
+      "select delivery_status.stat_id into @a from delivery_status  where delivery_status.stat_name LIKE ?;",
+      "UPDATE `delivery` SET `delivery_status` = @a\
+      WHERE `delivery`.`delivery_id` = ?;",
+      "COMMIT;"]
+      var sqlVars = [
+        [req.body.status],
+       [ req.body.delivery_id]
+      ]
+      
+      
+      con.query(sql[0], function (err, result) {
+        if (err) throw err;
+        con.query(sql[1],sqlVars[0], function (err, result) {
+          if (err) throw err;
+          con.query(sql[2],sqlVars[1], function (err, result) {
+            if (err) throw err;
+            con.query(sql[3], function (err, result) {
+              if (err) throw err;
+              res.send(result)
+            })
+          })
+        })
+      })
+        
+    })
 
 module.exports = router;
