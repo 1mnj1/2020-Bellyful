@@ -86,6 +86,7 @@ export default function MyOutstanding (props) {
       return <DeliveryDetail 
               reloadPage = {removeDelivery} 
               delivery_id ={value} 
+              outstanding = {true}
               phone = {phone} 
               email = {email}/>
     }

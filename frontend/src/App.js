@@ -7,7 +7,7 @@ import Reporting from './Reporting'
 import DelivererPortal from './DelivererPortal'
 import DeliveryReporting from './DeliveryReporting'
 import FreezerPortal from './FreezerPortal'
-
+import DeliveryDriving from './DeliveryDriving'
 
 const pageIndex = require('./pageIndexer')
 
@@ -39,7 +39,7 @@ console.log(cookie.user_level)
       {page === pageIndex["reporting"] && cookie.user_level[0]>2 ? <Reporting/> : null}
       {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal/> : null}
       {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal user_id = {cookie.user_level[1]}/> : null}
-      
+      {page === pageIndex["base"] && cookie.user_level[0]>=1 ? <DeliveryDriving  delivery_id = {1} />: null} 
       
     </div>
   );

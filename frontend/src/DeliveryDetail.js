@@ -169,9 +169,10 @@ export default function DeliveryDetail (props) {
                 }}
                 value={state.delTime}
             /><br/> <br/>
-            <Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
+            {props.outstanding ? 
+            (<div><Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Add to Confirmed Deliveries
-            </Button> <br/> <br/>
+            </Button> <br/> <br/> </div>): null}
             <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Cancelled by recipient
             </Button> <br/> <br/>
