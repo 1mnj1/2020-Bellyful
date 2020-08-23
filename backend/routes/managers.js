@@ -44,11 +44,7 @@ router.post('/getDeliveries', function(req, res, next) {
         if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
-        
-
-
-
-
+  
         if(result.length == 0){
           res.send(404)
         } else {

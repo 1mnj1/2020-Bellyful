@@ -102,45 +102,37 @@ router.post('/getToContactDeliveries', function(req, res, next) {
   router.post('/getMealsForDelivery', function(req, res, next) {
 
 
-    var sql = "select meal_type.meal_type as meal, COUNT(meal.meal_id) as amnt\
-    from meal \
-    join meal_type on meal.meal_type = meal_type.MT_id\
-    WHERE meal.delivery_id = ?\
-    group by meal_type.MT_id\
-     "
-    
-    
-    
-    con.query(sql,[req.body.delivery_id], function (err, result) {
+// Gets all the freezer managers and their details
+router.post('/getFreezerManagers', function(req, res, next) {
+  //sql query for the data
+  sql = "SELECT CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.meal_id) as 'Available Meals'\
+  FROM freezer\
+  JOIN person ON freezer.person_id = person.person_id\
+  JOIN address ON freezer.add_id = address.add_id\
+  JOIN branch ON freezer.branch_id = branch.branch_id\
+  JOIN meal ON freezer.freezer_id = meal.freezer_id\
+  WHERE meal.delivery_id IS NULL\
+  AND meal.freezer_id = freezer.freezer_id\
+  "
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  con.query(sql, function (err, result) {
         if (err) throw err;
-        res.send(result)
-      })
-    })
-    router.post('/updateDelDeets', function(req, res, next) {
-      var datetime = (req.body.DelTime.replace("T", " "))+":00"
-      var data = [
-        req.body.refNotes,
-        req.body.delivery_id,
-        
-      ]
-      var data2 = [
-        datetime,
-        req.body.delivery_id
-      ]
-      var sql = "UPDATE `referrer` SET `notes` = ? \
-      WHERE `referrer`.`person_id` = (select delivery.ref_id from delivery where delivery.delivery_id = ?)"
-      var sql2 = " UPDATE `delivery` SET `delivery_est_time` = ? WHERE `delivery`.`delivery_id` = ? "
-      
-      
-      
-      con.query(sql,data, function (err, result) {
-          if (err) throw err;
-        })
-      con.query(sql2,data2, function (err, result) {
-        if (err) throw err;
-      })
-    })
-    router.post('/updateDelState', function(req, res, next) {
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
+
+SELECT CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.meal_id) as 'Available Meals' FROM freezer JOIN person ON freezer.person_id = person.person_id JOIN address ON freezer.add_id = address.add_id JOIN branch ON freezer.branch_id = branch.branch_id JOIN meal ON freezer.freezer_id = meal.freezer_id WHERE meal.delivery_id IS NULL AND meal.freezer_id = freezer.freezer_id
+
+
 
 
       var sql = ["start TRANSACTION;",

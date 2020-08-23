@@ -16,7 +16,7 @@ import PersonIcon from '@material-ui/icons/Person'
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
-import FreezerLog from './FreezerLog';
+
 import MyOustanding from './MyOutstanding'
 
 const useStyles = makeStyles((theme) => ({
