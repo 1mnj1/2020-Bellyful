@@ -18,7 +18,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
 import FreezerLog from './FreezerLog';
 import MyOustanding from './MyOutstanding'
-
+import MyConfirmed from './MyConfirmed'
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
       width: '100%',
@@ -113,9 +113,9 @@ function DelivererPortal(props) {
                     </TabPanel>
                     
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
+                        
+                         <MyConfirmed user_id = {props.user_id} title = "My Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}/>
 
-                        </FreezerLog> */}
                     </TabPanel>
                     <TabPanel value={value} index={3} dir={theme.direction}>
                         Item Three
