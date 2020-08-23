@@ -151,4 +151,57 @@ router.post('/getToContactDeliveries', function(req, res, next) {
         
     })
 
+    router.post('/getMapAddresses', function(req, res, next) {
+      //needs to return:
+      // [{address:"21 springwater vale unsworth heights auckland", type: "Start"},
+      //           {address:"1 springwater vale unsworth heights auckland", type: "Freezer"},
+      //           {address:"Massey University, Dairy Flat, Albany, Auckland", type:"Recipient"}]
+
+      var sql = "select DISTINCT mealAddress.address as address, 'Freezer' as type\
+      from \
+      (\
+      select CONCAT(address.add_num, ' ' , address.add_street, ' ', address.add_suburb, ' ', address.add_city, ' ', address.add_postcode) as address\
+      from delivery \
+      join meal on meal.delivery_id = delivery.delivery_id\
+      join freezer on freezer.freezer_id = meal.freezer_id\
+      join address on address.add_id = freezer.add_id\
+      where delivery.delivery_id = ?\
+      \
+      ) as mealAddress"
+      var sqlVars = [req.delivery_id]
+      
+      
+      con.query(sql, sqlVars, function (err, freezer) {
+        if (err) throw err;
+        if(freezer.length == 0) {
+          console.log("There are no freezer meals for this delivery!")
+          res.send(404)
+          return
+        }
+        sql = "select \
+        CONCAT(volAdd.add_num, ' ' , volAdd.add_street, ' ', volAdd.add_suburb, ' ', volAdd.add_city, ' ', address.add_postcode) as volAddress,\
+        CONCAT(recAdd.add_num, ' ' , recAdd.add_street, ' ', recAdd.add_suburb, ' ', recAdd.add_city, ' ', address.add_postcode) as recAddress\
+        from delivery \
+        join person as rec on rec.person_id = delivery.recipient_id \
+        join person as vol on vol.person_id = delivery.vol_id \
+        join address as volAdd on vol.add_id = volAdd.add_id\
+        join address as recAdd on rec.add_id = recAdd.add_id\
+        where delivery.delivery_id = ?"
+        con.query(sql, sqlVars, function (err, startStop) {
+          if (err) throw err;
+          if(startStop.length == 0) {
+            console.log("There are no freezer meals for this delivery!")
+            res.send(404)
+            return
+          }
+          var start = startStop[0].volAddress
+          var stop = startStop[0].recAddress
+          freezer.splice(0, 0, {address: start, type: "start"});
+          freezer.push({address: stop, type: "start"})
+          res.send(freezer)
+          
+        })
+      })
+    })
+
 module.exports = router;

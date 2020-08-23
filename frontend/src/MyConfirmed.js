@@ -27,11 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyOutstanding (props) {
     
-    const [state, setState] = React.useState({
-        visible: [],
-        columns: [ {}, ],
-        data: [  ],
-    });
+    // const [state, setState] = React.useState({
+    //     visible: [],
+    //     columns: [ {}, ],
+    //     data: [  ],
+    // });
+    const state = props.state
+    const setState = props.setState
     
 
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
@@ -44,13 +46,10 @@ export default function MyOutstanding (props) {
         if (returnable === undefined) return 
         if(returnable.length === 0) return 
         var fields = Object.keys(returnable[0])
-        var hidden = []
-        for (var i = 0; i < returnable.length; ++i){
-          hidden.push(false)
-        }
+        
         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
         // $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
-        $(setState(state => ({ ...state,visible: hidden,columns:fields, data : returnable})))
+        $(setState(state => ({ ...state,columns:fields, data : returnable})))
         // this.props.setLogged(true)
     });
     }, [props.url,props.user_id ]);
@@ -62,34 +61,8 @@ export default function MyOutstanding (props) {
 
     const classes = useStyles();
   
-    const handleToggle = (value) => () => {
-      var visible = [...state.visible]
-      visible[value] = !visible[value]
-      setState(state => ({ ...state,visible: visible}))
-    };
-    const removeDelivery = (del_id)=>
-    {
-      var oldState = {...state}
-      for (var i = 0; i < oldState.data.length; ++i){
-        if(oldState.data[i][state.columns[0]] == del_id){
-          oldState.visible.splice(i, 1)
-          oldState.data.splice(i, 1)
-          break
-        }
-
-      }
-      setState(oldState)
-      
-    }
-    const renderDropdown = (value,phone,email)=>{
-      
-      return <DeliveryDetail 
-              reloadPage = {removeDelivery} 
-              delivery_id ={value} 
-              outstanding = {true}
-              phone = {phone} 
-              email = {email}/>
-    }
+    
+    
     console.log(state.data.length)
     console.log(state.data)
     const createList = state.data.map((row, index) => {
@@ -99,7 +72,7 @@ export default function MyOutstanding (props) {
         
         <div>
           <div>
-            <ListItem key={value} role={undefined} dense button onClick={handleToggle(index)}>
+            <ListItem key={value} role={undefined} dense button onClick={(value)=>setState({...state, deliveryID: value})    }>
                          
               <ListItemText
                 primary={row[state.columns[1]]}
@@ -139,11 +112,6 @@ export default function MyOutstanding (props) {
                 }
               />
             </ListItem>
-            {
-              state.visible[index] ? renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) : null
-              
-
-            }
             
           </div>
           <Divider component="li" />
