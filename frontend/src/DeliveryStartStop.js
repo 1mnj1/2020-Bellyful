@@ -19,9 +19,6 @@ import Box from '@material-ui/core/Box';
             if(returnable === null) return 
             if (returnable === undefined) return 
             console.log("Time: ", returnable)
-            var StrDate = String(returnable)
-            
-            console.log("New time: "+StrDate.slice(0,StrDate.length-8))
             $(setState(state => ({ ...state, estTime: returnable[0].estTime, start: returnable[0].start, end: returnable[0].end    })))
         })
 
@@ -33,10 +30,7 @@ import Box from '@material-ui/core/Box';
             if(returnable === null) return 
             if (returnable === undefined) return 
             console.log("Time: ", returnable)
-            var StrDate = String(returnable)
-            
-            console.log("New time: "+StrDate.slice(0,StrDate.length-8))
-            $(setState(state => ({ ...state, start: returnable[0].start})))
+            $(setState(state => ({ ...state, start: 1})))
         })
       } else {
         $.post("http://"+window.location.hostname+":3000/volunteer/setStop",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
@@ -47,7 +41,7 @@ import Box from '@material-ui/core/Box';
             var StrDate = String(returnable)
             
             console.log("New time: "+StrDate.slice(0,StrDate.length-8))
-            $(setState(state => ({ ...state, end: returnable[0].stop})))
+            $(setState(state => ({ ...state, end: 1})))
         })
       }
     }

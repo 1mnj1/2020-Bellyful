@@ -124,8 +124,8 @@ function DelivererPortal(props) {
                              <MyConfirmed 
                                 state = {myConfirmed} 
                                 setState = {setMyConfirmed}
-                                user_id = {props.user_id} title = "My Outstanding" 
-                                url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}/>
+                                user_id = {props.user_id} title = "My confirmed" 
+                                url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
                             :
                             <DeliveryDriving  
                                 delivery_id = {myConfirmed.deliveryID} 

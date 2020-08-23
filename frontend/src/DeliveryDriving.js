@@ -43,6 +43,7 @@ export default function  DeliveryDriving(props) {
       }
       const [address, setAddress] = React.useState()
       React.useEffect(()=>{
+        console.log("Delivery ID: ", props.delivery_id)
         $.post("http://"+window.location.hostname+":3000/volunteer/getMapAddresses",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)
             if(returnable === null) return 
@@ -62,13 +63,13 @@ export default function  DeliveryDriving(props) {
         <div>  
             <div >
                 <HideOnScroll {...props}>
-                    <AppBar position="sticky" style = {{marginTop: "-3vh", width: "100vw", backgroundColor: "#865172"}}>
+                    <AppBar position="sticky" style = {{marginTop: "-3vh", width: "100vw", backgroundColor: "#865172"}} onClick = {()=>{props.setConfirmedState({...props.confirmedState, deliveryID:null})}}>
                         <Toolbar component = "div">
                         <IconButton 
                             edge="start" 
                             color="inherit"
                             aria-label="menu" 
-                            onClick = {()=>{props.setConfirmedState({...props.confirmedState, deliveryID:null})}}>
+                            >
                             <ArrowBackIosIcon />
                         </IconButton>
                         <Typography variant="h6" >
@@ -78,7 +79,7 @@ export default function  DeliveryDriving(props) {
                     </AppBar>
                 </HideOnScroll>
             </div>
-            <div style = {{paddingTop: "3vh"}}>
+            <div style = {{paddingTop: "3vh", paddingBottom: "10vh", overflowX: "hidden"}}>
                 <DeliveryStartStop delivery_id = {props.delivery_id}/>
                 {address==null?null: <DeliveryMap addressDetails = {address}/>}
                 <div style = {{    background: "white",

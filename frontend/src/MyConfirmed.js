@@ -68,11 +68,12 @@ export default function MyOutstanding (props) {
     const createList = state.data.map((row, index) => {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
+      // console.log("MY Confirmed value: ",value)
       return (
         
         <div>
           <div>
-            <ListItem key={value} role={undefined} dense button onClick={(value)=>setState({...state, deliveryID: value})    }>
+            <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, deliveryID: value})    }>
                          
               <ListItemText
                 primary={row[state.columns[1]]}

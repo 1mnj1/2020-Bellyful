@@ -79,6 +79,28 @@ router.post('/getToContactDeliveries', function(req, res, next) {
       res.send(result)
     })
   })
+  router.post('/getAssignedIntransit', function(req, res, next) {
+
+
+    var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
+    FROM delivery\
+    JOIN person on delivery.recipient_id = person.person_id\
+    JOIN address on address.add_id = person.add_id\
+    JOIN delivery_status on delivery.delivery_status = delivery_status.stat_id\
+    JOIN recipient on recipient.person_id = person.person_id \
+    WHERE (delivery_status.stat_name like 'Assigned' OR delivery_status.stat_name like 'In Transit')\
+    AND delivery.vol_id = ?\
+    GROUP BY delivery.delivery_id\
+    ORDER BY delivery.delivery_id\
+     "
+    
+    
+    
+    con.query(sql,[req.body.user_id], function (err, result) {
+        if (err) throw err;
+        res.send(result)
+      })
+    })
 
   router.post('/getMealsForDelivery', function(req, res, next) {
 
@@ -168,19 +190,20 @@ router.post('/getToContactDeliveries', function(req, res, next) {
       where delivery.delivery_id = ?\
       \
       ) as mealAddress"
-      var sqlVars = [req.delivery_id]
+      var sqlVars = [req.body.delivery_id]
       
-      
+      console.log("SqlVars: ", sqlVars)
       con.query(sql, sqlVars, function (err, freezer) {
         if (err) throw err;
         if(freezer.length == 0) {
           console.log("There are no freezer meals for this delivery!")
-          res.send(404)
+          
+          res.sendStatus(404)
           return
         }
         sql = "select \
-        CONCAT(volAdd.add_num, ' ' , volAdd.add_street, ' ', volAdd.add_suburb, ' ', volAdd.add_city, ' ', address.add_postcode) as volAddress,\
-        CONCAT(recAdd.add_num, ' ' , recAdd.add_street, ' ', recAdd.add_suburb, ' ', recAdd.add_city, ' ', address.add_postcode) as recAddress\
+        CONCAT(volAdd.add_num, ' ' , volAdd.add_street, ' ', volAdd.add_suburb, ' ', volAdd.add_city, ' ', volAdd.add_postcode) as volAddress,\
+        CONCAT(recAdd.add_num, ' ' , recAdd.add_street, ' ', recAdd.add_suburb, ' ', recAdd.add_city, ' ', recAdd.add_postcode) as recAddress\
         from delivery \
         join person as rec on rec.person_id = delivery.recipient_id \
         join person as vol on vol.person_id = delivery.vol_id \
@@ -203,5 +226,47 @@ router.post('/getToContactDeliveries', function(req, res, next) {
         })
       })
     })
-
+    router.post('/getStartStop', function(req, res, next) {
+  
+      var sql = 'select delivery.delivery_est_time as estTime, delivery.delivery_start as  start, delivery.delivery_end as  end \
+      from delivery\
+      where delivery.delivery_id = ?'
+      
+       con.query(sql,[req.body.delivery_id], function (err, result) {
+        if (err) throw err;
+        if(result.length == 0 || result == undefined) {
+          res.send(null) ;return 
+        }
+        
+        res.send(result)
+      })
+    })
+    router.post('/setStart', function(req, res, next) {
+  
+      var sql = "UPDATE `delivery` SET `delivery_status` = '3', `delivery_start` = CURRENT_TIMESTAMP() WHERE `delivery`.`delivery_id` = ?"
+      
+       con.query(sql,[req.body.delivery_id], function (err, result) {
+        if (err) throw err;
+        if(result.length == 0 || result == undefined) {
+          res.send(null) ;return 
+        }
+        
+        res.send(result)
+      })
+    })
+    router.post('/setStop', function(req, res, next) {
+  
+      var sql = 'UPDATE delivery \
+      SET delivery.delivery_end = CURRENT_TIMESTAMP()\
+      where delivery.delivery_id = ?'
+      
+       con.query(sql,[req.body.delivery_id], function (err, result) {
+        if (err) throw err;
+        if(result.length == 0 || result == undefined) {
+          res.send(null) ;return 
+        }
+        
+        res.send(result)
+      })
+    })
 module.exports = router;

@@ -127,14 +127,14 @@ export default function DeliveryDetail (props) {
         {renderMeals()}
          
         <form className = "Delivery_Detail">
-            <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"relative" ,    marginTop: "-2vh",    marginLeft: "66vw",     width: mobileCheck()?"80%":"25%"}}>
+            <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"relative" ,    marginTop:mobileCheck()?"0px": "-2vh",    marginLeft: mobileCheck()? "1vw":"66vw",     width: mobileCheck()?"80%":"25%"}}>
                 Update
             </Button>
             <TextField
               style = {{width: mobileCheck()?"80%":"92%"}}
               autoFocus = {true}
               id="Delivery Notes"
-              label="Delivery Notes"
+              label=""
               placeholder="Referral notes"
               name = "refNotes"
               defaultValue = {state.notes}

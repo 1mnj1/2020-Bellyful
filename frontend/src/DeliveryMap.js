@@ -55,13 +55,18 @@ const StyledTableCell = withStyles((theme) => ({
       },
     },
   }))(TableRow);
+  const mobileCheck = function() {
+        
+    return window.screen.width < 620
+  };
     const styles = {
-      width: "96vw",
+      width:  mobileCheck()?"90%":"96vw",
       height: "60vh",
     };
     // end copy
     //Function to create a map and populate a table.
     function DeliveryMap (props) {
+      
         const classes = useStyles();    
         const [mapObj, setMapObj] = useState({map:null});
         const [state,setState] = useState({
@@ -114,7 +119,7 @@ const StyledTableCell = withStyles((theme) => ({
                 const initializeMap = ({ setMapObj, mapContainer }) => {
                     // Create the map, point it to the start coordinates and set the tilt/zoom level 
                     // Bigger zoom = longer initial loading time - tiles are loaded at 2^(zoomlevel)-1
-
+                
                 const map = new mapboxgl.Map({
                     container: mapContainer.current,
                     style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
@@ -124,13 +129,26 @@ const StyledTableCell = withStyles((theme) => ({
                 });
             
                 // When the user clicks and moves, set state to the new move
-                map.on('move', () => {
+                map.on('move', (e) => {
+                        
                         setState({
                         lng: map.getCenter().lng.toFixed(4),
                         lat: map.getCenter().lat.toFixed(4),
                         zoom: map.getZoom().toFixed(2)
                         });
                     });
+                    map.on("touchstart", (event)=>{
+                      event.originalEvent.cancelBubble = true;
+                    })
+                    map.on("mousedown", (event)=>{
+                      event.originalEvent.cancelBubble = true;
+                    })
+                    map.on("mousemove", (event)=>{
+                      event.originalEvent.cancelBubble = true;
+                    })
+                    map.on("touchmove", (event)=>{
+                      event.originalEvent.cancelBubble = true;
+                    })
                     // When the map has rendered
                     map.on("load", () => {
                         // Put the route layer on top of it
@@ -182,7 +200,7 @@ const StyledTableCell = withStyles((theme) => ({
         paddingTop: "1vh",
         paddingLeft: "3vw"}}>
                 <div ref={el => (mapContainer.current = el)} style={styles} />
-                <div style = {{width:"99%", marginTop:"1%"}}>
+                <div style = {{ width: mobileCheck()?"90%": null, marginTop:"1%"}}>
                    <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="customized table">
                         <TableHead>
