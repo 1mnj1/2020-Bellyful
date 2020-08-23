@@ -6,8 +6,6 @@ con = mysqlDetails.con
 
 router.post('/getNewDeliveries', function(req, res, next) {
 
-
-
 var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
   FROM delivery\
   JOIN person on delivery.recipient_id = person.person_id\
@@ -19,13 +17,34 @@ var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', 
   ORDER BY delivery.delivery_id\
    "
 
-
 con.query(sql, function (err, result) {
     if (err) throw err;
     res.send(result)
   })
 })
 
+// Gets the number of avaiable meals for all freezers and branches
+router.post('/getFreezerLog', function(req, res, next) {
+  //sql query for the data
+  sql = "SELECT M.meal_type AS 'Meal Type Id', MT.meal_type AS Dish , count(M.meal_type) AS 'Available Meals'\
+  FROM `meal` AS M\
+  JOIN meal_type AS MT ON M.meal_type = MT.MT_id\
+  WHERE M.delivery_id is null\
+  GROUP by M.meal_type"
+  //returns meal type id, meal type name, and available meals
+  // res.send("Got here!")
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
 
 router.post('/getDelTime', function(req, res, next) {
 
