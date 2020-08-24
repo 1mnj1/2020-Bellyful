@@ -257,10 +257,10 @@ CREATE TABLE `meal_type` (
 --
 
 INSERT INTO `meal_type` (`MT_id`, `meal_type`) VALUES
-(1, 'lasagna'),
+(1, 'Lasagna'),
 (2, 'Mac and Cheese'),
-(3, 'Spag Bol'),
-(4, 'Tomato and lentil Soup');
+(3, 'Spagetti Bolognese'),
+(4, 'Tomato and Lentil Soup');
 
 -- --------------------------------------------------------
 

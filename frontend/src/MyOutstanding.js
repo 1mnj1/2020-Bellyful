@@ -56,9 +56,6 @@ export default function MyOutstanding (props) {
     }, [props.url,props.user_id ]);
 
 
-    
-
-
 
     const classes = useStyles();
   
@@ -82,16 +79,13 @@ export default function MyOutstanding (props) {
       
     }
     const renderDropdown = (value,phone,email)=>{
-<<<<<<< HEAD
-      return <DeliveryDetail delivery_id ={value} phone = {phone} email = {email}/>
-=======
       
       return <DeliveryDetail 
               reloadPage = {removeDelivery} 
               delivery_id ={value} 
               phone = {phone} 
-              email = {email}/>
->>>>>>> master
+              email = {email}
+              setdeliveryID = {props.setdeliveryID} />
     }
     console.log(state.data.length)
     console.log(state.data)
@@ -101,7 +95,7 @@ export default function MyOutstanding (props) {
       return (
         
         <div>
-          <div>
+          
             <ListItem key={value} role={undefined} dense button onClick={handleToggle(index)}>
                          
               <ListItemText
@@ -144,11 +138,7 @@ export default function MyOutstanding (props) {
             </ListItem>
             {
               state.visible[index] ? renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) : null
-              
-
             }
-            
-          </div>
           <Divider component="li" />
         </div>
       );
@@ -158,7 +148,9 @@ export default function MyOutstanding (props) {
         <h2>{props.title}</h2> 
         
         {state.data.length <= 0 ? 
-        <div className={classes.root} > Nothing to show! </div> : <List className={classes.root}>
+        <div className={classes.root} > Nothing to show! </div> 
+        : 
+        <List className={classes.root}>
             {createList}
         </List>}
 

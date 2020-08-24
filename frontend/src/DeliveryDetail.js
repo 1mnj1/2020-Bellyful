@@ -1,10 +1,13 @@
-import React from "react"
+import React, { useState } from "react"
 import Button from '@material-ui/core/Button';
 import $ from 'jquery'
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+
 var fullWidth = 100
 const classes = makeStyles((theme) => ({
     root: {
@@ -36,11 +39,18 @@ const classes = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
         width: String(fullWidth/4)+'ch',
     }, 
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+        
+      },
   }));
 
 
 
 export default function DeliveryDetail (props) {
+
     const [state,setState] = React.useState({
         data : [{}],
         columns: [],
@@ -86,16 +96,19 @@ export default function DeliveryDetail (props) {
     //render the meals, this returns a series of items
     const renderMeals = ()=>{
         return state.data.map((row)=>{
-            return (<React.Fragment>
-                <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                >
-                   <b> {row[state.columns[0]]} {row[state.columns[1]]}</b><br/>
-                </Typography>           
-            </React.Fragment> ) 
+            return (
+
+                <React.Fragment>
+                        <Typography
+                            component="span"
+                            variant="body2"
+                            className={classes.inline}
+                            color="textPrimary"
+                        >
+                        <b> {row[state.columns[0]]}:   x {row[state.columns[1]]}</b><br/>
+                        </Typography>     
+                </React.Fragment> 
+            ) 
         })               
     }
     const updateDelState = (data)=>{
@@ -120,12 +133,20 @@ export default function DeliveryDetail (props) {
         return window.screen.width < 620
       };
 
-    const updateText = () =>{}
+    const updateText = () =>{};
+
+
     return (
       <div style = {{overflowX: "hidden", textAlign : "left", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
-       
-        {renderMeals()}
-         
+        <Grid container spacing = {3}>
+            <Grid item xs = {6}>
+                <Paper className={classes.paper}>{renderMeals()}</Paper>
+            </Grid>
+            <Grid item xs = {6}>
+                <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>
+            </Grid>
+        </Grid>
+        <br/><br/>
         <form className = "Delivery_Detail">
             
             <TextField
@@ -142,7 +163,7 @@ export default function DeliveryDetail (props) {
               />
                <br/> <br/>
             <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"relative" ,    marginTop: "-2vh",    marginLeft: "66vw",     width: mobileCheck()?"80%":"25%"}}>
-                Update
+                Update Notes
             </Button>
             <br/><br/>
             <Button variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%"}}>

@@ -17,7 +17,6 @@ import PersonIcon from '@material-ui/icons/Person'
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
 import FreezerLog from './FreezerLog';
-import FreezerManagers from './FreezerManagers';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -105,8 +104,6 @@ function FreezerPortal() {
                         </UnassignedDeliveries>                      
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
-                       <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManager"}>
-                       </FreezerManagers>
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
                         {console.log("before getting the freezer log data")}

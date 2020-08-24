@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // import BottomNavigation from '@material-ui/core/BottomNavigation';
 // import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -18,7 +18,8 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
 import FreezerLog from './FreezerLog';
 import MyOustanding from './MyOutstanding'
-import AutoTable from './AutoTable';
+import PickMeals from './PickMeals'
+import DynamicComponent from './Dynamic';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -29,8 +30,14 @@ const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: 'rgb(239, 230, 215)',
         flexGrow: 1
+    },
+    fullPanel : {
+        width :'100%',
+        height : '100%',
+        backgroundColor : 'blue'
     }
-  }));
+
+}));
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -72,10 +79,13 @@ function DelivererPortal(props) {
     const classes = useStyles();
     const theme = useTheme();
 
+    //Portal has global deliveryID, if it is -1 then no delivery is selected, else = Del ID of selected delivery
+    const [deliveryID, setdeliveryID] = React.useState(-1);
 
     const [value, setValue] = React.useState('0');
     const handleChange = (event, newValue) => {
         console.log("Set Value to : " + newValue);
+        console.log("DeliveryID for Portal = ", deliveryID)
         setValue(newValue);
     }
     const handleChangeIndex = (index) => {
@@ -83,67 +93,63 @@ function DelivererPortal(props) {
     }
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
+    
 
     return (
-        <>
         <div className={classes.root}>
-            {/* <BottomNavigation value={value} onChange={handleChange} className={classes.Navigation_root}>
-                <BottomNavigationAction lable="New Deliveries" value="0" icon={<NotificationsActiveIcon/>} {...a11yProps(0)}/>
-                <BottomNavigationAction lable="Deliveries" value="1" icon={<LocalShippingIcon/>} {...a11yProps(1)}/>
-                <BottomNavigationAction lable="Freezers" value="2" icon={<AcUnitIcon/>} {...a11yProps(2)}/>
-                <BottomNavigationAction lable="My Profile" value="3" icon={<PersonIcon/>} {...a11yProps(3)}/>
-            </BottomNavigation> */}
             
                 
-                <SwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                    index={value}
-                    onChangeIndex={handleChangeIndex}
+            <SwipeableViews
+                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                index={value}
+                onChangeIndex={handleChangeIndex}
+            >
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                        {/* Assigned Deliveries */}
+                        <UnassignedDeliveries title = "Branch Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
+                    </UnassignedDeliveries>
+                    
+                </TabPanel>
+                <TabPanel value={value} index={1} dir={theme.direction}>
+
+                        {deliveryID > -1 ? 
+                        <PickMeals del_ID = {deliveryID} user_id = {props.user_id}></PickMeals>
+                        : 
+                        <MyOustanding user_id = {props.user_id} title = "My Outstanding" 
+                        setdeliveryID = {setdeliveryID}
+                        url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}/>
+                }
+                    
+                </TabPanel>
+                
+                <TabPanel value={value} index={2} dir={theme.direction}>
+                    {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
+
+                    </FreezerLog> */}
+                </TabPanel>
+                <TabPanel value={value} index={3} dir={theme.direction}>
+                    Item Three
+                </TabPanel>
+                
+            </SwipeableViews>
+            
+            
+            <AppBar position="static" color="default" className={classes.Navigation_root}>
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                indicatorColor="primary"
+                textColor="primary"
+                variant="fullWidth"
+                aria-label="full width tabs example"
                 >
-                    <TabPanel value={value} index={0} dir={theme.direction}>
-                         {/* Assigned Deliveries */}
-                         <UnassignedDeliveries title = "Branch Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
-                        </UnassignedDeliveries>
-                      
-                    </TabPanel>
-                    <TabPanel value={value} index={1} dir={theme.direction}>
-
-                        <MyOustanding user_id = {props.user_id} title = "My Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}/>
-
-
-                    </TabPanel>
-                    
-                    <TabPanel value={value} index={2} dir={theme.direction}>
-                        {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
-
-                        </FreezerLog> */}
-                    </TabPanel>
-                    <TabPanel value={value} index={3} dir={theme.direction}>
-                        Item Three
-                    </TabPanel>
-                    
-                </SwipeableViews>
-                
-                
-                <AppBar position="static" color="default" className={classes.Navigation_root}>
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="fullWidth"
-                    aria-label="full width tabs example"
-                    >
-                    <Tab label="Branch Outstanding" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
-                    <Tab label="My Outstanding" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                    <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
-                    <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
-                    </Tabs>
-                </AppBar>
-                </div>
-        </>
-        
-        
+                <Tab label="Branch Outstanding" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
+                <Tab label="My Outstanding" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
+                <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
+                <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
+                </Tabs>
+            </AppBar>
+        </div>
 
     );
 }
