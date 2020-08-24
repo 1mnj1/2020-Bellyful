@@ -20,6 +20,8 @@ import FreezerLog from './FreezerLog';
 import MyOustanding from './MyOutstanding'
 import PickMeals from './PickMeals'
 import DynamicComponent from './Dynamic';
+import MyConfirmed from './MyConfirmed'
+import DeliveryDriving from './DeliveryDriving'
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -81,6 +83,11 @@ function DelivererPortal(props) {
 
     //Portal has global deliveryID, if it is -1 then no delivery is selected, else = Del ID of selected delivery
     const [deliveryID, setdeliveryID] = React.useState(-1);
+    const [myConfirmed, setMyConfirmed] = React.useState({
+        columns: [ {}, ],
+        data: [  ],
+        deliveryID: null
+    });
 
     const [value, setValue] = React.useState('0');
     const handleChange = (event, newValue) => {
@@ -112,20 +119,28 @@ function DelivererPortal(props) {
                 </TabPanel>
                 <TabPanel value={value} index={1} dir={theme.direction}>
 
-                        {deliveryID > -1 ? 
+                    {deliveryID > -1 ? 
                         <PickMeals del_ID = {deliveryID} user_id = {props.user_id}></PickMeals>
                         : 
                         <MyOustanding user_id = {props.user_id} title = "My Outstanding" 
                         setdeliveryID = {setdeliveryID}
                         url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}/>
-                }
-                    
+                    }
                 </TabPanel>
-                
                 <TabPanel value={value} index={2} dir={theme.direction}>
-                    {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
-
-                    </FreezerLog> */}
+                        
+                    {myConfirmed.deliveryID == null? 
+                        <MyConfirmed 
+                        state = {myConfirmed} 
+                        setState = {setMyConfirmed}
+                        user_id = {props.user_id} title = "My confirmed" 
+                        url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
+                    :
+                    <DeliveryDriving  
+                        delivery_id = {myConfirmed.deliveryID} 
+                        confirmedState = {myConfirmed}
+                        setConfirmedState = {setMyConfirmed}/>
+                    }
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
                     Item Three
@@ -149,7 +164,8 @@ function DelivererPortal(props) {
                 <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
-        </div>
+        </
+        div>
 
     );
 }

@@ -136,6 +136,8 @@ export default function DeliveryDetail (props) {
     const updateText = () =>{};
 
 
+    
+    
     return (
       <div style = {{overflowX: "hidden", textAlign : "left", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
         <Grid container spacing = {3}>
@@ -183,11 +185,19 @@ export default function DeliveryDetail (props) {
                 }}
                 name = "DelTime"
                 style = {{width: mobileCheck()?"80%":"92%"}}
+                // 
+                onChange = { (event)=>{
+                    var target = event.target
+                    if(target == null){return};
+                    console.log(target.value);
+                    setState(state => ({ ...state,delTime: target.value}))
+                }}
                 value={state.delTime}
             /><br/> <br/>
-            <Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
+            {props.outstanding ? 
+            (<div><Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Add to Confirmed Deliveries
-            </Button> <br/> <br/>
+            </Button> <br/> <br/> </div>): null}
             <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Cancelled by recipient
             </Button> <br/> <br/>
