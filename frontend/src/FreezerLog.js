@@ -22,34 +22,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function FreezerLog (props) {
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Functions that are not being used
 
-    const [state, setState] = useState({
-        columns: [ {}, ],
-        data: [ {}, ],
-        quantities: [{}]
-    });
 
-    const [quantity, setQuantity] = useState([]);
-
-    const updateFieldChanged = index => e => {
-        console.log('index', index);
-        console.log('property name:', e.target.name);
-        console.log('property value:', e.target.value);
-        let newArray = [...quantity]; // Copy the old state
-        newArray[index] = e.target.value; // replace e.target.value with updated quantity
-
-        setQuantity(newArray); // set the new state
-
-        console.log('updated array', newArray);
-    }
-
-    const setColumns = (colNames)=>{
-      var columns = []; 
-      colNames.forEach(element => columns.push({title: element, field: element}));
-      return columns
-  }
-
+    // probably dont need to save the from as this is done on the submit buttons
     // Return a series of text elements to make a form
     var saveForm = ()=> {
       var formData = $("form.mealForm").serializeArray()
@@ -61,17 +38,6 @@ export default function FreezerLog (props) {
       
     
     };
-
-
-    function setAlert() {
-      return (
-      <Alert severity="success">
-        <AlertTitle>Success</AlertTitle>
-        Freezer Updated!
-        {console.log("alert function called")}
-      </Alert>
-      )
-    }
 
     function getAddressID( dict, success ){
       $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
@@ -95,21 +61,58 @@ export default function FreezerLog (props) {
     
     };
 
-    var saveMealQuantities = () => {
+    // console.log("before the get data request for freezer log")
+    // console.log(props.url)
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+export default function FreezerLog (props) {
+
+  // Set the state variables
+  // Used to get the data
+    const [state, setState] = useState({
+        columns: [ {}, ],
+        data: [ {}, ]
+    });
+
+    // State to keep track of the new quanitites for each meal
+    const [quantity, setQuantity] = useState([]);
+
+    // Function that will update the quantity state when the form changes
+    const updateFieldChanged = index => e => {
+
+        console.log('index', index);
+        console.log('property name:', e.target.name);
+        console.log('property value:', e.target.value);
+
+        let newArray = [...quantity]; // Copy the old state to a new array
+        newArray[index] = e.target.value; // replace old quantity with updated quantity
+        setQuantity(newArray); // set the new state
+
+        console.log('updated array', newArray);
+    }
+
+    // Set the columns for the data
+    const setColumns = (colNames)=>{
+      var columns = []; 
+      colNames.forEach(element => columns.push({title: element, field: element}));
+      return columns
+  }
+
+
+    // Alert the user that their action was successful
+    function setAlert() {
+      return (
+      <Alert severity="success">
+        <AlertTitle>Success</AlertTitle>
+        Freezer Updated!
+        {console.log("alert function called")}
+      </Alert>
+      )
     }
 
 
-    function mealChange(mealTypeId, quantity) {
-        return (
-          console.log("Hello there, ", {mealTypeId}, "quantity has been altered to ", {quantity})
-          // <Alert>Hello there, {mealTypeId} quantity has been altered</Alert>
-        )
-    }
-
-    
-  console.log("before the get data request for freezer log")
-  console.log(props.url)
 
   // To get the data
   React.useEffect(() => {
@@ -135,17 +138,51 @@ export default function FreezerLog (props) {
   }, [props.url,props.title]);
 
 
+
+  // Style for the form
   const classes = useStyles();
 
 
-  const handleTopUp = (evt) => {
-    evt.preventDefault();
-    alert('Submitting quantity ${quantity} and mealTypeId ${mealTypeId')
-    // for (mealType : row) {
-    //   row[state.columns[0]];
-    // }
+  // TODO: fix these alerts to work with material ui (they dont work normally for some reason)
+  const handleTopUp = (e) => {
+    e.preventDefault();
+
+    // If quantity state length is 0 then do nothing
+    if (quantity.length > 0) {
+
+      alert('Adding meals to freezer');
+      console.log('quanitity state:', quantity);
+      setAlert();
+      alert('success');
+
+    } else {
+
+      alert('Error: No meals to update. Please specifiy the quanitity of meals to be added');
+
+    }
+   
   }
 
+  // TODO: Currently once a top up / taken is handled, the user will need to navigate to a new tab to reset the values to 0. Will need to fix this in the future
+  const handleTaken = (e) => {
+    e.preventDefault();
+
+    if (quantity.length > 0) {
+
+      alert('Removing meals from freezer');
+      console.log('quanitity state:', quantity);
+      setAlert();
+      alert('success');
+
+    } else {
+
+      alert('Error: No meals to update. Please specifiy the quanitity of meals to remove');
+
+    }
+  }
+
+
+  // Creating the meal list
   const createList = state.data.map((row) => {
     const mealTypeId = row[state.columns[0]]
     // console.log("Row: ",row, "Value: ", mealTypeId)
@@ -153,9 +190,6 @@ export default function FreezerLog (props) {
     // console.log("row 1 (Meal Type Id): ", row[state.columns[0]])
     // console.log("row 2 (Dish): ", row[state.columns[1]])
     // console.log("row 3 (Available Meals): ", row[state.columns[2]])
-
-    // let quantity = 0;
-    // const [quantity, setQuantity] = useState(0);
 
     return (
       <div>
@@ -182,15 +216,7 @@ export default function FreezerLog (props) {
                   >
                     Current Meal Count: <strong>{row[state.columns[2]]}</strong>
                   </Typography>
-                  {/* <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                    style={{whiteSpace: 'pre-line'}}
-                  >
-                    &nbsp;{row[state.columns[2]]}
-                  </Typography> */}
+        
                   {/* Might not need a form, can just have the textfield but would need to style it better */}
                   <form className = "mealForm" style = {props.class}>
                     {/* onChange = {saveForm}  */}
@@ -202,16 +228,9 @@ export default function FreezerLog (props) {
                       placeholder = "0"
                       type = "number"
                       fullWidth
-                      name = "mealChange2"
-                      value = {quantity[mealTypeId-1]} // The value of the state at the mealTypeId index
-                      // onChange={mealChange(mealTypeId, quantity)}
-                      // onChange={e => setQuantity(e.target.value)}
+                      name = "mealChangeQuantity"
+                      value = {quantity[mealTypeId-1]} // The value of the state at the mealTypeId index (TODO: might need a safer way to do this because mealTypeId might not always be in order, especially if different branches have different kinds of meals)
                       onChange = {updateFieldChanged(mealTypeId - 1)}
-                      // onChange={event => {
-                      //   let quantities = state.quantities;
-                      //   quantities[mealTypeId - 1] = event.target.value
-                      //   setState(quantities)}
-                      // }
                     />
                     <br/>
                   </form>
@@ -226,6 +245,7 @@ export default function FreezerLog (props) {
     );
   })
   
+  // Displaying the meal list and action buttons
   return (
     <div style = {{overflowX: "hidden"}}>
       <h2>{props.title}</h2> 
@@ -237,7 +257,6 @@ export default function FreezerLog (props) {
     <Button 
       variant="contained" 
       color="secondary" 
-      // onClick={setAlert}
       onClick={handleTopUp}
     >
       Top up
@@ -246,12 +265,12 @@ export default function FreezerLog (props) {
     <Button 
       variant="contained" 
       color="primary" 
-      onClick={setAlert}
+      onClick={handleTaken}
     >
       Taken
     </Button>
     </div>
-    {/* quick way to show the buttons without them being cut off by the bottom navigation bar */}
+    {/* quick way to show the buttons without them being cut off by the bottom navigation bar TODO: fix navigation bar to the bottom of the page */}
     <div>
       <br></br>
       <br></br>
