@@ -91,8 +91,10 @@ export default function  DeliveryDriving(props) {
                         Delivery Details
                     </Typography>    
                     <DeliveryDetail 
+                    
+                    setdeliveryID = {props.setdeliveryID} 
                     reloadPage = {()=>{}} 
-                    delivery_id ={1} 
+                    delivery_id ={props.delivery_id} 
                     phone = {"02102202041"} 
                     email = {"Bruh@gmail.com"}/>
                 </div>

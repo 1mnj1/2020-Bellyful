@@ -83,6 +83,11 @@ function DelivererPortal(props) {
 
     //Portal has global deliveryID, if it is -1 then no delivery is selected, else = Del ID of selected delivery
     const [deliveryID, setdeliveryID] = React.useState(-1);
+    const [myOustanding, setMyOutstanding] = React.useState({
+            visible: null,
+            columns: [ {}, ],
+            data: [  ],
+        });
     const [myConfirmed, setMyConfirmed] = React.useState({
         columns: [ {}, ],
         data: [  ],
@@ -120,11 +125,12 @@ function DelivererPortal(props) {
                 <TabPanel value={value} index={1} dir={theme.direction}>
 
                     {deliveryID > -1 ? 
-                        <PickMeals del_ID = {deliveryID} user_id = {props.user_id}></PickMeals>
+                        <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
                         : 
                         <MyOustanding user_id = {props.user_id} title = "My Outstanding" 
                         setdeliveryID = {setdeliveryID}
-                        url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}/>
+                        url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}
+                        myOustanding = {myOustanding} setMyOutstanding = {setMyOutstanding}/>
                     }
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
@@ -134,13 +140,17 @@ function DelivererPortal(props) {
                         state = {myConfirmed} 
                         setState = {setMyConfirmed}
                         user_id = {props.user_id} title = "My confirmed" 
-                        url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
-                    :
-                    <DeliveryDriving  
-                        delivery_id = {myConfirmed.deliveryID} 
-                        confirmedState = {myConfirmed}
-                        setConfirmedState = {setMyConfirmed}/>
-                    }
+                        url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>:  
+                    
+                    deliveryID > -1 ? 
+                        <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
+                        :
+                        <DeliveryDriving  
+                            delivery_id = {myConfirmed.deliveryID} 
+                            confirmedState = {myConfirmed}
+                            setConfirmedState = {setMyConfirmed}
+                            setdeliveryID = {setdeliveryID}/>
+                        }
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
                     Item Three

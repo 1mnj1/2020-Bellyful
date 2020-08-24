@@ -27,11 +27,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MyOutstanding (props) {
     
-    const [state, setState] = React.useState({
-        visible: [],
-        columns: [ {}, ],
-        data: [  ],
-    });
+    // const [state, setState] = React.useState({
+    //     visible: [],
+    //     columns: [ {}, ],
+    //     data: [  ],
+    // });
+    const state = props.myOustanding
+    const setState = props.setMyOutstanding
     
 
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
@@ -44,9 +46,11 @@ export default function MyOutstanding (props) {
         if (returnable === undefined) return 
         if(returnable.length === 0) return 
         var fields = Object.keys(returnable[0])
-        var hidden = []
-        for (var i = 0; i < returnable.length; ++i){
-          hidden.push(false)
+        var hidden = state.visible == null ?  [] : state.visible
+        if(state.visible == null){
+          for (var i = 0; i < returnable.length; ++i){
+            hidden.push(false)
+          }
         }
         // To use an encapsulated function, put a dollar in front of it (it just works ?!)
         // $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
