@@ -4,6 +4,23 @@ mysql = require('mysql')
 mysqlDetails = require('./mysqlDetails')
 con = mysqlDetails.con
 
+router.post('/getBranch', function(req, res, next) {
+  sql = 'select branch.branch_id as id\
+  from branch\
+  join volunteer on volunteer.branch_id = branch.branch_id\
+  where volunteer.person_id = ? \
+   '
+
+  con.query(sql, [req.body.vol_id], function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.sendStatus(404)
+        } else {
+          res.send(String(result[0].id))
+        }
+    });
+});
+
 router.post('/getNewDeliveries', function(req, res, next) {
 
 
@@ -14,13 +31,15 @@ var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', 
   JOIN address on address.add_id = person.add_id\
   JOIN delivery_status on delivery.delivery_status = delivery_status.stat_id\
   JOIN recipient on recipient.person_id = person.person_id \
+  join branch on branch.branch_id = delivery.branch_id\
   WHERE delivery_status.stat_name like \"Unassigned\"\
+  AND branch.branch_id = ?\
   GROUP BY delivery.delivery_id\
   ORDER BY delivery.delivery_id\
    "
 
-
-con.query(sql, function (err, result) {
+  
+con.query(sql,[req.body.branch_id], function (err, result) {
     if (err) throw err;
     res.send(result)
   })
@@ -254,6 +273,7 @@ router.post('/getToContactDeliveries', function(req, res, next) {
         res.send(result)
       })
     })
+
     router.post('/setStop', function(req, res, next) {
   
       var sql = 'UPDATE delivery \
@@ -267,6 +287,30 @@ router.post('/getToContactDeliveries', function(req, res, next) {
         }
         
         res.send(result)
+      })
+    })
+
+    router.post('/setToContact', function(req, res, next) {
+      
+      var sql = "UPDATE `delivery` SET `vol_id` = ?,\
+      `delivery_status` = '7' \
+      WHERE `delivery`.`delivery_id` = ? "
+
+      
+      
+      var reqVals = req.body.delivery_ids.trim().split(",")
+      var sqlQuery = [req.body.vol_id, reqVals[0]]
+      console.log("Initial data: ",reqVals )
+      for (var i = 1; i < reqVals.length; ++i){
+        sqlQuery.push(reqVals[i])
+        sql = sql + " OR `delivery`.`delivery_id` = ? "
+      }
+      console.log("Query data: ",sqlQuery)
+      
+      
+       con.query(sql,sqlQuery, function (err, result) {
+        if (err) throw err;
+        res.send("complete")
       })
     })
 module.exports = router;

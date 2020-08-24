@@ -8,7 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-
+import $ from 'jquery'
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import AcUnitIcon from '@material-ui/icons/AcUnit'
@@ -95,6 +95,7 @@ function DelivererPortal(props) {
     });
 
     const [value, setValue] = React.useState('0');
+    const [branchID, setBranchID] = React.useState(null)
     const handleChange = (event, newValue) => {
         console.log("Set Value to : " + newValue);
         console.log("DeliveryID for Portal = ", deliveryID)
@@ -103,7 +104,15 @@ function DelivererPortal(props) {
     const handleChangeIndex = (index) => {
         setValue(index);
     }
-    
+    React.useEffect(()=>{
+        $.post( "http://"+window.location.hostname+":3000/volunteer/getBranch",[{name: "vol_id", value: props.user_id}], function(returnable) {
+            if(returnable === null) return 
+            if (returnable === undefined) return 
+            if(returnable.length === 0) return
+            $(setBranchID(returnable))
+            return
+             
+    })}, [props.user_id]);
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
     
 
@@ -118,7 +127,13 @@ function DelivererPortal(props) {
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
                         {/* Assigned Deliveries */}
-                        <UnassignedDeliveries title = "Branch Outstanding" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
+                        <UnassignedDeliveries 
+
+                            title = "Branch Outstanding" 
+                            url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}
+                            user_id = {props.user_id}
+                            branch_id = {branchID}
+                        >
                     </UnassignedDeliveries>
                     
                 </TabPanel>
