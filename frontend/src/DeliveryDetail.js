@@ -164,7 +164,7 @@ export default function DeliveryDetail (props) {
 
               />
                <br/> <br/>
-            <Button variant="contained"  onClick = {updateNotes} style = {{position: mobileCheck()? "inherit":"relative" ,    marginTop: "-2vh",    marginLeft: "66vw",     width: mobileCheck()?"80%":"25%"}}>
+               <Button variant="contained"  onClick = {updateNotes} style = {{position: "relative" ,     width: mobileCheck()?"80%":"92%"}}>
                 Update Notes
             </Button>
             <br/><br/>
