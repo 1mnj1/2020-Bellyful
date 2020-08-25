@@ -101,15 +101,6 @@ export default function FreezerLog (props) {
   const classes = useStyles();
 
 
-  function updateMeals(url) {
-    $.post(url, quantity, function(returnable) {
-      if(returnable === null) return 
-      if (returnable === undefined) return 
-      if(returnable.length === 0) return 
-      alert("meals were updated successfuly!");
-    });
-  }
-
   function updateMeals(url, mealTypeId) {
     // $.post(url, mealTypeId, function(returnable) {
     console.log('in update meals function about to post: ', url);
@@ -138,7 +129,7 @@ export default function FreezerLog (props) {
     if (quantity.length > 0) {
 
       alert('Adding meals to freezer');
-      console.log('quanitity state:', quantity);
+      console.log('quantity state:', quantity);
       // For each meal type in state
       for (var i = 0; i < quantity.length; ++i) {
         // Add a database entry for each new meal
@@ -167,7 +158,7 @@ export default function FreezerLog (props) {
     if (quantity.length > 0) {
 
       alert('Removing meals from freezer');
-      console.log('quanitity state:', quantity);
+      console.log('quantity state:', quantity);
       // For each meal type in state
       for (var i = 0; i < quantity.length; ++i) {
         // Add a database entry for each new meal
