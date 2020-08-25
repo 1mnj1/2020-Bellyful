@@ -25,6 +25,22 @@ console.log(cookie.user_level)
     setCookie("user_level", [0,-1], { path: '/' }) 
     return null
   }
+
+  function greeting() {
+    var greeting
+    var date = new Date()
+    var hour = date.getHours()
+
+    if (hour < 12) {
+      greeting = "Good Morning"
+    } else if (hour < 17) {
+      greeting = "Good Afternoon"
+    } else {
+      greeting = "Good Evening"
+    }
+    return greeting
+  }
+
   return (
     
 
@@ -40,7 +56,8 @@ console.log(cookie.user_level)
       {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal/> : null}
       {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal user_id = {cookie.user_level[1]}/> : null}
       
-      
+      <h1 style={{color: "rgb(225, 127, 188)", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>{greeting()}</h1>
+
     </div>
   );
 }
