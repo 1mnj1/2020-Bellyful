@@ -165,7 +165,6 @@ export default function FreezerLog (props) {
           updateMeals("http://"+window.location.hostname+":3000/volunteer/removeMeals", i+1);
         }
       }
-      updateMeals("http://"+window.location.hostname+":3000/volunteer/createMeals"); // need to change to remove meals
       setAlert();
       alert('success');
 
