@@ -22,47 +22,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Functions that are not being used
 
-
-    // probably dont need to save the from as this is done on the submit buttons
-    // Return a series of text elements to make a form
-    var saveForm = ()=> {
-      var formData = $("form.mealForm").serializeArray()
-      if(formData.length === 0){
-        formData = [{}]
-        props.setForm(formData)
-        return
-      } 
-      
-    
-    };
-
-    function getAddressID( dict, success ){
-      $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
-    }
-
-    var saveForm = ()=> {
-      var formData = $("form.referrerForm").serializeArray()
-      if(formData.length === 0){
-        formData = [{}]
-        props.setForm(formData)
-      } 
-      // getAddressID(formData, (add_id)=>{
-      //   formData.push({"name":"address_id", "value" : add_id})
-      //   getPersonID( formData, (person_id)=> {
-      //     formData.push({"name":"person_id", "value" : person_id})
-      //     props.setForm(formData)
-      //   })
-        
-      // })
-      
-    
-    };
-
-    // console.log("before the get data request for freezer log")
-    // console.log(props.url)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -112,8 +72,6 @@ export default function FreezerLog (props) {
       )
     }
 
-
-
   // To get the data
   React.useEffect(() => {
       
@@ -143,18 +101,57 @@ export default function FreezerLog (props) {
   const classes = useStyles();
 
 
+  function updateMeals(url) {
+    $.post(url, quantity, function(returnable) {
+      if(returnable === null) return 
+      if (returnable === undefined) return 
+      if(returnable.length === 0) return 
+      alert("meals were updated successfuly!");
+    });
+  }
+
+  function updateMeals(url, mealTypeId) {
+    // $.post(url, mealTypeId, function(returnable) {
+    console.log('in update meals function about to post: ', url);
+    $.post(url, [{"name":"meal_type", "value":mealTypeId}], function(returnable) {
+      if(returnable === null) {
+        console.log('returnable is null');
+        return;
+      } 
+      if (returnable === undefined) {
+        console.log('returnable is undefined');
+        return;
+      }
+      if(returnable.length === 0) {
+        console.log('returnable length is 0');
+        return;
+      }
+      alert("meals were updated successfuly!");
+    });
+    console.log('after post function');
+  }
+
   // TODO: fix these alerts to work with material ui (they dont work normally for some reason)
   const handleTopUp = (e) => {
     e.preventDefault();
 
-    // If quantity state length is 0 then do nothing
     if (quantity.length > 0) {
 
       alert('Adding meals to freezer');
       console.log('quanitity state:', quantity);
+      // For each meal type in state
+      for (var i = 0; i < quantity.length; ++i) {
+        // Add a database entry for each new meal
+        for (var j = 0; j < quantity[i]; ++j) {
+          updateMeals("http://"+window.location.hostname+":3000/volunteer/createMeals", i+1);
+          // updateMeals("http://"+window.location.hostname+":3000/manager/createMeals", i+1);
+        }
+      }
+      // updateMeals("http://"+window.location.hostname+":3000/volunteer/createMeals");
       setAlert();
       alert('success');
 
+      // If quantity state length is 0 then do nothing
     } else {
 
       alert('Error: No meals to update. Please specifiy the quanitity of meals to be added');
@@ -171,6 +168,14 @@ export default function FreezerLog (props) {
 
       alert('Removing meals from freezer');
       console.log('quanitity state:', quantity);
+      // For each meal type in state
+      for (var i = 0; i < quantity.length; ++i) {
+        // Add a database entry for each new meal
+        for (var j = 0; j < quantity[i]; ++j) {
+          updateMeals("http://"+window.location.hostname+":3000/volunteer/removeMeals", i+1);
+        }
+      }
+      updateMeals("http://"+window.location.hostname+":3000/volunteer/createMeals"); // need to change to remove meals
       setAlert();
       alert('success');
 
