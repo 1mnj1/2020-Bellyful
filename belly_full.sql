@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2020 at 07:49 AM
+-- Generation Time: Aug 26, 2020 at 01:57 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -24,6 +24,27 @@ CREATE DATABASE IF NOT EXISTS `belly_full` DEFAULT CHARACTER SET utf8mb4 COLLATE
 USE `belly_full`;
 
 DELIMITER $$
+--
+-- Procedures
+--
+DROP PROCEDURE IF EXISTS `deleteMeals`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteMeals` (IN `freezer_id` INT(11), IN `mealtype` INT(11), IN `num_meals` INT(50))  BEGIN
+	DELETE FROM `meal` WHERE meal.freezer_id = freezer_id AND meal.meal_type = mealtype  AND meal.delivery_id is NULL LIMIT num_meals;
+END$$
+
+DROP PROCEDURE IF EXISTS `insertMeals`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertMeals` (IN `freezer_id` INT(11), IN `mealtype` INT(11), IN `num_meals` INT(50))  BEGIN
+	DECLARE x  INT;
+	SET x = 1;
+	loop_label:  LOOP
+		IF  x > num_meals THEN 
+			LEAVE  loop_label;
+		END  IF;
+         INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES (NULL, mealtype, freezer_id, NULL);
+		SET  x = x + 1;
+	END LOOP;
+END$$
+
 --
 -- Functions
 --
@@ -68,7 +89,7 @@ CREATE TABLE `address` (
 --
 
 INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_city`, `add_postcode`) VALUES
-(1, '21', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
+(1, '232', 'schnapper rock road', 'schnapper rock', 'auckland', '0632'),
 (2, '22', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
 (3, '23', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
 (4, '24', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
@@ -148,9 +169,9 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`) VALUES
-(1, 2, 3, 1, 7, '2020-08-12 05:38:00', NULL, NULL, 1),
-(4, 2, 3, 1, 7, '0000-00-00 00:00:00', NULL, NULL, 1),
-(5, 4, 3, 19, 1, '0000-00-00 00:00:00', NULL, NULL, 1),
+(1, 2, 3, 1, 2, '2020-08-22 11:19:43', '2020-08-24 09:31:36', '2020-08-25 22:21:40', 1),
+(4, 2, 3, 1, 6, '0000-00-00 00:00:00', NULL, NULL, 1),
+(5, 2, 3, 19, 7, '0000-00-00 00:00:00', NULL, NULL, 1),
 (11, NULL, 9, 5, 1, '0000-00-00 00:00:00', NULL, NULL, 2),
 (12, NULL, 9, 9, 1, '0000-00-00 00:00:00', NULL, NULL, 1);
 
@@ -198,7 +219,8 @@ CREATE TABLE `freezer` (
 --
 
 INSERT INTO `freezer` (`freezer_id`, `person_id`, `add_id`, `branch_id`) VALUES
-(1, 1, 2, 1);
+(1, 1, 1, 1),
+(2, 4, 2, 1);
 
 --
 -- Triggers `freezer`
@@ -231,14 +253,17 @@ CREATE TABLE `meal` (
 
 INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES
 (1, 2, 1, 1),
-(2, 1, 1, 1),
+(2, 1, 2, 1),
 (3, 2, 1, 4),
 (4, 2, 1, 4),
 (5, 2, 1, 5),
-(6, 2, 1, NULL),
 (7, 1, 1, NULL),
-(8, 3, 1, NULL),
-(9, 4, 1, NULL);
+(45, 1, 1, NULL),
+(67, 3, 1, NULL),
+(68, 3, 1, NULL),
+(69, 3, 1, NULL),
+(70, 3, 1, NULL),
+(127, 4, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -257,10 +282,10 @@ CREATE TABLE `meal_type` (
 --
 
 INSERT INTO `meal_type` (`MT_id`, `meal_type`) VALUES
-(1, 'Lasagna'),
+(1, 'lasagna'),
 (2, 'Mac and Cheese'),
-(3, 'Spagetti Bolognese'),
-(4, 'Tomato and Lentil Soup');
+(3, 'Spag Bol'),
+(4, 'Tomato and lentil Soup');
 
 -- --------------------------------------------------------
 
@@ -564,13 +589,13 @@ ALTER TABLE `delivery_status`
 -- AUTO_INCREMENT for table `freezer`
 --
 ALTER TABLE `freezer`
-  MODIFY `freezer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `freezer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `meal`
 --
 ALTER TABLE `meal`
-  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 
 --
 -- AUTO_INCREMENT for table `meal_type`
