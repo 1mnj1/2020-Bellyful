@@ -141,7 +141,7 @@ router.post('/createMeals', function(req, res, next) {
     }
     console.log('1 meal inserted with meal type id: ' [req.body.meal_type]);
     
-    res.send(result[0]["mealCreated"])
+    res.send(result)
   });
 
 });

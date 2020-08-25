@@ -126,7 +126,6 @@ export default function FreezerLog (props) {
         console.log('returnable length is 0');
         return;
       }
-      alert("meals were updated successfuly!");
     });
     console.log('after post function');
   }
@@ -148,8 +147,8 @@ export default function FreezerLog (props) {
         }
       }
       // updateMeals("http://"+window.location.hostname+":3000/volunteer/createMeals");
-      setAlert();
-      alert('success');
+      // setAlert();
+      // alert('success');
 
       // If quantity state length is 0 then do nothing
     } else {
