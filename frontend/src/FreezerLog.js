@@ -190,30 +190,30 @@ export default function FreezerLog (props) {
       <div>
         <div>
           <ListItem key={mealTypeId} role={undefined} dense button>  
-          {console.log("list item mealTypeId", mealTypeId)}        
+          {/* {console.log("list item mealTypeId", mealTypeId)}         */}
             <ListItemText
               primary = {
                 <React.Fragment>
                   <Typography
-                    component="h5"
-                    variant="h5"
+                    component="h6"
+                    variant="h6"
                     className={classes.inline}
                     color="textPrimary"
                   >
-                    {row[state.columns[1]]}<br/>
+                    {row[state.columns[1]]}&nbsp;x<strong>{row[state.columns[2]]}</strong>
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     component="h6"
                     variant="h6"
                     className={classes.inline}
                     color="textPrimary"
                     style={{whiteSpace: 'pre-line'}}
                   >
-                    Current Meal Count: <strong>{row[state.columns[2]]}</strong>
-                  </Typography>
+                    x<strong>{row[state.columns[2]]}</strong>
+                  </Typography> */}
         
                   {/* Might not need a form, can just have the textfield but would need to style it better */}
-                  <form className = "mealForm" style = {props.class}>
+                  {/* <form className = "mealForm" style = {props.class}> */}
                     {/* onChange = {saveForm}  */}
                     <TextField
                       className = {classes.textField}
@@ -228,7 +228,7 @@ export default function FreezerLog (props) {
                       onChange = {updateFieldChanged(mealTypeId - 1)}
                     />
                     <br/>
-                  </form>
+                  {/* </form> */}
                 </React.Fragment>
               }
              
