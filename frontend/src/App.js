@@ -56,7 +56,7 @@ console.log(cookie.user_level)
       {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal/> : null}
       {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal user_id = {cookie.user_level[1]}/> : null}
       
-      <h1 style={{color: "rgb(225, 127, 188)", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>{greeting()}</h1>
+      {/* <h1 style={{color: "rgb(225, 127, 188)", position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}}>{greeting()}</h1> */}
 
     </div>
   );
