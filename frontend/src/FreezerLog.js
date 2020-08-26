@@ -48,6 +48,21 @@ const useStyles = makeStyles((theme) => ({
   label: {
     textTransform: 'capitalize',
   },
+  textField: {
+    width: '100%',
+    marginLeft: 'auto',
+    marginRight: 'auto',            
+    paddingBottom: 0,
+    marginTop: 0,
+    fontWeight: 500,
+    backgroundColor: "rgb(235, 197, 221)"
+    // backgroundColor: "rgb(237, 175, 214)"
+  },
+  input: {
+    // color: "rgb(225, 127, 188)"
+    textAlign: "center"
+  }
+
 }));
 
 // We can inject some CSS into the DOM.
@@ -341,10 +356,10 @@ export default function FreezerLog (props) {
               primary = {
                 <Grid container spacing={3}>
                 <React.Fragment>
-                <Grid item xs={7}>
+                <Grid item xs={6}>
                   <Typography
-                    component="h6"
-                    variant="h6"
+                    component="body1"
+                    variant="body1"
                     className={classes.inline}
                     color="textPrimary"
                   >
@@ -353,7 +368,7 @@ export default function FreezerLog (props) {
                   </Grid>
                   {/* Might not need a form, can just have the textfield but would need to style it better */}
                   {/* <form className = "mealForm" style = {props.class}> */}
-                  <Grid item xs={1}>
+                  <Grid item xs={2}>
                     <label htmlFor="icon-button-file">
                       <IconButton color="primary" aria-label="decrease button" component="span" onClick={decreaseQuantity(mealTypeId-1)}>
                       {/* <IconButton color="primary" aria-label="decrease button" component="span" onClick={decreaseQuantityDictionary(mealTypeId)}> */}
@@ -361,7 +376,7 @@ export default function FreezerLog (props) {
                       </IconButton>
                     </label>
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xs={2}>
                     {/* <Typography
                     component="h6"
                     variant="h6"
@@ -370,13 +385,29 @@ export default function FreezerLog (props) {
                     >
                       {quantity[mealTypeId-1]}
                     </Typography> */}
-                    <Box display="flex" justifyContent="flex-start" m={1} p={1} bgcolor="background.paper">
+                    {/* <Box display="flex" justifyContent="flex-start" m={1} p={1} bgcolor="background.paper">
                       <Box p={1} bgcolor="grey.300">
                       {quantity[mealTypeId-1]}
                       </Box>
-                    </Box>
+                    </Box> */}
+                    <TextField
+                      className = {classes.textField}
+                      id = "mealChangeQuantity"
+                      // label = "Add/remove meals"
+                      defaultValue = "0"
+                      placeholder = "0"
+                      type = "number"
+                      margin="normal"
+                      InputProps={{
+                          className: classes.input,
+                      }}
+                      // fullWidth
+                      name = "mealChangeQuantity"
+                      value = {quantity[mealTypeId-1]} // The value of the state at the mealTypeId index (TODO: might need a safer way to do this because mealTypeId might not always be in order, especially if different branches have different kinds of meals)
+                      onChange = {updateFieldChanged(mealTypeId - 1)}
+                    />
                   </Grid>
-                  <Grid item xs={1}>
+                  <Grid item xs={2}>
                     <label htmlFor="icon-button-file">
                       <IconButton color="primary" aria-label="increase button" component="span" onClick={increaseQuantity(mealTypeId - 1)}>
                       {/* <IconButton color="primary" aria-label="increase button" component="span" onClick={increaseQuantityDictionary(mealTypeId)}> */}
