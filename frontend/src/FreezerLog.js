@@ -10,6 +10,21 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+
+import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
+import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+
+import IconButton from '@material-ui/core/IconButton';
+
+import Box from '@material-ui/core/Box';
+
+import Grid from '@material-ui/core/Grid';
+
+
+
+
 import FormControl from '@material-ui/core/FormControl';
 import TextField from '@material-ui/core/TextField';
 
@@ -101,6 +116,42 @@ export default function FreezerLog (props) {
   const classes = useStyles();
 
 
+// function for increase arrow
+  const increaseQuantity = index => e => {
+    console.log('index', index);
+    console.log("current state at index: ", quantity[index])
+
+    let newArray = [...quantity]; // Copy the old state to a new array
+    if (typeof newArray[index] === "undefined") {
+      newArray[index] = 1
+    } else {
+      newArray[index] = newArray[index] + 1; // replace old quantity with updated quantity
+    }
+    
+    setQuantity(newArray); // set the new state
+    console.log('updated array', newArray);
+  }
+
+  // function for decrease arrow
+  const decreaseQuantity = index => e => {
+    console.log('index', index);
+    console.log("current state at index: ", quantity[index])
+
+    let newArray = [...quantity]; // Copy the old state to a new array
+    if (typeof newArray[index] === "undefined") {
+      newArray[index] = 0
+    } else if (newArray[index] === 0) {
+      return // number can't go below 0
+    }
+    else {
+      newArray[index] = newArray[index] - 1; // replace old quantity with updated quantity
+    }
+    
+    setQuantity(newArray); // set the new state
+    console.log('updated array', newArray);
+  }
+
+
   function updateMeals(url, mealTypeId) {
     // $.post(url, mealTypeId, function(returnable) {
     console.log('in update meals function about to post: ', url);
@@ -154,7 +205,7 @@ export default function FreezerLog (props) {
   // TODO: Currently once a top up / taken is handled, the user will need to navigate to a new tab to reset the values to 0. Will need to fix this in the future
   const handleTaken = (e) => {
     e.preventDefault();
-
+// switch to a new page and pass the state - a confirmation page will be a new component
     if (quantity.length > 0) {
 
       alert('Removing meals from freezer');
@@ -193,7 +244,9 @@ export default function FreezerLog (props) {
           {/* {console.log("list item mealTypeId", mealTypeId)}         */}
             <ListItemText
               primary = {
+                <Grid container spacing={3}>
                 <React.Fragment>
+                <Grid item xs={6}>
                   <Typography
                     component="h6"
                     variant="h6"
@@ -202,20 +255,35 @@ export default function FreezerLog (props) {
                   >
                     {row[state.columns[1]]}&nbsp;x<strong>{row[state.columns[2]]}</strong>
                   </Typography>
-                  {/* <Typography
+                  </Grid>
+                  {/* Might not need a form, can just have the textfield but would need to style it better */}
+                  {/* <form className = "mealForm" style = {props.class}> */}
+                  <Grid item xs={2}>
+                    <label htmlFor="icon-button-file">
+                      <IconButton color="primary" aria-label="decrease button" component="span" onClick={decreaseQuantity(mealTypeId-1)}>
+                        <ArrowLeftIcon />
+                      </IconButton>
+                    </label>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography
                     component="h6"
                     variant="h6"
                     className={classes.inline}
                     color="textPrimary"
-                    style={{whiteSpace: 'pre-line'}}
+                    style={textAlign: "centre"}
                   >
-                    x<strong>{row[state.columns[2]]}</strong>
-                  </Typography> */}
-        
-                  {/* Might not need a form, can just have the textfield but would need to style it better */}
-                  {/* <form className = "mealForm" style = {props.class}> */}
-                    {/* onChange = {saveForm}  */}
-                    <TextField
+                    &nbsp;{quantity[mealTypeId-1]}
+                  </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <label htmlFor="icon-button-file">
+                      <IconButton color="primary" aria-label="increase button" component="span" onClick={increaseQuantity(mealTypeId - 1)}>
+                        <ArrowRightIcon />
+                      </IconButton>
+                    </label>
+                  </Grid>
+                    {/* <TextField
                       className = {classes.textField}
                       id = "mealChangeQuantity"
                       label = "Add/remove meals"
@@ -226,10 +294,11 @@ export default function FreezerLog (props) {
                       name = "mealChangeQuantity"
                       value = {quantity[mealTypeId-1]} // The value of the state at the mealTypeId index (TODO: might need a safer way to do this because mealTypeId might not always be in order, especially if different branches have different kinds of meals)
                       onChange = {updateFieldChanged(mealTypeId - 1)}
-                    />
+                    /> */}
                     <br/>
                   {/* </form> */}
                 </React.Fragment>
+                </Grid>
               }
              
             />
