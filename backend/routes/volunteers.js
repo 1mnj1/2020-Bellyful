@@ -23,8 +23,6 @@ router.post('/getBranch', function(req, res, next) {
 
 router.post('/getNewDeliveries', function(req, res, next) {
 
-
-
 var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
   FROM delivery\
   JOIN person on delivery.recipient_id = person.person_id\
@@ -45,6 +43,28 @@ con.query(sql,[req.body.branch_id], function (err, result) {
   })
 })
 
+// Gets the number of avaiable meals for all freezers and branches
+router.post('/getFreezerLog', function(req, res, next) {
+  //sql query for the data
+  sql = "SELECT M.meal_type AS 'Meal Type Id', MT.meal_type AS Dish , count(M.meal_type) AS 'Available Meals'\
+  FROM `meal` AS M\
+  JOIN meal_type AS MT ON M.meal_type = MT.MT_id\
+  WHERE M.delivery_id is null\
+  GROUP by M.meal_type"
+  //returns meal type id, meal type name, and available meals
+  // res.send("Got here!")
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
 
 router.post('/getDelTime', function(req, res, next) {
 
@@ -121,76 +141,100 @@ router.post('/getToContactDeliveries', function(req, res, next) {
       })
     })
 
-  router.post('/getMealsForDelivery', function(req, res, next) {
+// Gets all the freezer managers and their details
+router.post('/getFreezerManagers', function(req, res, next) {
+  //sql query for the data
+  sql = "SELECT CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.meal_id) as 'Available Meals'\
+  FROM freezer\
+  JOIN person ON freezer.person_id = person.person_id\
+  JOIN address ON freezer.add_id = address.add_id\
+  JOIN branch ON freezer.branch_id = branch.branch_id\
+  JOIN meal ON freezer.freezer_id = meal.freezer_id\
+  WHERE meal.delivery_id IS NULL\
+  AND meal.freezer_id = freezer.freezer_id\
+  "
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
 
 
-    var sql = "select meal_type.meal_type as meal, COUNT(meal.meal_id) as amnt\
-    from meal \
-    join meal_type on meal.meal_type = meal_type.MT_id\
-    WHERE meal.delivery_id = ?\
-    group by meal_type.MT_id\
-     "
+
+router.post('/createMeals', function(req, res, next) {
+  console.log('in volunteers sql query for create meals');
+  // sql query works
+  var sql = "INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) \
+  VALUES (NULL, ?, 1, NULL)" // insert into freezer_id 1 to start with
+  
+  con.query(sql,[req.body.meal_type], function (err, result) {
+    if (err) throw err;
+    if(result.length == 0 || result == undefined) {
+      res.send(null) ;return 
+    }
+    console.log('1 meal inserted with meal type id: ' [req.body.meal_type]);
     
-    
-    
-    con.query(sql,[req.body.delivery_id], function (err, result) {
+    res.send(result)
+  });
+
+});
+
+
+router.post('/removeMeals', function(req, res, next) {
+  console.log('in volunteers sql query for create meals');
+  // sql query works
+  var sql = "DELETE FROM meal WHERE meal_type = ? AND freezer_id = 1 AND delivery_id IS NULL LIMIT 1" // insert into freezer_id 1 to start with
+  
+  con.query(sql,[req.body.meal_type], function (err, result) {
+    if (err) throw err;
+    if(result.length == 0 || result == undefined) {
+      res.send(null) ;return 
+    }
+    console.log('1 meal removed with meal type id: ' [req.body.meal_type]);
+ 
+  });
+
+});
+
+
+
+
+router.post('/getMealsForDelivery', function(req, res, next) {
+var sql = ["start TRANSACTION;",
+"select delivery_status.stat_id into @a from delivery_status  where delivery_status.stat_name LIKE ?;",
+"UPDATE `delivery` SET `delivery_status` = @a\
+WHERE `delivery`.`delivery_id` = ?;",
+"COMMIT;"]
+var sqlVars = [
+  [req.body.status],
+ [ req.body.delivery_id]
+]
+
+
+con.query(sql[0], function (err, result) {
+  if (err) throw err;
+  con.query(sql[1],sqlVars[0], function (err, result) {
+    if (err) throw err;
+    con.query(sql[2],sqlVars[1], function (err, result) {
+      if (err) throw err;
+      con.query(sql[3], function (err, result) {
         if (err) throw err;
         res.send(result)
       })
     })
-    router.post('/updateDelDeets', function(req, res, next) {
-      var datetime = (req.body.DelTime.replace("T", " "))+":00"
-      var data = [
-        req.body.refNotes,
-        req.body.delivery_id,
-        
-      ]
-      var data2 = [
-        datetime,
-        req.body.delivery_id
-      ]
-      var sql = "UPDATE `referrer` SET `notes` = ? \
-      WHERE `referrer`.`person_id` = (select delivery.ref_id from delivery where delivery.delivery_id = ?)"
-      var sql2 = " UPDATE `delivery` SET `delivery_est_time` = ? WHERE `delivery`.`delivery_id` = ? "
-      
-      
-      
-      con.query(sql,data, function (err, result) {
-          if (err) throw err;
-        })
-      con.query(sql2,data2, function (err, result) {
-        if (err) throw err;
-      })
-    })
-    router.post('/updateDelState', function(req, res, next) {
-
-
-      var sql = ["start TRANSACTION;",
-      "select delivery_status.stat_id into @a from delivery_status  where delivery_status.stat_name LIKE ?;",
-      "UPDATE `delivery` SET `delivery_status` = @a\
-      WHERE `delivery`.`delivery_id` = ?;",
-      "COMMIT;"]
-      var sqlVars = [
-        [req.body.status],
-       [ req.body.delivery_id]
-      ]
-      
-      
-      con.query(sql[0], function (err, result) {
-        if (err) throw err;
-        con.query(sql[1],sqlVars[0], function (err, result) {
-          if (err) throw err;
-          con.query(sql[2],sqlVars[1], function (err, result) {
-            if (err) throw err;
-            con.query(sql[3], function (err, result) {
-              if (err) throw err;
-              res.send(result)
-            })
-          })
-        })
-      })
-        
-    })
+  })
+})
+  
+})
 
     router.post('/getMapAddresses', function(req, res, next) {
       //needs to return:

@@ -44,11 +44,7 @@ router.post('/getDeliveries', function(req, res, next) {
         if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
-        
-
-
-
-
+  
         if(result.length == 0){
           res.send(404)
         } else {
@@ -67,29 +63,6 @@ router.post('/getFreezerManager', function(req, res, next) {
   and meal.freezer_id\
     "
   //returns id, name, address, branch name
-  // res.send("Got here!")
-  con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Got a result!\n");
-        console.log(result)
-        if(result.length == 0){
-          res.send(404)
-        } else {
-          res.send(result)
-        }
-    });
-  
-});
-
-// Gets the number of avaiable meals for all freezers and branches
-router.post('/getFreezerLog', function(req, res, next) {
-  //sql query for the data
-  sql = "SELECT M.meal_type AS 'Meal Type Id', MT.meal_type AS Dish , count(M.meal_type) AS 'Available Meals'\
-  FROM `meal` AS M\
-  JOIN meal_type AS MT ON M.meal_type = MT.MT_id\
-  WHERE M.delivery_id is null\
-  GROUP by M.meal_type"
-  //returns meal type id, meal type name, and available meals
   // res.send("Got here!")
   con.query(sql, function (err, result) {
         if (err) throw err;

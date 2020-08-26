@@ -25,6 +25,22 @@ console.log(cookie.user_level)
     setCookie("user_level", [0,-1], { path: '/' }) 
     return null
   }
+
+  function greeting() {
+    var greeting
+    var date = new Date()
+    var hour = date.getHours()
+
+    if (hour < 12) {
+      greeting = "Good Morning"
+    } else if (hour < 17) {
+      greeting = "Good Afternoon"
+    } else {
+      greeting = "Good Evening"
+    }
+    return greeting
+  }
+
   return (
     
 
