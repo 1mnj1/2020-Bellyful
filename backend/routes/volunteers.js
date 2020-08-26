@@ -158,8 +158,7 @@ router.post('/removeMeals', function(req, res, next) {
       res.send(null) ;return 
     }
     console.log('1 meal removed with meal type id: ' [req.body.meal_type]);
-    
-    res.send(result[0]["mealCreated"])
+ 
   });
 
 });
