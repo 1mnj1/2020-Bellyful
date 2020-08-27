@@ -132,7 +132,7 @@ router.post('/getFreezerLog', function(req, res, next) {
      (\
          select Mm.meal_type from	`meal` AS Mm\
          JOIN freezer on  freezer.freezer_id = Mm.freezer_id\
-         WHERE freezer.person_id = 2\
+         WHERE freezer.person_id = ?\
     AND Mm.delivery_id is null) as M ON M.meal_type = MT.MT_id\
    \
    GROUP by MT.MT_id"
