@@ -100,20 +100,29 @@ function FreezerPortal(props) {
                     onChangeIndex={handleChangeIndex}
                 >
                     <TabPanel value={value} index={0} dir={theme.direction}>
+
                         <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
-                        </UnassignedDeliveries>                      
+                        </UnassignedDeliveries>       
+
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
+
+                       {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
+                       <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
+                       </FreezerManagers>
+
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
-                        {console.log("before getting the freezer log data")}
-                        {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"} userId={}> */}
-                        {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}> */}
-                        <FreezerLog title = "Freezer Log" user_id = {props.user_id} url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}>
+
+                        <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}>
                         </FreezerLog>
+
                     </TabPanel>
                     <TabPanel value={value} index={3} dir={theme.direction}>
-                        Item Three
+
+                        <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers222"}>
+                       </FreezerManagers>
+
                     </TabPanel>
                 </SwipeableViews>
                 <AppBar position="static" color="default" className={classes.Navigation_root}>
