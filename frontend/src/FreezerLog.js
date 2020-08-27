@@ -54,8 +54,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 'auto',            
     paddingBottom: 0,
     marginTop: 0,
-    fontWeight: 500,
-    backgroundColor: "rgb(235, 197, 221)"
+    fontWeight: 500
     // backgroundColor: "rgb(237, 175, 214)"
   },
   input: {
