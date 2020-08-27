@@ -25,6 +25,22 @@ console.log(cookie.user_level)
     setCookie("user_level", [0,-1], { path: '/' }) 
     return null
   }
+
+  function greeting() {
+    var greeting
+    var date = new Date()
+    var hour = date.getHours()
+
+    if (hour < 12) {
+      greeting = "Good Morning"
+    } else if (hour < 17) {
+      greeting = "Good Afternoon"
+    } else {
+      greeting = "Good Evening"
+    }
+    return greeting
+  }
+
   return (
     
 
@@ -37,7 +53,7 @@ console.log(cookie.user_level)
       {cookie.user_level[0]!=0? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level[0]>0} />}
       {page === pageIndex["deliveryreporting"] && cookie.user_level[0]>2 ? <DeliveryReporting/> : null}
       {page === pageIndex["reporting"] && cookie.user_level[0]>2 ? <Reporting/> : null}
-      {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal/> : null}
+      {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal user_id = {cookie.user_level[1]}/> : null}
       {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal user_id = {cookie.user_level[1]}/> : null}
       {/* {page === pageIndex["base"] && cookie.user_level[0]>=1 ? <DeliveryDriving  delivery_id = {1} />: null}  */}
       

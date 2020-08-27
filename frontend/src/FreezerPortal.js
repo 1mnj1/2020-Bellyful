@@ -63,7 +63,7 @@ function a11yProps(index) {
     };
   }
   
-function FreezerPortal() {
+function FreezerPortal(props) {
 
   
     //Used for the Navigation Drawer
@@ -108,7 +108,8 @@ function FreezerPortal() {
                     <TabPanel value={value} index={2} dir={theme.direction}>
                         {console.log("before getting the freezer log data")}
                         {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"} userId={}> */}
-                        <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}>
+                        {/* <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/manager/getFreezerLog"}> */}
+                        <FreezerLog title = "Freezer Log" user_id = {props.user_id} url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}>
                         </FreezerLog>
                     </TabPanel>
                     <TabPanel value={value} index={3} dir={theme.direction}>
