@@ -70,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function FreezerLog (props) {
-
     // Style for the page
     const classes = useStyles();
 
@@ -86,19 +85,13 @@ export default function FreezerLog (props) {
     // State to keep track of the new quanitites for each meal
     const [quantity, setQuantity] = useState([]);
     const [quantityDictionary, setQuantityDictionary] = useState({});
-
+    const [reload, setReload] = useState(0)
     // Function that will update the quantity state when the form changes
     const updateFieldChanged = index => e => {
-
-        console.log('index', index);
-        console.log('property name:', e.target.name);
-        console.log('property value:', e.target.value);
 
         let newArray = [...quantity]; // Copy the old state to a new array
         newArray[index] = e.target.value; // replace old quantity with updated quantity
         setQuantity(newArray); // set the new state
-
-        console.log('updated array', newArray);
     }
 
     // Set the columns for the data
@@ -122,26 +115,19 @@ export default function FreezerLog (props) {
 
   // To get the data
   React.useEffect(() => {
-      
-      $.post( props.url, function(returnable) {
+    console.log("User ID: ", props.user_id)
+      $.post( props.url,[{name: "person_id", value: props.user_id}], function(returnable) {
       if(returnable === null) return 
       if (returnable === undefined) return 
       if(returnable.length === 0) return 
 
       var fields = Object.keys(returnable[0])
-      var values = Object.values(returnable[0])
-      console.log('fields from object.keys', fields)
-      console.log('values from object.values', values)
-      const cols = $(setColumns(fields))
-      console.log("before logging the columns for props", props.title)
-      console.log("columns = ",fields)
-      console.log("before logging the objects for props", props.title)
-      console.log("meals = ",returnable)
+      
       
       $(setState(state => ({ ...state,columns:fields, data : returnable})))
-
+      $(setQuantity(returnable.map(row=>0)))
   });
-  }, [props.url,props.title]);
+  }, [props.url,props.title, reload]);
 
 
 
@@ -247,10 +233,15 @@ export default function FreezerLog (props) {
   }
 
 
-  function updateMeals(url, mealTypeId) {
+  function updateMeals(url, mealTypeId, num_items) {
     // $.post(url, mealTypeId, function(returnable) {
     console.log('in update meals function about to post: ', url);
-    $.post(url, [{"name":"meal_type", "value":mealTypeId}], function(returnable) {
+    var sqlvars = [
+      {"name":"person_id", "value":props.user_id},
+      {"name":"mealType", "value":mealTypeId},
+      {"name":"numItems", "value":num_items}
+    ]
+    $.post(url, sqlvars, function(returnable) {
       if(returnable === null) {
         console.log('returnable is null');
         return;
@@ -263,6 +254,7 @@ export default function FreezerLog (props) {
         console.log('returnable length is 0');
         return;
       }
+      setReload(1+reload)
     });
     console.log('after post function');
   }
@@ -273,15 +265,15 @@ export default function FreezerLog (props) {
 
     if (quantity.length > 0) {
 
-      alert('Adding meals to freezer');
+      // alert('Adding meals to freezer');
       console.log('quantity state:', quantity);
       // For each meal type in state
       for (var i = 0; i < quantity.length; ++i) {
+        if(quantity[i] == 0) {continue}
         // Add a database entry for each new meal
-        for (var j = 0; j < quantity[i]; ++j) {
-          updateMeals("http://"+window.location.hostname+":3000/volunteer/createMeals", i+1);
+        updateMeals("http://"+window.location.hostname+":3000/freezer/createMeals", i+1, quantity[i]);
           // updateMeals("http://"+window.location.hostname+":3000/manager/createMeals", i+1);
-        }
+        
       }
       // updateMeals("http://"+window.location.hostname+":3000/volunteer/createMeals");
       // setAlert();
@@ -290,7 +282,7 @@ export default function FreezerLog (props) {
       // If quantity state length is 0 then do nothing
     } else {
 
-      alert('Error: No meals to update. Please specifiy the quanitity of meals to be added');
+      // alert('Error: No meals to update. Please specifiy the quanitity of meals to be added');
 
     }
    
@@ -302,17 +294,18 @@ export default function FreezerLog (props) {
 // switch to a new page and pass the state - a confirmation page will be a new component
     if (quantity.length > 0) {
 
-      alert('Removing meals from freezer');
+      // alert('Removing meals from freezer');
       console.log('quantity state:', quantity);
       // For each meal type in state
+      
       for (var i = 0; i < quantity.length; ++i) {
+        if(quantity[i] == 0) {continue};
         // Add a database entry for each new meal
-        for (var j = 0; j < quantity[i]; ++j) {
-          updateMeals("http://"+window.location.hostname+":3000/volunteer/removeMeals", i+1);
-        }
+        updateMeals("http://"+window.location.hostname+":3000/freezer/removeMeals", i+1, quantity[i]);
+        
       }
-      setAlert();
-      alert('success');
+      // setAlert();
+      // alert('success');
 
     } else {
 

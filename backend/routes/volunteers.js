@@ -43,28 +43,7 @@ con.query(sql,[req.body.branch_id], function (err, result) {
   })
 })
 
-// Gets the number of avaiable meals for all freezers and branches
-router.post('/getFreezerLog', function(req, res, next) {
-  //sql query for the data
-  sql = "SELECT M.meal_type AS 'Meal Type Id', MT.meal_type AS Dish , count(M.meal_type) AS 'Available Meals'\
-  FROM `meal` AS M\
-  JOIN meal_type AS MT ON M.meal_type = MT.MT_id\
-  WHERE M.delivery_id is null\
-  GROUP by M.meal_type"
-  //returns meal type id, meal type name, and available meals
-  // res.send("Got here!")
-  con.query(sql, function (err, result) {
-        if (err) throw err;
-        console.log("Got a result!\n");
-        console.log(result)
-        if(result.length == 0){
-          res.send(404)
-        } else {
-          res.send(result)
-        }
-    });
-  
-});
+
 
 router.post('/getDelTime', function(req, res, next) {
 
@@ -140,6 +119,39 @@ router.post('/getToContactDeliveries', function(req, res, next) {
         res.send(result)
       })
     })
+// Gets the number of avaiable meals for all freezers and branches
+router.post('/getFreezerLog', function(req, res, next) {
+  //sql query for the data
+  sql = "\
+  SELECT \
+    MT.MT_id AS 'Meal Type Id', \
+    MT.meal_type AS Dish,\
+     COUNT(M.meal_type) as \"cnt\"\
+  FROM meal_type AS MT \
+   left outer JOIN \
+     (\
+         select Mm.meal_type from	`meal` AS Mm\
+         JOIN freezer on  freezer.freezer_id = Mm.freezer_id\
+         WHERE freezer.person_id = 2\
+    AND Mm.delivery_id is null) as M ON M.meal_type = MT.MT_id\
+   \
+   GROUP by MT.MT_id"
+  //returns meal type id, meal type name, and available meals
+  // res.send("Got here!")
+  con.query(sql,[req.body.person_id], function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.sendStatus(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
+
 
 // Gets all the freezer managers and their details
 router.post('/getFreezerManagers', function(req, res, next) {
@@ -169,41 +181,6 @@ router.post('/getFreezerManagers', function(req, res, next) {
 });
 
 
-
-router.post('/createMeals', function(req, res, next) {
-  console.log('in volunteers sql query for create meals');
-  // sql query works
-  var sql = "INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) \
-  VALUES (NULL, ?, 1, NULL)" // insert into freezer_id 1 to start with
-  
-  con.query(sql,[req.body.meal_type], function (err, result) {
-    if (err) throw err;
-    if(result.length == 0 || result == undefined) {
-      res.send(null) ;return 
-    }
-    console.log('1 meal inserted with meal type id: ' [req.body.meal_type]);
-    
-    res.send(result)
-  });
-
-});
-
-
-router.post('/removeMeals', function(req, res, next) {
-  console.log('in volunteers sql query for create meals');
-  // sql query works
-  var sql = "DELETE FROM meal WHERE meal_type = ? AND freezer_id = 1 AND delivery_id IS NULL LIMIT 1" // insert into freezer_id 1 to start with
-  
-  con.query(sql,[req.body.meal_type], function (err, result) {
-    if (err) throw err;
-    if(result.length == 0 || result == undefined) {
-      res.send(null) ;return 
-    }
-    console.log('1 meal removed with meal type id: ' [req.body.meal_type]);
- 
-  });
-
-});
 
 
 
