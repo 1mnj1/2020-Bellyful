@@ -156,7 +156,7 @@ router.post('/getFreezerLog', function(req, res, next) {
 // Gets all the freezer managers and their details
 router.post('/getFreezerManagers', function(req, res, next) {
   //sql query for the data
-  sql = "SELECT CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.meal_id) as 'Available Meals'\
+  sql = "SELECT CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street, ', ', address.add_suburb) as 'Address', branch.branch_name as Branch, person.person_phone AS 'Phone', COUNT(meal.meal_id) as 'Available Meals'\
   FROM freezer\
   JOIN person ON freezer.person_id = person.person_id\
   JOIN address ON freezer.add_id = address.add_id\
