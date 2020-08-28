@@ -9,6 +9,7 @@ import Select from '@material-ui/core/Select';
 // import Divider from '@material-ui/core/Divider';
 // import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider'
 // import Checkbox from '@material-ui/core/Checkbox';
 
 
@@ -61,37 +62,59 @@ function VolunteerForm(props) {
   //Holds the selected branch value
   const [branchVal, setbranchVal] = React.useState(findItem("branches"));
 
+  const [statuses, setStatuses] = React.useState(null);
+  const [volstatus, setvolstatus] = React.useState(findItem("statuses"));
   
 
   React.useEffect(() => {
     
-    $.post( "http://"+window.location.hostname+":3000/deliveryManager/getBranch",  function( returnable ) {
+    $.post( "http://"+window.location.hostname+":3000/delivery/getBranch",  function( returnable ) {
       if(returnable === null) return 
       if (returnable === undefined) return 
       if(returnable.length === 0) return 
       const data = returnable.map(row=>{var vals = Object.values(row); return (<MenuItem key = {vals[0]} value={vals[0]} >{vals[1]}</MenuItem>)  })
 
-        
-
       $(setBranches(data))
+      // this.props.setLogged(true)
+  });
+  $.post( "http://"+window.location.hostname+":3000/delivery/getStatuses",  function( returnable ) {
+      if(returnable === null) {console.log("Data Returned Null"); return;} 
+      if (returnable === undefined) return 
+      if(returnable.length === 0) return 
+      const data = returnable.map(row=>{var vals = Object.values(row); return (<MenuItem key = {vals[0]} value={vals[0]} >{vals[1]}</MenuItem>)  })
+      
+      $(setStatuses(data))
       // this.props.setLogged(true)
   });
   }, [getData]);
 
-  const handleChange = (event) => {
+  const handleChangeBranch = (event) => {
     console.log("Changing target: ",event.target.value)
       setbranchVal(event.target.value);
   };
 
+  const handleChangeStatus = (event) => {
+    console.log("Changing target: ",event.target.value)
+      setvolstatus(event.target.value);
+  };
+
+  var saveForm = () => {
+    var formData = $("form.referrerForm").serializeArray()
+    if(formData.length === 0){
+      formData = [{}]
+      props.setForm(formData)
+    } 
+  }
   // const classes = useStyles();
   // Return a series of text elements to make a form
   return (
     <div>
-      
+            <br/><br/>
+            
             <Typography variant="h3" component="h3" gutterBottom>
                 Create Volunteer
             </Typography>
-            
+            <form className = 'volunteerForm' onChange = {saveForm}>
             <PersonForm formData = {props.formData}/>
 
             <FormControl className = {classes.fullText}>
@@ -101,13 +124,32 @@ function VolunteerForm(props) {
               labelId = 'B_Val'
               id = 'BV'
               value = {branchVal}
-              onChange = {handleChange}
+              onChange = {handleChangeBranch}
               >
                 {branches}
               </Select>
             </FormControl>
-            
-            
+            <FormControl className = {classes.fullText}>
+              <InputLabel id='lblStatuses'>Volunteer Status</InputLabel>
+              <Select name = 'Status'
+              label = 'Status'
+              labelId = 'Status'
+              id = 'SV'
+              value = {volstatus}
+              onChange = {handleChangeStatus}
+              >
+                {statuses}
+              </Select>
+            </FormControl>
+            <br/>
+            <br/>
+            <Typography variant = "h4">
+              Emergency Contact
+            </Typography>
+            <br/>
+            <br/>
+            <PersonForm formData = {props.formData}/>
+            </form>
     </div>
   );
 }

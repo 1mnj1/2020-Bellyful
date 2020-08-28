@@ -287,6 +287,8 @@ router.post('/submitReferrer', function(req, res, next) {
       console.log(error)
   }
 });
+
+
 router.post('/getBranch', function(req, res, next) {
   sql = 'select branch.branch_id as id, branch.branch_name as branch from branch'
 
@@ -299,6 +301,20 @@ router.post('/getBranch', function(req, res, next) {
         }
     });
 });
+
+router.post('/getStatuses', function(req, res, next) {
+  sql = 'SELECT vol_status.VS_id as id, vol_status.VS_stat as status from vol_status'
+
+  con.query(sql, function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.send([])
+        } else {
+          res.send(result)
+        }
+    });
+});
+
 router.post('/submitDelivery', function(req, res, next) {
   var sql = ""
   console.log("Rquest: ",req.body)

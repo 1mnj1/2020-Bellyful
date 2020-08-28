@@ -89,9 +89,9 @@ function ReferrerForm(props) {
     } 
     getAddressID(formData, (add_id)=>{
       formData.push({"name":"address_id", "value" : add_id})
-      getPersonID( formData, (person_id)=> {
-        formData.push({"name":"person_id", "value" : person_id})
-        props.setForm(formData)
+    getPersonID( formData, (person_id)=> {
+      formData.push({"name":"person_id", "value" : person_id})
+      props.setForm(formData)
       })
     })
   };
