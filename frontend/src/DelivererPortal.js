@@ -167,9 +167,6 @@ function DelivererPortal(props) {
                             setdeliveryID = {setdeliveryID}/>
                         }
                 </TabPanel>
-                <TabPanel value={value} index={3} dir={theme.direction}>
-                    Item Three
-                </TabPanel>
                 
             </SwipeableViews>
             
@@ -186,7 +183,6 @@ function DelivererPortal(props) {
                 <Tab label="Branch Outstanding" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                 <Tab label="My Outstanding" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
                 <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
-                <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
         </
