@@ -43,7 +43,12 @@ const useStyles = makeStyles((theme) => ({
   }
 ));
 
-
+function getAddressID( dict, success ){
+  $.post("http://"+window.location.hostname+":3000/delivery/getAddress",dict,success)
+}
+function getPersonID( dict, success ){
+  $.post("http://"+window.location.hostname+":3000/delivery/getPersonId",dict,success)
+}
 
 function VolunteerForm(props) {
 
@@ -55,6 +60,8 @@ function VolunteerForm(props) {
     }
   return null
   }
+
+  
 
   const getData = 1;
   //Takes a list of branches for the Dropdown menu
@@ -89,21 +96,34 @@ function VolunteerForm(props) {
   }, [getData]);
 
   const handleChangeBranch = (event) => {
-    console.log("Changing target: ",event.target.value)
+    console.log("Changing Branch: ",event.target.value)
       setbranchVal(event.target.value);
   };
 
   const handleChangeStatus = (event) => {
-    console.log("Changing target: ",event.target.value)
+    console.log("Changing Status: ",event.target.value)
       setvolstatus(event.target.value);
   };
+
+  
 
   var saveForm = () => {
     var formData = $("form.referrerForm").serializeArray()
     if(formData.length === 0){
       formData = [{}]
       props.setForm(formData)
+      console.log("THIS IS THE PROPS.FORMDATA",props.formData)
     } 
+    getAddressID(formData, (add_id)=>{
+      formData.push({"name":"address_id", "value" : add_id})
+      getPersonID( formData, (person_id)=> {
+        formData.push({"name":"person_id", "value" : person_id})
+        // getPersonID( formData, (ice_id)=> {
+        //   formData.push({"name":'ice_id', "value" : ice_id})
+           props.setForm(formData)
+        // })
+      })
+    })
   }
   // const classes = useStyles();
   // Return a series of text elements to make a form
@@ -150,6 +170,7 @@ function VolunteerForm(props) {
             <br/>
             <PersonForm formData = {props.formData}/>
             </form>
+            <button onClick = {saveForm}>Submit</button>
     </div>
   );
 }
