@@ -108,33 +108,42 @@ function VolunteerForm(props) {
   
 
   var saveForm = () => {
-    var formData = $("form.referrerForm").serializeArray()
-    if(formData.length === 0){
-      formData = [{}]
-      props.setForm(formData)
-      console.log("THIS IS THE PROPS.FORMDATA",props.formData)
+    var volunteerData = $("form.volunteerForm").serializeArray()
+    var iceData = $("form.iceForm").serializeArray()
+    if(volunteerData.length === 0){
+      volunteerData = [{}]
+      props.setForm(volunteerData)
+      console.log("THIS IS THE PROPS.volunteerData",props.volunteerData)
     } 
-    getAddressID(formData, (add_id)=>{
-      formData.push({"name":"address_id", "value" : add_id})
-      getPersonID( formData, (person_id)=> {
-        formData.push({"name":"person_id", "value" : person_id})
-        // getPersonID( formData, (ice_id)=> {
-        //   formData.push({"name":'ice_id', "value" : ice_id})
-           props.setForm(formData)
-        // })
+    getAddressID(volunteerData, (add_id)=>{
+      volunteerData.push({"name":"address_id", "value" : add_id})
+      getPersonID( volunteerData, (person_id)=> {
+        volunteerData.push({"name":"person_id", "value" : person_id})
+          // Submit the ICE data
+          getAddressID(iceData, (add_id)=>{
+            iceData.push({"name":"address_id", "value" : add_id})
+            getPersonID( iceData, (person_id)=> {
+              iceData.push({"name":"person_id", "value" : person_id})
+                var formData = []
+                formData.push(iceData)
+                formData.push(volunteerData)
+                props.setForm(formData)
+            })
+          })
       })
     })
   }
   // const classes = useStyles();
   // Return a series of text elements to make a form
   return (
-    <div>
+    <div style = {{"overflowX": "hidden"}}>
             <br/><br/>
             
             <Typography variant="h3" component="h3" gutterBottom>
                 Create Volunteer
             </Typography>
-            <form className = 'volunteerForm' onChange = {saveForm}>
+            <form className = 'volunteerForm' > 
+            {/* onChange = {saveForm}> */}
             <PersonForm formData = {props.formData}/>
 
             <FormControl className = {classes.fullText}>
@@ -163,6 +172,8 @@ function VolunteerForm(props) {
             </FormControl>
             <br/>
             <br/>
+            </form>
+            <form className = 'iceForm'>
             <Typography variant = "h4">
               Emergency Contact
             </Typography>
