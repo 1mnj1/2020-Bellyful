@@ -36,7 +36,6 @@ router.post('/getPersonId', function(req, res, next) {
       });
 });
 router.post('/getAddress', function(req, res, next) {
-    console.log(req.body)
     const addressDetails = [
         req.body.streetNum,
         req.body.streetName,
@@ -288,6 +287,72 @@ router.post('/submitReferrer', function(req, res, next) {
   }
 });
 
+router.post('/submitICE', function(req, res, next) {
+  try{
+    findAddress(req, (add_id)=>{
+      findPerson(req,add_id,(person_id)=>{
+        res.send(person_id)
+      })
+    })
+  } catch (error) {
+    console.log("Found error: ",error)
+  }
+});
+router.post('/submitVolunteer', function(req, res, next) {
+  
+  console.log("Vol data: ", req.body)
+  findAddress(req, (add_id)=>{
+    findPerson(req,add_id,(person_id)=>{
+      const sql = "SELECT volunteer.person_id as id from volunteer WHERE volunteer.person_id  = ? "
+      con.query(sql,[person_id], function (err, result) {
+        var sql = ""
+          var volDetails = ""
+          //if there is a volunteer, update them
+          if(result.length > 0){
+            //if the recipient exists, update them.
+            sql = "UPDATE `volunteer` \
+            SET `ice_id` = ?, \
+            `branch_id` = ?, \
+            `vol_status` = ?\
+            WHERE `volunteer`.`person_id` = ?"
+            volDetails = [
+              req.body.ice_id,
+              req.body.B_Val,
+              req.body.Status,
+              person_id
+            ]
+          } else {
+            //if the recipient doesnt exist insert
+            sql = "INSERT INTO `volunteer` (`person_id`, `ice_id`, `branch_id`, `vol_status`) VALUES (?,?,?,?)"
+            volDetails = [
+              person_id,
+              req.body.ice_id,
+              req.body.B_Val,
+              req.body.Status
+            ]
+          }
+            
+          // res.send("Got here!")
+          con.query(sql,volDetails, function (err, result) {
+                if (err) throw err;
+                console.log("Created a referrer!\n");
+                res.send(person_id)
+            });
+            
+            
+
+                  
+          
+      })
+
+
+
+
+
+    })
+  })
+
+})
 
 router.post('/getBranch', function(req, res, next) {
   sql = 'select branch.branch_id as id, branch.branch_name as branch from branch'

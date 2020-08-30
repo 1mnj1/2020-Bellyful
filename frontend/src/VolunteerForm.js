@@ -125,8 +125,9 @@ function VolunteerForm(props) {
             getPersonID( iceData, (person_id)=> {
               iceData.push({"name":"person_id", "value" : person_id})
                 var formData = []
-                formData.push(iceData)
-                formData.push(volunteerData)
+                formData.push( iceData )
+                formData.push( volunteerData )
+                console.log("Saving form")
                 props.setForm(formData)
             })
           })
