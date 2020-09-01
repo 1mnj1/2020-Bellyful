@@ -21,6 +21,50 @@ router.post('/getBranch', function(req, res, next) {
     });
 });
 
+router.post('/updateDelDeets', function(req, res, next) {
+  console.log(req.body)
+
+  
+  var delTime = (req.body.DelTime.replace("T", " "))+":00"
+  // 2020-09-18T21:19
+  // 2020-09-16 21:19:00
+  console.log(delTime)
+
+  var sql = "select referrer.person_id as id \
+  from referrer \
+  join delivery on delivery.ref_id = referrer.person_id \
+  where delivery.delivery_id = ? "
+
+  con.query(sql, [req.body.delivery_id], function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.sendStatus(404)
+        } 
+        sql = "UPDATE `referrer` SET `notes` = ? WHERE `referrer`.`person_id` = ?"
+        con.query(sql, [req.body.refNotes,result[0].id], function (err, result) {
+          if (err) throw err;
+          if(result.length == 0){
+            res.sendStatus(404)
+        } });
+
+    });
+    sql = "UPDATE `delivery` SET `delivery_est_time` = ? WHERE `delivery`.`delivery_id` = ?"
+    con.query(sql, [delTime, req.body.delivery_id], function (err, result) {
+      if (err) throw err;
+      if(result.length == 0){
+        res.sendStatus(404)
+      } 
+      
+
+    });
+
+
+
+  res.sendStatus(200)
+});
+
+
+
 router.post('/getNewDeliveries', function(req, res, next) {
 
 var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
@@ -43,7 +87,23 @@ con.query(sql,[req.body.branch_id], function (err, result) {
   })
 })
 
-
+router.post('/getMealsForDelivery', function(req, res, next) {
+  var sql = 'select meal_type.meal_type as "Meal" , COUNT(M.meal_id) as "Count"\
+  from meal_type\
+  left outer join (select * from meal where meal.delivery_id = ?) as M on meal_type.MT_id = M.meal_type\
+  \
+  group by meal_type.MT_id\
+  '
+  
+   con.query(sql,[req.body.delivery_id], function (err, result) {
+    if (err) throw err;
+    if(result.length == 0 || result == undefined) {
+      res.send(null) ;return 
+    }
+    res.send(result)
+    
+  })
+  })
 
 router.post('/getDelTime', function(req, res, next) {
 
