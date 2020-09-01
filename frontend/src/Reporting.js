@@ -3,6 +3,7 @@ import AutoTable from './AutoTable'
 // import CreateDeliveryNavigation from './CreateDeliveryNavigation'
 import VolunteerForm from './VolunteerForm';
 import $ from 'jquery'
+import FreezerForm from './FreezerForm'
 
 function Reporting() {
   
@@ -37,8 +38,8 @@ function Reporting() {
         <AutoTable title = "Volunteers" url = {"http://"+window.location.hostname+":3000/manager/getVolunteers" } showAdder = {true}>
           <VolunteerForm formData = {vol} setForm = {updateVol}/>
         </AutoTable>
-        <AutoTable title = "Freezer Managers" url = {"http://"+window.location.hostname+":3000/manager/getFreezerManager"}>
-          
+        <AutoTable title = "Freezer Managers" url = {"http://"+window.location.hostname+":3000/manager/getFreezerManager"} showAdder = {true}>
+          <FreezerForm />
         </AutoTable>
         <AutoTable title = "Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveries"}>
           
