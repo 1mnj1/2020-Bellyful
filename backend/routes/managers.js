@@ -54,13 +54,13 @@ router.post('/getDeliveries', function(req, res, next) {
 });
 router.post('/getFreezerManager', function(req, res, next) {
   //sql query for the data
-  sql = "select CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.meal_id) as 'Available Meals'\
-  from freezer,person , address, branch, meal\
-  where freezer.person_id = person.person_id\
-  AND freezer.add_id = address.add_id\
-  AND freezer.branch_id = branch.branch_id\
-  AND meal.delivery_id is NULL \
-  and meal.freezer_id\
+  sql = "select CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.freezer_id) as 'Available Meals'\
+  from freezer\
+  join person  ON freezer.person_id = person.person_id\
+  join address on freezer.add_id = address.add_id\
+  join branch on freezer.branch_id = branch.branch_id\
+  left outer join (select meal.freezer_id from meal where meal.delivery_id is NULL) as meal on meal.freezer_id = freezer.freezer_id\
+  group by freezer.freezer_id\
     "
   //returns id, name, address, branch name
   // res.send("Got here!")
