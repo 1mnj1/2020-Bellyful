@@ -110,13 +110,13 @@ export default function FreezerManagers (props) {
     console.log("row 3 :", row[state.columns[3]])
     console.log("row 4 :", row[state.columns[4]])
     console.log("row 5 :", row[state.columns[5]])
-    console.log("row 6 :", row[state.columns[6]])
+    console.log("row 6 :", row[state.columns[6]]) // freezer manager id
 
     return (
       <div>
         <div>
           {/* <ListItem key={value} role={undefined} dense button onClick={handleClick(value, row[state.columns[6]])}>           */}
-          <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, branchManagerClicked: value})}>          
+          <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, branchManagerClicked: value, freezerManagerId: row[state.columns[6]]})}>          
             <ListItemText
               primary = {
                 <React.Fragment>

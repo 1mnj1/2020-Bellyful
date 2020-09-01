@@ -89,11 +89,13 @@ function FreezerPortal(props) {
     });
 
     const [branchManagerClicked, setBranchManagerClicked] = React.useState(-1);
+    const [freezerManagerId, setFreezerManagerId] = React.useState(-1);
 
     const [branchManagers, setBranchManagers] = React.useState({
         columns: [ {}, ],
         data: [  ],
-        branchManagerClicked: null
+        branchManagerClicked: null,
+        freezerManagerId: null
     })
 
     const [branchID, setBranchID] = React.useState(null)
@@ -175,6 +177,8 @@ function FreezerPortal(props) {
                             url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
                             // person_id = {freezerManagerId}
                             delivery_id = {branchManagers.branchManagerClicked} 
+                            person_id = {branchManagers.freezerManagerId} 
+                            // freezerManagerId = {freezerManagerId}
                             confirmedState = {branchManagers}
                             setConfirmedState = {setBranchManagers}
                             setdeliveryID = {setBranchManagerClicked}

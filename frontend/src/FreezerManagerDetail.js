@@ -194,7 +194,10 @@ export default function FreezerManagerDetail (props) {
   // To get the data
   React.useEffect(() => {
     console.log("User ID: ", props.user_id)
-      $.post( props.url,[{name: "person_id", value: props.user_id}], function(returnable) {
+    console.log("person ID: ", props.person_id)
+    console.log("delivery ID: ", props.delivery_id)
+      // $.post( props.url,[{name: "person_id", value: props.user_id}], function(returnable) {
+      $.post( props.url,[{name: "person_id", value: props.person_id}], function(returnable) {
       if(returnable === null) return 
       if (returnable === undefined) return 
       if(returnable.length === 0) return 
