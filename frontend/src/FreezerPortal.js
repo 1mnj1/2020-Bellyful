@@ -109,13 +109,19 @@ function FreezerPortal(props) {
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
                        {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
-                       <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
+                       <FreezerManagers 
+                            title="Freezer Managers" 
+                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}
+                            user_id = {props.user_id}>
                        </FreezerManagers>
 
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
 
-                        <FreezerLog title = "Freezer Log" url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}>
+                        <FreezerLog 
+                            title = "Freezer Log" 
+                            url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                            user_id = {props.user_id}>
                         </FreezerLog>
 
                     </TabPanel>

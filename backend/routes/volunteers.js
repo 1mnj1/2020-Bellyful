@@ -156,14 +156,22 @@ router.post('/getFreezerLog', function(req, res, next) {
 // Gets all the freezer managers and their details
 router.post('/getFreezerManagers', function(req, res, next) {
   //sql query for the data
-  sql = "SELECT CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street, ', ', address.add_suburb) as 'Address', branch.branch_name as Branch, person.person_phone AS 'Phone', COUNT(meal.meal_id) as 'Available Meals'\
-  FROM freezer\
-  JOIN person ON freezer.person_id = person.person_id\
-  JOIN address ON freezer.add_id = address.add_id\
-  JOIN branch ON freezer.branch_id = branch.branch_id\
-  JOIN meal ON freezer.freezer_id = meal.freezer_id\
-  WHERE meal.delivery_id IS NULL\
-  AND meal.freezer_id = freezer.freezer_id\
+  sql = "\
+    SELECT\
+      CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name',\
+      CONCAT(address.add_num , ' ' , address.add_street) as 'Steet',\
+      address.add_suburb AS 'Suburb', \
+      branch.branch_name as Branch, \
+      person.person_phone AS 'Phone',\
+      COUNT(meal.meal_id) as 'Available Meals',\
+      freezer.person_id AS 'Person Id'\
+        FROM freezer\
+          JOIN person ON freezer.person_id = person.person_id\
+          JOIN address ON freezer.add_id = address.add_id\
+          JOIN branch ON freezer.branch_id = branch.branch_id\
+          JOIN meal ON freezer.freezer_id = meal.freezer_id\
+          WHERE meal.delivery_id IS NULL\
+          AND meal.freezer_id = freezer.freezer_id\
   "
   //returns id, name, address, branch name
   // res.send("Got here!")
