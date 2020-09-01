@@ -287,6 +287,32 @@ router.post('/submitReferrer', function(req, res, next) {
       console.log(error)
   }
 });
+router.post('/submitFreezer', function(req, res, next) {
+  try {
+    
+  
+    findAddress(req, (add_id)=>{     
+          sqlVars = [
+            req.body.freezerManager,
+            add_id,
+            req.body.branch
+            
+          ]
+          // res.send("Got here!")
+          
+            sql = 'INSERT INTO `freezer` (`freezer_id`, `person_id`, `add_id`, `branch_id`) VALUES (NULL, ?,?,?)'
+            con.query(sql,sqlVars, function (err, result) {
+              if (err) console.log(err)
+              res.sendStatus(200)
+            })
+            
+
+                  
+          });
+  } catch (error) {
+      console.log(error)
+  }
+});
 router.post('/getBranch', function(req, res, next) {
   sql = 'select branch.branch_id as id, branch.branch_name as branch from branch'
 
