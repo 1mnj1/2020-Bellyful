@@ -185,10 +185,10 @@ router.post('/getFreezerManagers', function(req, res, next) {
 
 
 
-router.post('/getMealsForDelivery', function(req, res, next) {
+router.post('/updateDelState', function(req, res, next) {
 var sql = ["start TRANSACTION;",
 "select delivery_status.stat_id into @a from delivery_status  where delivery_status.stat_name LIKE ?;",
-"UPDATE `delivery` SET `delivery_status` = @a\
+"UPDATE `delivery` SET `delivery_status` = @a \
 WHERE `delivery`.`delivery_id` = ?;",
 "COMMIT;"]
 var sqlVars = [
