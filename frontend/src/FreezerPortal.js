@@ -9,6 +9,8 @@ import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 
+import $ from 'jquery'
+
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 import AcUnitIcon from '@material-ui/icons/AcUnit'
@@ -18,6 +20,7 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
 import FreezerLog from './FreezerLog';
 import FreezerManagers from './FreezerManagers';
+import FreezerManagerDetail from './FreezerManagerDetail';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -63,6 +66,8 @@ function a11yProps(index) {
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
+
+
   
 function FreezerPortal(props) {
 
@@ -73,13 +78,47 @@ function FreezerPortal(props) {
 
 
     const [value, setValue] = React.useState('0');
+    //Portal has global deliveryID, if it is -1 then no delivery is selected, else = Del ID of selected delivery
+    const [deliveryID, setdeliveryID] = React.useState(-1);
+
+
+    const [myConfirmed, setMyConfirmed] = React.useState({
+        columns: [ {}, ],
+        data: [  ],
+        deliveryID: null
+    });
+
+    const [branchManagerClicked, setBranchManagerClicked] = React.useState(-1);
+
+    const [branchManagers, setBranchManagers] = React.useState({
+        columns: [ {}, ],
+        data: [  ],
+        branchManagerClicked: null
+    })
+
+    const [branchID, setBranchID] = React.useState(null)
+
+
     const handleChange = (event, newValue) => {
         console.log("Set Value to : " + newValue);
+        console.log("DeliveryID for Portal = ", deliveryID)
         setValue(newValue);
     }
     const handleChangeIndex = (index) => {
         setValue(index);
     }
+
+    React.useEffect(()=>{
+        $.post( "http://"+window.location.hostname+":3000/volunteer/getBranch",[{name: "vol_id", value: props.user_id}], function(returnable) {
+            if(returnable === null) return 
+            if (returnable === undefined) return 
+            if(returnable.length === 0) return
+            $(setBranchID(returnable))
+            return
+             
+    })}, [props.user_id]);
+    //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
+    
 
     
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
@@ -109,11 +148,62 @@ function FreezerPortal(props) {
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
                        {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
-                       <FreezerManagers 
+
+
+                
+                    {branchManagers.branchManagerClicked == null? 
+                        <FreezerManagers 
                             title="Freezer Managers" 
-                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}
-                            user_id = {props.user_id}>
-                       </FreezerManagers>
+                            state = {branchManagers} 
+                            setState = {setBranchManagers}
+                            user_id = {props.user_id}
+                            branch_id = {branchID}
+                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
+                        </FreezerManagers>
+                        // <MyConfirmed 
+                        // state = {myConfirmed} 
+                        // setState = {setMyConfirmed}
+                        // user_id = {props.user_id} title = "My confirmed" 
+                        // branch_id = {branchID}
+                        // url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
+                        
+                        :  
+                    
+                    // branchManagerClicked > -1 ?
+                        <FreezerManagerDetail 
+                            title = 'Freezer Manager Detail Page'
+                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                            // person_id = {freezerManagerId}
+                            delivery_id = {branchManagers.branchManagerClicked} 
+                            confirmedState = {branchManagers}
+                            setConfirmedState = {setBranchManagers}
+                            setdeliveryID = {setBranchManagerClicked}
+                        >
+                    
+                        </FreezerManagerDetail> 
+                    }
+                        
+                    
+{/* 
+                    ////// ADDED   
+                    // {myConfirmed.deliveryID == null? 
+                    //     <MyConfirmed 
+                    //     state = {myConfirmed} 
+                    //     setState = {setMyConfirmed}
+                    //     user_id = {props.user_id} title = "My confirmed" 
+                    //     branch_id = {branchID}
+                    //     url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>:  
+                    
+                    // deliveryID > -1 ? 
+                    //     <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
+                    //     :
+                    //     <DeliveryDriving  
+                    //         delivery_id = {myConfirmed.deliveryID} 
+                    //         confirmedState = {myConfirmed}
+                    //         setConfirmedState = {setMyConfirmed}
+                    //         setdeliveryID = {setdeliveryID}/>
+                    //     }
+                    ////// ADDED   */}
 
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
