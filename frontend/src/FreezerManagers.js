@@ -1,18 +1,11 @@
 import React from "react"
 import $ from 'jquery'
 
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-
-import FreezerManagerDetail from './FreezerManagerDetail';
-
-
 
 const useStyles = makeStyles((theme) => ({
   root: {

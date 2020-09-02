@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import BottomNavigation from '@material-ui/core/BottomNavigation';
-// import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -78,16 +77,6 @@ function FreezerPortal(props) {
 
 
     const [value, setValue] = React.useState('0');
-    //Portal has global deliveryID, if it is -1 then no delivery is selected, else = Del ID of selected delivery
-    const [deliveryID, setdeliveryID] = React.useState(-1);
-
-
-    const [myConfirmed, setMyConfirmed] = React.useState({
-        columns: [ {}, ],
-        data: [  ],
-        deliveryID: null
-    });
-
     const [branchManagerClicked, setBranchManagerClicked] = React.useState(-1);
     const [freezerManagerId, setFreezerManagerId] = React.useState(-1);
 
@@ -103,7 +92,6 @@ function FreezerPortal(props) {
 
     const handleChange = (event, newValue) => {
         console.log("Set Value to : " + newValue);
-        console.log("DeliveryID for Portal = ", deliveryID)
         setValue(newValue);
     }
     const handleChangeIndex = (index) => {
@@ -120,22 +108,10 @@ function FreezerPortal(props) {
              
     })}, [props.user_id]);
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
-    
-
-    
-    //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
     return (
         <>
         <div className={classes.root}>
-            {/* <BottomNavigation value={value} onChange={handleChange} className={classes.Navigation_root}>
-                <BottomNavigationAction lable="New Deliveries" value="0" icon={<NotificationsActiveIcon/>} {...a11yProps(0)}/>
-                <BottomNavigationAction lable="Deliveries" value="1" icon={<LocalShippingIcon/>} {...a11yProps(1)}/>
-                <BottomNavigationAction lable="Freezers" value="2" icon={<AcUnitIcon/>} {...a11yProps(2)}/>
-                <BottomNavigationAction lable="My Profile" value="3" icon={<PersonIcon/>} {...a11yProps(3)}/>
-            </BottomNavigation> */}
-            
-                
                 <SwipeableViews
                     axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                     index={value}
@@ -150,8 +126,6 @@ function FreezerPortal(props) {
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
                        {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
-
-
                 
                     {branchManagers.branchManagerClicked == null? 
                         <FreezerManagers 
@@ -163,53 +137,24 @@ function FreezerPortal(props) {
                             // url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
                             url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}>
                         </FreezerManagers>
-                        // <MyConfirmed 
-                        // state = {myConfirmed} 
-                        // setState = {setMyConfirmed}
-                        // user_id = {props.user_id} title = "My confirmed" 
-                        // branch_id = {branchID}
-                        // url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
-                        
+                
                         :  
-                    
-                    // branchManagerClicked > -1 ?
+                
                         <FreezerManagerDetail 
                             title = 'Freezer Manager Detail Page'
                             url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
                             // person_id = {freezerManagerId}
                             delivery_id = {branchManagers.branchManagerClicked} 
                             person_id = {branchManagers.freezerManagerId} 
-                            // freezerManagerId = {freezerManagerId}
+                            setFreezerManagerId = {setFreezerManagerId}
                             confirmedState = {branchManagers}
                             setConfirmedState = {setBranchManagers}
-                            setdeliveryID = {setBranchManagerClicked}
+                            setBranchManagerClicked = {setBranchManagerClicked}
                         >
                     
                         </FreezerManagerDetail> 
                     }
                         
-                    
-{/* 
-                    ////// ADDED   
-                    // {myConfirmed.deliveryID == null? 
-                    //     <MyConfirmed 
-                    //     state = {myConfirmed} 
-                    //     setState = {setMyConfirmed}
-                    //     user_id = {props.user_id} title = "My confirmed" 
-                    //     branch_id = {branchID}
-                    //     url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>:  
-                    
-                    // deliveryID > -1 ? 
-                    //     <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
-                    //     :
-                    //     <DeliveryDriving  
-                    //         delivery_id = {myConfirmed.deliveryID} 
-                    //         confirmedState = {myConfirmed}
-                    //         setConfirmedState = {setMyConfirmed}
-                    //         setdeliveryID = {setdeliveryID}/>
-                    //     }
-                    ////// ADDED   */}
-
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
 
