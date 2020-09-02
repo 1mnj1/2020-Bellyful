@@ -6,5 +6,6 @@ module.exports = {
     "reporting": 1,
     "deliveryreporting":2,
     "delivererportal":3,
-    "freezerportal":4
+    "freezerportal":4,
+    "profile":5
 }

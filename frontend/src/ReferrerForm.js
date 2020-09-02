@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function ReferrerForm(props) {
     
-  const getData = 1
+  const getData = 1;
   const classes = useStyles();
 
   const findItem= (searchItem)=>{
@@ -100,7 +100,7 @@ function ReferrerForm(props) {
     console.log("Changing target: ",event.target.value)
       setrefTypeVal(event.target.value);
   };
-    
+
   // Return a series of text elements to make a form
   return (
     <div>

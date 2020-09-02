@@ -165,12 +165,6 @@ function FreezerPortal(props) {
                         </FreezerLog>
 
                     </TabPanel>
-                    <TabPanel value={value} index={3} dir={theme.direction}>
-
-                        <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers222"}>
-                       </FreezerManagers>
-
-                    </TabPanel>
                 </SwipeableViews>
                 <AppBar position="static" color="default" className={classes.Navigation_root}>
                 <Tabs
@@ -184,7 +178,6 @@ function FreezerPortal(props) {
                     <Tab label="Test 1" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                     <Tab label="Test 2 " icon={<LocalShippingIcon/>} {...a11yProps(1)} />
                     <Tab label="Freezers" icon={<AcUnitIcon/>} {...a11yProps(2)} />
-                    <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
                     </Tabs>
                 </AppBar>
                 </div>
