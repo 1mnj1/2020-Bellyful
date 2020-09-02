@@ -189,6 +189,39 @@ router.post('/getFreezerManagers', function(req, res, next) {
 });
 
 
+// Gets all the freezer managers and their details
+router.post('/getFreezerManagers2', function(req, res, next) {
+  //sql query for the data
+  sql = "\
+  SELECT\
+  CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name',\
+  CONCAT(address.add_num , ' ' , address.add_street) as 'Steet',\
+  address.add_suburb AS 'Suburb',\
+  branch.branch_name AS 'Branch',\
+  person.person_phone AS 'Phone',\
+  freezer.person_id AS 'Person Id'\
+    FROM freezer\
+      JOIN person ON freezer.person_id = person.person_id\
+      JOIN address ON freezer.add_id = address.add_id\
+      JOIN branch ON freezer.branch_id = branch.branch_id\
+      WHERE freezer.branch_id = 1\
+  "
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  con.query(sql, [req.body.branch_id], function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
+
 
 
 

@@ -160,7 +160,8 @@ function FreezerPortal(props) {
                             setState = {setBranchManagers}
                             user_id = {props.user_id}
                             branch_id = {branchID}
-                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
+                            // url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
+                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}>
                         </FreezerManagers>
                         // <MyConfirmed 
                         // state = {myConfirmed} 

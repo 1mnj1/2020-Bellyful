@@ -24,76 +24,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FreezerManagers (props) {
 
+  // allows the state to be saved when you leave the page. when you come back it will be the same
   const state = props.state
   const setState = props.setState
 
-  //   const [state, setState] = React.useState({
-  //       columns: [ {}, ],
-  //       data: [ {}, ],
-  //   });
-
-  //   const setColumns = (colNames)=>{
-  //     var columns = []; 
-  //     colNames.forEach(element => columns.push({title: element, field: element}));
-  //     return columns
-  // }
-
-
-  console.log("before the get data request for freezer manager")
   console.log(props.url)
-
-  const handleClick = (value, freezerManagerId) => () => {
-    alert("list item clicked");
-    var url = "http://"+window.location.hostname+":3000/volunteer/getFreezerLog";
-    // return (
-    //   <FreezerManagerDetail 
-    //   title = 'Freezer Manager Detail Page'
-    //   url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
-    //   person_id = {freezerManagerId}
-    // >
-
-    // </FreezerManagerDetail>
-    // )
-    console.log("end of function")
-  }
-
-  // To get the data
-  // React.useEffect(() => {
-      
-  //     $.post( props.url, function(returnable) {
-  //     if(returnable === null) return 
-  //     if (returnable === undefined) return 
-  //     if(returnable.length === 0) return 
-
-  //     var fields = Object.keys(returnable[0])
-  //     var values = Object.values(returnable[0])
-  //     console.log('fields from object.keys', fields)
-  //     console.log('values from object.values', values)
-  //     const cols = $(setColumns(fields))
-  //     console.log("before logging the columns for props", props.title)
-  //     console.log("columns = ",fields)
-  //     console.log("before logging the objects for props", props.title)
-  //     console.log("meals = ",returnable)
-      
-  //     $(setState(state => ({ ...state,columns:fields, data : returnable})))
-
-  // });
-  // }, [props.url,props.title]);
-
   console.log("User id: ", props.user_id)
     // To get the data
     React.useEffect(() => {
-        
-        $.post( props.url,[{"name":"user_id","value":props.user_id}], function(returnable) {
+        // need to be using branch id
+        $.post( props.url,[{"name":"branch_id","value":props.branch_id}], function(returnable) {
         if(returnable === null) return 
         if (returnable === undefined) return 
         if(returnable.length === 0) return 
         var fields = Object.keys(returnable[0])
-        
-        // To use an encapsulated function, put a dollar in front of it (it just works ?!)
-        // $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
         $(setState(state => ({ ...state,columns:fields, data : returnable})))
-        // this.props.setLogged(true)
     });
     }, [props.url,props.user_id ]);
 
@@ -103,20 +48,12 @@ export default function FreezerManagers (props) {
   const createList = state.data.map((row) => {
     const value = row[state.columns[0]]
     console.log("Row: ",row, "Value: ", value)
-  
-    console.log("row 0 :", row[state.columns[0]])
-    console.log("row 1 :", row[state.columns[1]])
-    console.log("row 2 :", row[state.columns[2]])
-    console.log("row 3 :", row[state.columns[3]])
-    console.log("row 4 :", row[state.columns[4]])
-    console.log("row 5 :", row[state.columns[5]])
-    console.log("row 6 :", row[state.columns[6]]) // freezer manager id
+    console.log("freezer manager id: ", row[state.columns[5]])
 
     return (
       <div>
         <div>
-          {/* <ListItem key={value} role={undefined} dense button onClick={handleClick(value, row[state.columns[6]])}>           */}
-          <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, branchManagerClicked: value, freezerManagerId: row[state.columns[6]]})}>          
+          <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, branchManagerClicked: value, freezerManagerId: row[state.columns[5]]})}>          
             <ListItemText
               primary = {
                 <React.Fragment>
@@ -168,15 +105,14 @@ export default function FreezerManagers (props) {
                   >
                     <br/>{row[state.columns[4]]}&nbsp;
                   </Typography>
-                  <Typography
+                  {/* <Typography
                     component="span"
                     variant="body2"
                     className={classes.inline}
-                    color="textPrimary"
                     style={{whiteSpace: 'pre-line'}}
                   >
                     <br/>{row[state.columns[5]]}&nbsp;Available Meals
-                  </Typography>
+                  </Typography> */}
                 </React.Fragment>
               }
             />
