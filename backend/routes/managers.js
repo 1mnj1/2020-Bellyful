@@ -12,7 +12,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/getVolunteers', function(req, res, next) {
   //sql query for the data
-  sql = "select CONCAT(person1.person_fname , ' ' , person1.person_lname) as 'Name', person1.person_email as Email, person1.person_phone as Phone, CONCAT(address.add_num , ' ' , address.add_street) as 'Address', CONCAT(person2.person_fname , ' ' , person2.person_lname) as 'Ice'\
+  console.log(req.body.getID)
+  
+  sql = "select "+((typeof req.body.getID === 'undefined') ? "":"person1.person_id as id,") +" CONCAT(person1.person_fname , ' ' , person1.person_lname) as 'Name', person1.person_email as Email, person1.person_phone as Phone, CONCAT(address.add_num , ' ' , address.add_street) as 'Address', CONCAT(person2.person_fname , ' ' , person2.person_lname) as 'Ice'\
   from person as person1,person as person2 , volunteer , address\
   where person1.person_id = volunteer.person_id \
   AND person2.person_id = volunteer.ice_id \
@@ -37,7 +39,7 @@ router.post('/getDeliveries', function(req, res, next) {
    join person as person2 on person2.person_id = delivery.recipient_id\
    join person as person3 on person3.person_id = delivery.ref_id\
    join delivery_status on delivery_status.stat_id = delivery.delivery_status\
-   join (SELECT COUNT(meal.delivery_id) AS meal_count, delivery.delivery_id as id FROM meal join delivery on meal.delivery_id = delivery.delivery_id group by delivery.delivery_id) as mealC on mealC.id = delivery.delivery_id\
+   left outer join (SELECT COUNT(meal.delivery_id) AS meal_count, delivery.delivery_id as id FROM meal join delivery on meal.delivery_id = delivery.delivery_id group by delivery.delivery_id) as mealC on mealC.id = delivery.delivery_id\
    left join person ON person.person_id = delivery.`vol_id` "
   // res.send("Got here!")
   con.query(sql, function (err, result) {
@@ -52,15 +54,17 @@ router.post('/getDeliveries', function(req, res, next) {
         }
     });
 });
+
+
 router.post('/getFreezerManager', function(req, res, next) {
   //sql query for the data
-  sql = "select CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.meal_id) as 'Available Meals'\
-  from freezer,person , address, branch, meal\
-  where freezer.person_id = person.person_id\
-  AND freezer.add_id = address.add_id\
-  AND freezer.branch_id = branch.branch_id\
-  AND meal.delivery_id is NULL \
-  and meal.freezer_id\
+  sql = "select CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.freezer_id) as 'Available Meals'\
+  from freezer\
+  join person  ON freezer.person_id = person.person_id\
+  join address on freezer.add_id = address.add_id\
+  join branch on freezer.branch_id = branch.branch_id\
+  left outer join (select meal.freezer_id from meal where meal.delivery_id is NULL) as meal on meal.freezer_id = freezer.freezer_id\
+  group by freezer.freezer_id\
     "
   //returns id, name, address, branch name
   // res.send("Got here!")

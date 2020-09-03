@@ -160,7 +160,10 @@ function FreezerPortal(props) {
                         </FreezerLog>
 
                     </TabPanel>
+<<<<<<< HEAD
                     
+=======
+>>>>>>> master
                 </SwipeableViews>
                 <AppBar position="static" color="default" className={classes.Navigation_root}>
                 <Tabs
@@ -171,8 +174,14 @@ function FreezerPortal(props) {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     >
+<<<<<<< HEAD
                     <Tab label="Freezer Managers" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                     <Tab label="My Itenerary" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
+=======
+                    <Tab label="Test 1" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
+                    <Tab label="Test 2 " icon={<LocalShippingIcon/>} {...a11yProps(1)} />
+                    <Tab label="Freezers" icon={<AcUnitIcon/>} {...a11yProps(2)} />
+>>>>>>> master
                     </Tabs>
                 </AppBar>
                 </div>
