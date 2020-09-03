@@ -84,7 +84,8 @@ function FreezerPortal(props) {
         columns: [ {}, ],
         data: [  ],
         branchManagerClicked: null,
-        freezerManagerId: null
+        freezerManagerId: null,
+        hidden : []
     })
 
     const [branchID, setBranchID] = React.useState(null)
@@ -119,12 +120,6 @@ function FreezerPortal(props) {
                 >
                     <TabPanel value={value} index={0} dir={theme.direction}>
 
-                        <UnassignedDeliveries title = "Assigned Deliveries" url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}>
-                        </UnassignedDeliveries>       
-
-                    </TabPanel>
-                    <TabPanel value={value} index={1} dir={theme.direction}>
-
                        {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
                 
                     {branchManagers.branchManagerClicked == null? 
@@ -156,7 +151,7 @@ function FreezerPortal(props) {
                     }
                         
                     </TabPanel>
-                    <TabPanel value={value} index={2} dir={theme.direction}>
+                    <TabPanel value={value} index={1} dir={theme.direction}>
 
                         <FreezerLog 
                             title = "Freezer Log" 
@@ -165,12 +160,7 @@ function FreezerPortal(props) {
                         </FreezerLog>
 
                     </TabPanel>
-                    <TabPanel value={value} index={3} dir={theme.direction}>
-
-                        <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers222"}>
-                       </FreezerManagers>
-
-                    </TabPanel>
+                    
                 </SwipeableViews>
                 <AppBar position="static" color="default" className={classes.Navigation_root}>
                 <Tabs
@@ -181,10 +171,8 @@ function FreezerPortal(props) {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     >
-                    <Tab label="Test 1" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
-                    <Tab label="Test 2 " icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                    <Tab label="Freezers" icon={<AcUnitIcon/>} {...a11yProps(2)} />
-                    <Tab label="Profile" icon={<PersonIcon/>} {...a11yProps(3)} />
+                    <Tab label="Freezer Managers" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
+                    <Tab label="My Itenerary" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
                     </Tabs>
                 </AppBar>
                 </div>

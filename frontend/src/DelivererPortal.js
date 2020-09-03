@@ -101,9 +101,11 @@ function DelivererPortal(props) {
         console.log("DeliveryID for Portal = ", deliveryID)
         setValue(newValue);
     }
+
     const handleChangeIndex = (index) => {
         setValue(index);
     }
+
     React.useEffect(()=>{
         $.post( "http://"+window.location.hostname+":3000/volunteer/getBranch",[{name: "vol_id", value: props.user_id}], function(returnable) {
             if(returnable === null) return 
@@ -150,22 +152,21 @@ function DelivererPortal(props) {
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
                         
-                    {myConfirmed.deliveryID == null? 
+                    {myConfirmed.deliveryID == null ? 
                         <MyConfirmed 
                         state = {myConfirmed} 
                         setState = {setMyConfirmed}
                         user_id = {props.user_id} title = "My confirmed" 
-                        url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>:  
-                    
-                    deliveryID > -1 ? 
-                        <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
-                        :
-                        <DeliveryDriving  
-                            delivery_id = {myConfirmed.deliveryID} 
-                            confirmedState = {myConfirmed}
-                            setConfirmedState = {setMyConfirmed}
-                            setdeliveryID = {setdeliveryID}/>
-                        }
+                        url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
+                        
+                        : deliveryID > -1 ? 
+                            <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
+                            : <DeliveryDriving  
+                                delivery_id = {myConfirmed.deliveryID} 
+                                confirmedState = {myConfirmed}
+                                setConfirmedState = {setMyConfirmed}
+                                setdeliveryID = {setdeliveryID}/>
+                            }
                 </TabPanel>
                 <TabPanel value={value} index={3} dir={theme.direction}>
                     Item Three
