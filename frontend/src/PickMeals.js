@@ -83,13 +83,17 @@ function PickMeals(props) {
             ) 
         })               
     }
+    const mobileCheck = function() {
+        
+        return window.screen.width < 620
+      };
 
     const handleReload = (reloadBool)=>{
         console.log("Trying to reload!")
         setReloadMeals(reloadMeals+1)
     }
     return(
-        <div>
+        <div style = {{paddingBottom: "5vh"}}>
             <div >
                     <HideOnScroll {...props}>
                         <AppBar position="sticky" style = {{marginTop: "-3vh", backgroundColor: "#865172"}} onClick = {()=>{props.resetDelivery()}}>
@@ -111,11 +115,11 @@ function PickMeals(props) {
                 <div style = {{backgroundColor: "#f1f1f1",     overflowX: "hidden"}}>
                     <Grid container spacing = {3} style = {{
                         marginTop: "2vh",
-                        marginLeft: "40vw",
+                        marginLeft:  mobileCheck() ? "2vw" : "40vw" ,
                         marginBottom: "1vh"}}>
                         <Grid item xs = {6}>
                             <Paper style = {{textAlign: "left",
-                                width: "20vw",
+                                width: mobileCheck() ? "80vw": "20vw"  ,
                                 paddingLeft: "1vw",
                                 }}>
                                 <Typography variant="h5" style = {{textAlign: "center"}} >
