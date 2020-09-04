@@ -54,13 +54,13 @@ export default function FreezerLog (props) {
     });
 
     // State to keep track of the new quanitites for each meal
-    const [quantity, setQuantity] = useState([]);
+    const [quantity, setQuantity] = useState({});
     const [quantityDictionary, setQuantityDictionary] = useState({});
     const [reload, setReload] = useState(0)
     // Function that will update the quantity state when the form changes
     const updateFieldChanged = index => e => {
 
-        let newArray = [...quantity]; // Copy the old state to a new array
+        let newArray = {...quantity}; // Copy the old state to a new array
         newArray[index] = e.target.value; // replace old quantity with updated quantity
         setQuantity(newArray); // set the new state
     }
@@ -85,7 +85,7 @@ export default function FreezerLog (props) {
     console.log('index', index);
     console.log("current state at index: ", quantity[index])
 
-    let newArray = [...quantity]; // Copy the old state to a new array
+    let newArray = {...quantity}; // Copy the old state to a new array
     if (typeof newArray[index] === "undefined") {
       newArray[index] = 1
     } else {
@@ -101,7 +101,7 @@ export default function FreezerLog (props) {
     console.log('index', index);
     console.log("current state at index: ", quantity[index])
 
-    let newArray = [...quantity]; // Copy the old state to a new array
+    let newArray = {...quantity}; // Copy the old state to a new array
     if (typeof newArray[index] === "undefined") {
       newArray[index] = 0
     } else if (newArray[index] === 0) {
@@ -146,15 +146,17 @@ export default function FreezerLog (props) {
   const handleTopUp = (e) => {
     e.preventDefault();
 
-    if (quantity.length > 0) {
+    
 
-      // alert('Adding meals to freezer');
-      console.log('quantity state:', quantity);
-      // For each meal type in state
-      for (var i = 0; i < quantity.length; ++i) {
-        if(quantity[i] == 0) {continue}
+    // alert('Adding meals to freezer');
+    console.log('quantity state:', quantity);
+    // For each meal type in state
+    var keys = Object.keys(quantity)
+    if (keys.length > 0) {
+      for (var i = 0; i < keys.length; ++i) {
+        if(quantity[keys[i]] == 0) {continue}
         // Add a database entry for each new meal
-        updateMeals("http://"+window.location.hostname+":3000/freezer/createMeals", i+1, quantity[i]);
+        updateMeals("http://"+window.location.hostname+":3000/freezer/createMeals", keys[i], quantity[keys[i]]);
         
       }
 
@@ -168,15 +170,12 @@ export default function FreezerLog (props) {
   const handleTaken = (e) => {
     e.preventDefault();
     // switch to a new page and pass the state - a confirmation page will be a new component
-    if (quantity.length > 0) {
-
-      console.log('quantity state:', quantity);
-      // For each meal type in state
-      
-      for (var i = 0; i < quantity.length; ++i) {
-        if(quantity[i] == 0) {continue};
+    var keys = Object.keys(quantity)
+    if (keys.length > 0) {
+      for (var i = 0; i < keys.length; ++i) {
+        if(quantity[keys[i]] == 0) {continue};
         // Add a database entry for each new meal
-        updateMeals("http://"+window.location.hostname+":3000/freezer/removeMeals", i+1, quantity[i]);
+        updateMeals("http://"+window.location.hostname+":3000/freezer/removeMeals",  keys[i], quantity[keys[i]]);
         
       }
 
@@ -212,7 +211,7 @@ export default function FreezerLog (props) {
                 
                   <Grid item xs={2}>
                     <label htmlFor="icon-button-file">
-                      <IconButton color="primary" aria-label="decrease button" component="span" onClick={decreaseQuantity(mealTypeId-1)}>
+                      <IconButton color="primary" aria-label="decrease button" component="span" onClick={decreaseQuantity(mealTypeId)}>
                         <ArrowLeftIcon />
                       </IconButton>
                     </label>
@@ -230,13 +229,13 @@ export default function FreezerLog (props) {
                       }}
                       // fullWidth
                       name = "mealChangeQuantity"
-                      value = {quantity[mealTypeId-1]} // The value of the state at the mealTypeId index (TODO: might need a safer way to do this because mealTypeId might not always be in order, especially if different branches have different kinds of meals)
-                      onChange = {updateFieldChanged(mealTypeId - 1)}
+                      value = {quantity[mealTypeId]} // The value of the state at the mealTypeId index (TODO: might need a safer way to do this because mealTypeId might not always be in order, especially if different branches have different kinds of meals)
+                      onChange = {updateFieldChanged(mealTypeId)}
                     />
                   </Grid>
                   <Grid item xs={2}>
                     <label htmlFor="icon-button-file">
-                      <IconButton color="primary" aria-label="increase button" component="span" onClick={increaseQuantity(mealTypeId - 1)}>
+                      <IconButton color="primary" aria-label="increase button" component="span" onClick={increaseQuantity(mealTypeId)}>
                         <ArrowRightIcon />
                       </IconButton>
                     </label>

@@ -139,6 +139,7 @@ function FreezerPortal(props) {
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
                         <FreezerLog 
+                            delivery_id = {-1}
                             title = "Freezer Log" 
                             url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
                             user_id = {props.user_id}>
@@ -158,9 +159,6 @@ function FreezerPortal(props) {
                     >
                     <Tab label="Freezer Managers" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                     <Tab label="My Itenerary" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                    <Tab label="Test 1" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
-                    <Tab label="Test 2 " icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                    <Tab label="Freezers" icon={<AcUnitIcon/>} {...a11yProps(2)} />
 
                     </Tabs>
                 </AppBar>
