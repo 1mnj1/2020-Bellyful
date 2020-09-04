@@ -135,7 +135,7 @@ export default function MyOutstanding (props) {
                       //phone
                     >
                     {/* the style whitespace property allows the use of the newline character */}
-                    <br/> {row[state.columns[4]]} {row[state.columns[4]]>1? "Meals": "Meal"}
+                    <br/> {row[state.columns[4]]} Required {row[state.columns[4]]>1? "Meals": "Meal"}
                     </Typography>
                   </React.Fragment>
                 }

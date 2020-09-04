@@ -43,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function FreezerLog (props) {
+  console.log("Delivery_ ID: ",props.delivery_id)
     // Style for the page
     const classes = useStyles();
 
@@ -76,6 +77,9 @@ export default function FreezerLog (props) {
       
       $(setState(state => ({ ...state,columns:fields, data : returnable})))
       $(setQuantity(returnable.map(row=>0)))
+      if(props.delivery_id!==-1){
+        $(props.setReload(!props.reload))
+      }
   });
   }, [props.url,props.title, reload]);
 
@@ -185,14 +189,14 @@ export default function FreezerLog (props) {
   }
 
 
-  const updateDeliveryMeals = (url, mealTypeId, num_items) => {
+  const updateDeliveryMeals = (url, mealTypeId, num_items, del_id) => {
     // $.post(url, mealTypeId, function(returnable) {
-    console.log('in update meals function about to post: ', url);
+    console.log('in update meals function about to post: ', del_id);
     var sqlvars = [
       {"name":"person_id", "value":props.user_id},
       {"name":"mealType", "value":mealTypeId},
       {"name":"numItems", "value":num_items},
-      {"name":"delivery_id", "value": props.delivery_id}
+      {"name":"delivery_id", "value": del_id}
     ]
     $.post(url, sqlvars, function(returnable) {
       if(returnable === null) {
@@ -208,6 +212,7 @@ export default function FreezerLog (props) {
         return;
       }
       setReload(1+reload)
+      
     });
     console.log('after post function');
   }
@@ -222,7 +227,7 @@ export default function FreezerLog (props) {
       for (var i = 0; i < keys.length; ++i) {
         if(quantity[keys[i]] == 0) {continue};
         // Add a database entry for each new meal
-        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/assignDeliveryMeals",  keys[i], quantity[keys[i]]);
+        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/assignDeliveryMeals",  keys[i], quantity[keys[i]], props.delivery_id);
       }
     } else {
       alert('Error: No meals to assign. Please specifiy the quanitity of meals to assign to your delivery');
@@ -238,7 +243,7 @@ export default function FreezerLog (props) {
         for (var i = 0; i < keys.length; ++i) {
           if(quantity[keys[i]] == 0) {continue};
           // Add a database entry for each new meal
-          updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/removeDeliveryMeals",  keys[i], quantity[keys[i]]);
+          updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/removeDeliveryMeals",  keys[i], quantity[keys[i]], props.delivery_id);
         }
 
       } else {

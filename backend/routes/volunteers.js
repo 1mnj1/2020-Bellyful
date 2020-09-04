@@ -134,11 +134,28 @@ router.post('/getRefNotes', function(req, res, next) {
     res.send(result[0]["notes"])
   })
   })
+router.post('/getMealsRequired', function(req, res, next) {
 
+  var sql = "SELECT  \
+  (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals\
+  \
+  FROM delivery\
+  JOIN recipient on recipient.person_id = delivery.recipient_id \
+  WHERE   delivery.delivery_id = ?"
+  var sqlDeets = [req.body.delivery_id]
+  con.query(sql,sqlDeets, function (err, result) {
+    if (err) throw err;
+    res.send(String(result[0].meals))
+  })
+})
 router.post('/getToContactDeliveries', function(req, res, next) {
 
 
-  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
+  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, \
+  concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, \
+  person.person_phone AS phone, \
+  (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals,\
+  person.person_email AS email\
   FROM delivery\
   JOIN person on delivery.recipient_id = person.person_id\
   JOIN address on address.add_id = person.add_id\
@@ -441,16 +458,19 @@ con.query(sql[0], function (err, result) {
 // Gets all the freezer managers and their details
 router.post('/assignDeliveryMeals', function(req, res, next) {
   console.log("in assignDeliveryMeals sql")
-  //sql query for the data
+  // sql query for the data
   sql = "\
-    UPDATE meals\
-    SET meals.delivery_id = ?\
-    WHERE meal_type = ?\
+  UPDATE meal\
+    SET meal.delivery_id = ?\
+    WHERE meal_type =?\
+    \
+    AND meal.delivery_id is NULL\
+    AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
     LIMIT ?"
   //returns id, name, address, branch name
   // res.send("Got here!")
-  con.query(sql, [req.body.delivery_id, req.body.mealType, req.body.numItems], function (err, result) {
-    console.log([req.body.delivery_id, req.body.mealType, req.body.numItems]);
+  con.query(sql, [req.body.delivery_id, req.body.mealType, req.body.person_id ,parseInt(req.body.numItems)], function (err, result) {
+    console.log("Sql deets: ",[req.body.delivery_id, req.body.mealType, req.body.person_id ,parseInt(req.body.numItems)]);
     if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
@@ -468,13 +488,16 @@ router.post('/removeDeliveryMeals', function(req, res, next) {
   console.log("in removeDeliveryMeals sql")
   //sql query for the data
   sql = "\
-    UPDATE meals\
-    SET meals.delivery_id = null\
+    UPDATE meal\
+    SET meal.delivery_id = null\
     WHERE meal_type = ?\
+    \
+    AND meal.delivery_id = ?\
+    AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
     LIMIT ?"
   //returns id, name, address, branch name
   // res.send("Got here!")
-  con.query(sql, [req.body.mealType, req.body.numItems], function (err, result) {
+  con.query(sql, [ req.body.mealType, req.body.delivery_id, req.body.person_id ,parseInt(req.body.numItems)], function (err, result) {
         if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
