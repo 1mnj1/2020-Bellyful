@@ -435,4 +435,56 @@ con.query(sql[0], function (err, result) {
         res.send("complete")
       })
     })
+
+
+
+// Gets all the freezer managers and their details
+router.post('/updateDeliveryMeals', function(req, res, next) {
+  //sql query for the data
+  sql = "\
+    UPDATE meals\
+    SET meals.delivery_id = ?\
+    WHERE meal_type = ?\
+    LIMIT ?"
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  con.query(sql, [req.body.delivery_id, req.body.mealType, req.body.numItems], function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
+// Gets all the freezer managers and their details
+router.post('/removeDeliveryMeals', function(req, res, next) {
+  //sql query for the data
+  sql = "\
+    UPDATE meals\
+    SET meals.delivery_id = null\
+    WHERE meal_type = ?\
+    LIMIT ?"
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  con.query(sql, [req.body.mealType, req.body.numItems], function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
+
+
+
 module.exports = router;

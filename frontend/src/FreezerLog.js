@@ -177,12 +177,80 @@ export default function FreezerLog (props) {
         if(quantity[i] == 0) {continue};
         // Add a database entry for each new meal
         updateMeals("http://"+window.location.hostname+":3000/freezer/removeMeals", i+1, quantity[i]);
-        
       }
 
     } else {
       alert('Error: No meals to update. Please specifiy the quanitity of meals to remove');
     }
+  }
+
+
+  function updateDeliveryMeals(url, mealTypeId, num_items) {
+    // $.post(url, mealTypeId, function(returnable) {
+    console.log('in update meals function about to post: ', url);
+    var sqlvars = [
+      {"name":"person_id", "value":props.user_id},
+      {"name":"mealType", "value":mealTypeId},
+      {"name":"numItems", "value":num_items},
+      {"name":"delivery_id", "value": props.delivery_id}
+    ]
+    $.post(url, sqlvars, function(returnable) {
+      if(returnable === null) {
+        console.log('returnable is null');
+        return;
+      } 
+      if (returnable === undefined) {
+        console.log('returnable is undefined');
+        return;
+      }
+      if(returnable.length === 0) {
+        console.log('returnable length is 0');
+        return;
+      }
+      setReload(1+reload)
+    });
+    console.log('after post function');
+  }
+
+
+  const handleAssignMeals = (e) => {
+    e.preventDefault();
+    console.log('handleAssignMeals called')
+
+    if (quantity.length > 0) {
+      console.log('quantity state:', quantity);
+      // For each meal type in state
+      
+      for (var i = 0; i < quantity.length; ++i) {
+        if(quantity[i] == 0) {continue};
+        // Add a database entry for each new meal
+        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/updateDeliveryMeals", i+1, quantity[i]);
+      }
+
+    } else {
+      alert('Error: No meals to assign. Please specifiy the quanitity of meals to assign to your delivery');
+    }
+
+  }
+
+  const handleRemoveMeals = (e) => {
+    e.preventDefault();
+    console.log('handleRemoveMeals called')
+
+    if (quantity.length > 0) {
+      console.log('quantity state:', quantity);
+      // For each meal type in state
+      
+      for (var i = 0; i < quantity.length; ++i) {
+        if(quantity[i] == 0) {continue};
+        // Add a database entry for each new meal
+        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/removeDeliveryMeals", i+1, quantity[i]);
+      }
+
+    } else {
+      alert('Error: No meals to remove. Please specifiy the quanitity of meals to remove from your delivery');
+    }
+
   }
 
 
@@ -265,7 +333,7 @@ export default function FreezerLog (props) {
     <Button
       variant="contained" 
       color="secondary" 
-      onClick={handleTopUp}
+      onClick={props.delivery_id === -1 ? handleTopUp : handleAssignMeals}
     >
       {props.delivery_id === -1 ? "Top up" : "Assign"}
     </Button>
@@ -273,7 +341,7 @@ export default function FreezerLog (props) {
     <Button 
       variant="contained" 
       color="primary" 
-      onClick={handleTaken}
+      onClick={props.delivery_id === -1 ? handleTaken : handleRemoveMeals}
     >
       {props.delivery_id === -1 ? "Taken" : "Remove"}
     </Button>
