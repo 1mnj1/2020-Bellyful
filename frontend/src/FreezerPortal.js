@@ -128,40 +128,18 @@ function FreezerPortal(props) {
 
                        {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
                 
-                    {branchManagers.branchManagerClicked == null? 
+                    {/* {branchManagers.branchManagerClicked == null */}
                         <FreezerManagers 
                             title="Freezer Managers" 
                             state = {branchManagers} 
                             setState = {setBranchManagers}
                             user_id = {props.user_id}
                             branch_id = {branchID}
+                            delivery_id = {-1}
                             // url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
                             url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}>
                         </FreezerManagers>
-                
-                        :  
-                
-                        // <FreezerManagerDetail 
-                        //     title = 'Freezer Manager Detail Page'
-                        //     url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
-                        //     // person_id = {freezerManagerId}
-                        //     delivery_id = {branchManagers.branchManagerClicked} 
-                        //     person_id = {branchManagers.freezerManagerId} 
-                        //     setFreezerManagerId = {setFreezerManagerId}
-                        //     confirmedState = {branchManagers}
-                        //     setConfirmedState = {setBranchManagers}
-                        //     setBranchManagerClicked = {setBranchManagerClicked}
-                        // >
                     
-                        // </FreezerManagerDetail> 
-
-                        <FreezerLog 
-                            title = "Freezer Log" 
-                            url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
-                            user_id = {branchManagers.freezerManagerId}>
-                        </FreezerLog>
-
-                    }
                         
                     </TabPanel>
                     <TabPanel value={value} index={2} dir={theme.direction}>
