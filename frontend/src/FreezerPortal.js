@@ -85,7 +85,7 @@ function FreezerPortal(props) {
         data: [  ],
         branchManagerClicked: null,
         freezerManagerId: null,
-        hidden : []
+        hidden: []
     })
 
     const [branchID, setBranchID] = React.useState(null)
@@ -122,33 +122,18 @@ function FreezerPortal(props) {
 
                        {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
                 
-                    {branchManagers.branchManagerClicked == null? 
+                    {/* {branchManagers.branchManagerClicked == null */}
                         <FreezerManagers 
                             title="Freezer Managers" 
                             state = {branchManagers} 
                             setState = {setBranchManagers}
                             user_id = {props.user_id}
                             branch_id = {branchID}
+                            delivery_id = {-1}
                             // url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
                             url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}>
                         </FreezerManagers>
-                
-                        :  
-                
-                        <FreezerManagerDetail 
-                            title = 'Freezer Manager Detail Page'
-                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
-                            // person_id = {freezerManagerId}
-                            delivery_id = {branchManagers.branchManagerClicked} 
-                            person_id = {branchManagers.freezerManagerId} 
-                            setFreezerManagerId = {setFreezerManagerId}
-                            confirmedState = {branchManagers}
-                            setConfirmedState = {setBranchManagers}
-                            setBranchManagerClicked = {setBranchManagerClicked}
-                        >
                     
-                        </FreezerManagerDetail> 
-                    }
                         
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
@@ -160,10 +145,7 @@ function FreezerPortal(props) {
                         </FreezerLog>
 
                     </TabPanel>
-<<<<<<< HEAD
-                    
-=======
->>>>>>> master
+
                 </SwipeableViews>
                 <AppBar position="static" color="default" className={classes.Navigation_root}>
                 <Tabs
@@ -174,14 +156,12 @@ function FreezerPortal(props) {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     >
-<<<<<<< HEAD
                     <Tab label="Freezer Managers" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                     <Tab label="My Itenerary" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-=======
                     <Tab label="Test 1" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                     <Tab label="Test 2 " icon={<LocalShippingIcon/>} {...a11yProps(1)} />
                     <Tab label="Freezers" icon={<AcUnitIcon/>} {...a11yProps(2)} />
->>>>>>> master
+
                     </Tabs>
                 </AppBar>
                 </div>
