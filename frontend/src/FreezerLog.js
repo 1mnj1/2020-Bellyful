@@ -185,7 +185,7 @@ export default function FreezerLog (props) {
   }
 
 
-  function updateDeliveryMeals(url, mealTypeId, num_items) {
+  const updateDeliveryMeals = (url, mealTypeId, num_items) => {
     // $.post(url, mealTypeId, function(returnable) {
     console.log('in update meals function about to post: ', url);
     var sqlvars = [
@@ -217,40 +217,33 @@ export default function FreezerLog (props) {
     e.preventDefault();
     console.log('handleAssignMeals called')
 
-    if (quantity.length > 0) {
-      console.log('quantity state:', quantity);
-      // For each meal type in state
-      
-      for (var i = 0; i < quantity.length; ++i) {
-        if(quantity[i] == 0) {continue};
+    var keys = Object.keys(quantity)
+    if (keys.length > 0) {
+      for (var i = 0; i < keys.length; ++i) {
+        if(quantity[keys[i]] == 0) {continue};
         // Add a database entry for each new meal
-        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/assignDeliveryMeals", i+1, quantity[i]);
+        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/assignDeliveryMeals",  keys[i], quantity[keys[i]]);
       }
-
     } else {
       alert('Error: No meals to assign. Please specifiy the quanitity of meals to assign to your delivery');
     }
-
   }
 
   const handleRemoveMeals = (e) => {
     e.preventDefault();
     console.log('handleRemoveMeals called')
 
-    if (quantity.length > 0) {
-      console.log('quantity state:', quantity);
-      // For each meal type in state
-      
-      for (var i = 0; i < quantity.length; ++i) {
-        if(quantity[i] == 0) {continue};
-        // Add a database entry for each new meal
-        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/removeDeliveryMeals", i+1, quantity[i]);
+    var keys = Object.keys(quantity)
+      if (keys.length > 0) {
+        for (var i = 0; i < keys.length; ++i) {
+          if(quantity[keys[i]] == 0) {continue};
+          // Add a database entry for each new meal
+          updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/removeDeliveryMeals",  keys[i], quantity[keys[i]]);
+        }
+
+      } else {
+        alert('Error: No meals to remove. Please specifiy the quanitity of meals to remove from your delivery');
       }
-
-    } else {
-      alert('Error: No meals to remove. Please specifiy the quanitity of meals to remove from your delivery');
-    }
-
   }
 
 
