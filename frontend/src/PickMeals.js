@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 
+import FreezerManagers from './FreezerManagers'
+
 function PickMeals(props) {
     function HideOnScroll(props) {
         const { children, window } = props;
@@ -23,6 +25,19 @@ function PickMeals(props) {
           </Slide>
         );
       }
+
+    const [branchManagerClicked, setBranchManagerClicked] = React.useState(-1);
+    const [freezerManagerId, setFreezerManagerId] = React.useState(-1);
+
+    const [branchManagers, setBranchManagers] = React.useState({
+        columns: [ {}, ],
+        data: [  ],
+        branchManagerClicked: null,
+        freezerManagerId: null,
+        hidden: []
+    })
+
+
     return(
         <div>
             <div >
@@ -43,7 +58,17 @@ function PickMeals(props) {
                         </AppBar>
                     </HideOnScroll>
                 </div>
-            <Paper>Hello World</Paper>
+                <FreezerManagers
+                    title = "Freezer Managers from Pick Meal page"
+                    url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}
+                    user_id = {props.user_id}
+                    state = {branchManagers} 
+                    setState = {setBranchManagers}
+                    // delivery_id = {props.delivery_id}
+                    delivery_id = {1}
+                >
+
+                </FreezerManagers>
         </div>
     )
 }
