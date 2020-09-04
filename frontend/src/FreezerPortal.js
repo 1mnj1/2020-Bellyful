@@ -84,7 +84,8 @@ function FreezerPortal(props) {
         columns: [ {}, ],
         data: [  ],
         branchManagerClicked: null,
-        freezerManagerId: null
+        freezerManagerId: null,
+        hidden: []
     })
 
     const [branchID, setBranchID] = React.useState(null)
@@ -140,19 +141,26 @@ function FreezerPortal(props) {
                 
                         :  
                 
-                        <FreezerManagerDetail 
-                            title = 'Freezer Manager Detail Page'
-                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
-                            // person_id = {freezerManagerId}
-                            delivery_id = {branchManagers.branchManagerClicked} 
-                            person_id = {branchManagers.freezerManagerId} 
-                            setFreezerManagerId = {setFreezerManagerId}
-                            confirmedState = {branchManagers}
-                            setConfirmedState = {setBranchManagers}
-                            setBranchManagerClicked = {setBranchManagerClicked}
-                        >
+                        // <FreezerManagerDetail 
+                        //     title = 'Freezer Manager Detail Page'
+                        //     url={"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                        //     // person_id = {freezerManagerId}
+                        //     delivery_id = {branchManagers.branchManagerClicked} 
+                        //     person_id = {branchManagers.freezerManagerId} 
+                        //     setFreezerManagerId = {setFreezerManagerId}
+                        //     confirmedState = {branchManagers}
+                        //     setConfirmedState = {setBranchManagers}
+                        //     setBranchManagerClicked = {setBranchManagerClicked}
+                        // >
                     
-                        </FreezerManagerDetail> 
+                        // </FreezerManagerDetail> 
+
+                        <FreezerLog 
+                            title = "Freezer Log" 
+                            url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                            user_id = {branchManagers.freezerManagerId}>
+                        </FreezerLog>
+
                     }
                         
                     </TabPanel>

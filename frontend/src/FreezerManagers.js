@@ -7,6 +7,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 
+import FreezerLog from './FreezerLog';
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -31,14 +33,19 @@ export default function FreezerManagers (props) {
         if (returnable === undefined) return 
         if(returnable.length === 0) return 
         var fields = Object.keys(returnable[0])
-        $(setState(state => ({ ...state,columns:fields, data : returnable})))
+
+        var visible = []
+        // adding a new field onto the managers
+        for (var i = 0; i < returnable.length; ++i) visible.push(false)
+
+        $(setState(state => ({ ...state,columns:fields, data : returnable, hidden: visible})))
     });
     }, [props.url,props.user_id ]);
 
 
   const classes = useStyles();
 
-  const createList = state.data.map((row) => {
+  const createList = state.data.map((row, idx) => {
     const value = row[state.columns[0]]
     console.log("Row: ",row, "Value: ", value)
     console.log("freezer manager id: ", row[state.columns[5]])
@@ -46,7 +53,8 @@ export default function FreezerManagers (props) {
     return (
       <div>
         <div>
-          <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, branchManagerClicked: value, freezerManagerId: row[state.columns[5]]})}>          
+          {/* <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, branchManagerClicked: value, freezerManagerId: row[state.columns[5]]})}>           */}
+          <ListItem key={value} role={undefined} dense button onClick={()=>{var visible = [...state.hidden]; visible[idx] = !visible[idx]; console.log("visible", visible); setState({...state, hidden: visible, freezerManagerId: row[state.columns[5]]})}}>          
             <ListItemText
               primary = {
                 <React.Fragment>
@@ -98,18 +106,27 @@ export default function FreezerManagers (props) {
                   >
                     <br/>{row[state.columns[4]]}&nbsp;
                   </Typography>
-                  {/* <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    style={{whiteSpace: 'pre-line'}}
-                  >
-                    <br/>{row[state.columns[5]]}&nbsp;Available Meals
-                  </Typography> */}
+
+            
                 </React.Fragment>
               }
             />
+           
+            
           </ListItem>
+          {(state.hidden[idx] === false) ? null :
+                  
+                  <React.Fragment>
+    
+                    <FreezerLog
+                      title = "Freezer Log" 
+                      url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                      user_id = {state.freezerManagerId}>
+                    >
+                      
+                    </FreezerLog>
+                  </React.Fragment> 
+          }
         </div>
         
       </div>
