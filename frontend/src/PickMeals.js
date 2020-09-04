@@ -65,7 +65,8 @@ function PickMeals(props) {
                     state = {branchManagers} 
                     setState = {setBranchManagers}
                     // delivery_id = {props.delivery_id}
-                    delivery_id = {1}
+                    delivery_id = {props.deliveryID}
+                    branch_id = {props.branch_id}
                 >
 
                 </FreezerManagers>
