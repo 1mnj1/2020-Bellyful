@@ -264,7 +264,7 @@ router.post('/getFreezerManagers2', function(req, res, next) {
       JOIN person ON freezer.person_id = person.person_id\
       JOIN address ON freezer.add_id = address.add_id\
       JOIN branch ON freezer.branch_id = branch.branch_id\
-      WHERE freezer.branch_id = 1\
+      WHERE freezer.branch_id = ?\
   "
   //returns id, name, address, branch name
   // res.send("Got here!")
