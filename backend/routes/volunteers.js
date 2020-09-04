@@ -439,7 +439,8 @@ con.query(sql[0], function (err, result) {
 
 
 // Gets all the freezer managers and their details
-router.post('/updateDeliveryMeals', function(req, res, next) {
+router.post('/assignDeliveryMeals', function(req, res, next) {
+  console.log("in assignDeliveryMeals sql")
   //sql query for the data
   sql = "\
     UPDATE meals\
@@ -449,7 +450,8 @@ router.post('/updateDeliveryMeals', function(req, res, next) {
   //returns id, name, address, branch name
   // res.send("Got here!")
   con.query(sql, [req.body.delivery_id, req.body.mealType, req.body.numItems], function (err, result) {
-        if (err) throw err;
+    console.log([req.body.delivery_id, req.body.mealType, req.body.numItems]);
+    if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -463,6 +465,7 @@ router.post('/updateDeliveryMeals', function(req, res, next) {
 
 // Gets all the freezer managers and their details
 router.post('/removeDeliveryMeals', function(req, res, next) {
+  console.log("in removeDeliveryMeals sql")
   //sql query for the data
   sql = "\
     UPDATE meals\

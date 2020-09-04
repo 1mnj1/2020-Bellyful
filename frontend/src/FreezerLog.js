@@ -224,7 +224,7 @@ export default function FreezerLog (props) {
       for (var i = 0; i < quantity.length; ++i) {
         if(quantity[i] == 0) {continue};
         // Add a database entry for each new meal
-        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/updateDeliveryMeals", i+1, quantity[i]);
+        updateDeliveryMeals("http://"+window.location.hostname+":3000/volunteer/assignDeliveryMeals", i+1, quantity[i]);
       }
 
     } else {
