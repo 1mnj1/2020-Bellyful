@@ -58,6 +58,7 @@ export default function FreezerLog (props) {
     const [quantity, setQuantity] = useState({});
     const [quantityDictionary, setQuantityDictionary] = useState({});
     const [reload, setReload] = useState(0)
+    
     // Function that will update the quantity state when the form changes
     const updateFieldChanged = index => e => {
 

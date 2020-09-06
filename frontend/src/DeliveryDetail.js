@@ -141,12 +141,13 @@ export default function DeliveryDetail (props) {
     return (
       <div style = {{overflowX: "hidden", textAlign : "left", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
         <Grid container spacing = {3}>
-            <Grid item xs = {6}>
-                <Paper className={classes.paper}>{renderMeals()}</Paper>
+            <Grid item xs = {mobileCheck()? 10 : 6} >
+                <Paper className={classes.paper} >{renderMeals()}</Paper>
+                {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>:null}
             </Grid>
-            <Grid item xs = {6}>
+           { mobileCheck()? null :<Grid item xs = {6}>
                 <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>
-            </Grid>
+            </Grid>}
         </Grid>
         <br/><br/>
         <form className = "Delivery_Detail">

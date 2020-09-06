@@ -265,11 +265,40 @@ router.post('/getFreezerManagers', function(req, res, next) {
   
 });
 
+router.post('/getMealsPerManager', function(req, res, next) {
+if (typeof(req.body.delivery_id) != "undefined"){
+  console.log("Its defined!")
+  const sql = "SELECT\
+   \
+   freezer.person_id AS 'Person Id',\
+   count(meal2.freezer_id) as meals\
+     FROM freezer\
+       \
+       JOIN branch ON freezer.branch_id = branch.branch_id\
+       left outer join \
+           (select meal.freezer_id from meal join delivery on meal.delivery_id = delivery.delivery_id where delivery.delivery_id = ?) \
+           as meal2 on meal2.freezer_id = freezer.freezer_id\
+       \
+       WHERE freezer.branch_id = ?\
+       group by freezer.person_id"
+   con.query(sql, [req.body.delivery_id, req.body.branch_id], function (err, result) {
+     if (err) throw err;
+     console.log("Got a result!\n");
+     console.log(result)
+     if(result.length == 0){
+       res.send(404)
+     } else {
+       res.send(result)
+     }
+     });
+}
+})
 
 // Gets all the freezer managers and their details
 router.post('/getFreezerManagers2', function(req, res, next) {
+  
   //sql query for the data
-  sql = "\
+  var sql = "\
   SELECT\
   CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name',\
   CONCAT(address.add_num , ' ' , address.add_street) as 'Steet',\
@@ -295,6 +324,7 @@ router.post('/getFreezerManagers2', function(req, res, next) {
           res.send(result)
         }
     });
+  
   
 });
 

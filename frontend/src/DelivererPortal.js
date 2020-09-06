@@ -84,7 +84,7 @@ function DelivererPortal(props) {
     //Portal has global deliveryID, if it is -1 then no delivery is selected, else = Del ID of selected delivery
     const [deliveryID, setdeliveryID] = React.useState(-1);
     const [myOustanding, setMyOutstanding] = React.useState({
-            visible: null,
+            visible: [],
             columns: [ {}, ],
             data: [  ],
         });
@@ -97,12 +97,14 @@ function DelivererPortal(props) {
     const [value, setValue] = React.useState('0');
     const [branchID, setBranchID] = React.useState(null)
     const handleChange = (event, newValue) => {
-        console.log("Set Value to : " + newValue);
+        console.log("Set Value (2) to : " + newValue);
         console.log("DeliveryID for Portal = ", deliveryID)
         setValue(newValue);
+        
     }
 
     const handleChangeIndex = (index) => {
+        console.log("Set Value (1) to : " + index);
         setValue(index);
     }
 
@@ -116,7 +118,7 @@ function DelivererPortal(props) {
              
     })}, [props.user_id]);
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
-    
+ 
 
     return (
         <div className={classes.root}>
@@ -125,6 +127,7 @@ function DelivererPortal(props) {
             <SwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={value}
+
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
@@ -198,8 +201,7 @@ function DelivererPortal(props) {
                 <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
-        </
-        div>
+        </div>
 
     );
 }

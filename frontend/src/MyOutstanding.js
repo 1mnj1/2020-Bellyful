@@ -97,6 +97,7 @@ export default function MyOutstanding (props) {
     const createList = state.data.map((row, index) => {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
+      console.log(state.visible[index])
       return (
         
         <div>
@@ -142,7 +143,10 @@ export default function MyOutstanding (props) {
               />
             </ListItem>
             {
-              state.visible[index] ? renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) : null
+              
+              state.visible[index] ? 
+              renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) 
+              : <div/>
             }
           <Divider component="li" />
         </div>

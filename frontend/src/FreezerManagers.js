@@ -6,7 +6,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-
+import Grid from '@material-ui/core/Grid';
 import FreezerLog from './FreezerLog';
 
 const useStyles = makeStyles((theme) => ({
@@ -22,10 +22,22 @@ export default function FreezerManagers (props) {
   // allows the state to be saved when you leave the page. when you come back it will be the same
   const state = props.state
   const setState = props.setState
-
   console.log(props.url)
   console.log("User id: ", props.user_id)
     // To get the data
+    React.useEffect(()=>{
+      $.post( "http://"+window.location.hostname+":3000/volunteer/getMealsPerManager",[{"name":"branch_id","value":props.branch_id},  {"name":"delivery_id","value":props.delivery_id} ], 
+          function(returnable) {
+            var newfields = Object.keys(returnable[0])
+          
+            
+          
+            var meals = returnable.map((row)=>{
+              return row[newfields[1]]
+            })
+            $(setState(state => ({ ...state, meals:meals})))
+      })
+    }, [props.reload])
     React.useEffect(() => {
         // need to be using branch id
         $.post( props.url,[{"name":"branch_id","value":props.branch_id}], function(returnable) {
@@ -35,12 +47,31 @@ export default function FreezerManagers (props) {
         var fields = Object.keys(returnable[0])
 
         var visible = []
-        // adding a new field onto the managers
         for (var i = 0; i < returnable.length; ++i) visible.push(false)
+        // adding a new field onto the managers
+        var meals = []
+        if(props.delivery_id!=-1){
+          var returnableOrg = returnable
+          $.post( "http://"+window.location.hostname+":3000/volunteer/getMealsPerManager",[{"name":"branch_id","value":props.branch_id},  {"name":"delivery_id","value":props.delivery_id} ], 
+          function(returnable) {
+            var newfields = Object.keys(returnable[0])
+          
+            
+          
+            meals = returnable.map((row)=>{
+              return row[newfields[1]]
+            })
+            $(setState(state => ({ ...state,columns:fields, data : returnableOrg, hidden: visible, meals:meals})))
+          })
+        } else {
 
-        $(setState(state => ({ ...state,columns:fields, data : returnable, hidden: visible})))
-    });
+         $(setState(state => ({ ...state,columns:fields, data : returnable, hidden: visible, meals:meals})))
+        }
+      
+      })
     }, [props.url,props.user_id ]);
+
+  
 
 
   const classes = useStyles();
@@ -58,14 +89,29 @@ export default function FreezerManagers (props) {
             <ListItemText
               primary = {
                 <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="body2"
-                    className={classes.inline}
-                    color="textPrimary"
-                  >
-                    {row[state.columns[0]]} 
-                  </Typography>
+                   <Grid container spacing = {3}>
+                     <Grid item xs = {6} >
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                        >
+                          {row[state.columns[0]]} 
+                        </Typography>
+                      </Grid>
+                      {(props.delivery_id==-1) ? null : <Grid item xs = {6} style = {{textAlign:"right"}}>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                          style={{whiteSpace: 'pre-line'}}
+                        >
+                          Meals: {state.meals[idx]}
+                        </Typography>
+                      </Grid>}
+                    </Grid>
                   </React.Fragment>
               }
               secondary= {
@@ -107,6 +153,8 @@ export default function FreezerManagers (props) {
                     <br/>{row[state.columns[4]]}&nbsp;
                   </Typography>
 
+                  
+
             
                 </React.Fragment>
               }
@@ -125,6 +173,7 @@ export default function FreezerManagers (props) {
                       delivery_id = {props.delivery_id}
                       reload = {props.reload}
                       setReload = {props.setReload}
+                     
                     >
                       
                     </FreezerLog>
