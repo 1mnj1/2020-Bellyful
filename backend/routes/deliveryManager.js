@@ -412,7 +412,7 @@ router.post('/submitDelivery', function(req, res, next) {
   if(req.body.ref !== ''){
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
     `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, ?, ?, '1', NULL, NULL, ?)"
+    VALUES (NULL, NULL, ?, ?, '8', NULL, NULL, ?)"
     sqlData = [
       req.body.ref,
       req.body.rec,
@@ -421,12 +421,35 @@ router.post('/submitDelivery', function(req, res, next) {
   } else {
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
      `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, NULL, ?, '1', NULL, NULL, ?)"
+    VALUES (NULL, NULL, NULL, ?, '8', NULL, NULL, ?)"
     sqlData = [
       req.body.rec,
       req.body.branch
     ]
   }
+  con.query(sql, sqlData, function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.send([])
+        } else {
+          res.send(result)
+        }
+    });
+});
+router.post('/updateDelivery', function(req, res, next) {
+  var sql = ""
+  console.log("Rquest: ",req.body)
+  if(req.body.ref !== ''){
+    sql = "UPDATE `delivery` \
+    SET `ref_id` = ?, `delivery_status` = '1',`recipient_id` =  ?, `branch_id` = ? \
+    WHERE `delivery`.`delivery_id` = ?"
+    sqlData = [
+      req.body.ref,
+      req.body.rec,
+      req.body.branch,
+      req.body.delivery_id
+    ]
+  } 
   con.query(sql, sqlData, function (err, result) {
         if (err) throw err;
         if(result.length == 0){

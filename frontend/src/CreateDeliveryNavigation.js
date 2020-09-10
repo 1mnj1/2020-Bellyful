@@ -20,41 +20,49 @@ const useStyles = makeStyles({
     }
   });
  
-function submitForms(ref,rec,del, callback){
-  const parseDel = (ref,rec) => {
-    
-    var delivery = [...del]
-    delivery.push({"name": "ref", "value":ref})
-    delivery.push({"name": "rec", "value":rec})
-    console.log("Del: ",delivery)
-    $.post("http://"+window.location.hostname+":3000/delivery/submitDelivery",delivery,(success)=>{
-      console.log("Created a delivery")
-    })
-    callback()
-  }
-
-  if(ref[0].name !== "selfRef"){
-    $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",ref,(referrer)=>{
-      const addRef = (rec)=>parseDel(referrer,rec)
-      $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
-        addRef(recipient)
-        
-      })
-    })
-  } else {
-    rec.push({name: "RefType", value: "7"})
-    rec.push({name: "refOrg", value: "Self Referral"})
-    rec.push({name: "refNotes", value: ""})
-
-    $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",rec,(referrer)=>{
-      const addRef = (rec)=>parseDel(referrer,rec)
-      $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
-        addRef(recipient)
-        
-      })
-    })
-  }
+function submitForms(ref,rec,del, callback, delivery_id){
   
+    const parseDel = (ref,rec) => {
+      
+      var delivery = [...del]
+      delivery.push({"name": "ref", "value":ref})
+      delivery.push({"name": "rec", "value":rec})
+      console.log("Del: ",delivery)
+      if(typeof(delivery_id)== "undefined"){
+        $.post("http://"+window.location.hostname+":3000/delivery/submitDelivery",delivery,(success)=>{
+          console.log("Created a delivery")
+        })
+      } else {
+        delivery.push({"name": "delivery_id", "value":delivery_id})
+        $.post("http://"+window.location.hostname+":3000/delivery/updateDelivery",delivery,(success)=>{
+          console.log("updated a delivery")
+        })
+      }
+      callback()
+    }
+
+    if(ref[0].name !== "selfRef"){
+      $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",ref,(referrer)=>{
+        const addRef = (rec)=>parseDel(referrer,rec)
+        $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
+          addRef(recipient)
+          
+        })
+      })
+    } else {
+      rec.push({name: "RefType", value: "7"})
+      rec.push({name: "refOrg", value: "Self Referral"})
+      rec.push({name: "refNotes", value: ""})
+
+      $.post("http://"+window.location.hostname+":3000/delivery/submitReferrer",rec,(referrer)=>{
+        const addRef = (rec)=>parseDel(referrer,rec)
+        $.post("http://"+window.location.hostname+":3000/delivery/submitRecipient",rec,(recipient)=>{
+          addRef(recipient)
+          
+        })
+      })
+    
+  }
  
 
 }
@@ -97,7 +105,7 @@ function CreateDeliveryNavigation(props) {
 
     const [currPage, setPage] = React.useState(1)
 
-    const submit = ()=>{submitForms(state.ref,state.rec, state.delivery, props.closeSelf)}//  props.closeSelf()}
+    const submit = ()=>{submitForms(state.ref,state.rec, state.delivery, props.closeSelf, props.delivery_id)}//  props.closeSelf()}
     //when delivery ID is set, set the form data to what is given by the server
     
       React.useEffect(() => {
