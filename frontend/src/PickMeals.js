@@ -38,7 +38,12 @@ function PickMeals(props) {
         hidden: []
     })
     const [state,setState ] = React.useState({
-        data: [{}],
+        data: [],
+        columns: [],
+        req_meals: "0"
+    })
+    const [requiredMeals,setrequiredMeals ] = React.useState({
+        data: [],
         columns: [],
         req_meals: "0"
     })
@@ -48,8 +53,8 @@ function PickMeals(props) {
             // console.log("Meal Detials: ",returnable)
             if(returnable === null) return 
             if (returnable === undefined) return 
-            console.log("Meals returned", returnable)
-            $(setState(state => ({ ...state,req_meals:returnable })))
+            var fields = Object.keys(returnable[0])
+            $(setrequiredMeals(requiredMeals => ({ ...requiredMeals,columns:fields, data : returnable})))
         })
 
     }, [props.delivery_id])
@@ -66,8 +71,10 @@ function PickMeals(props) {
     }, [props.delivery_id, reloadMeals])
     console.log("State data: ", state.data)
     //render the meals, this returns a series of items
-    const renderMeals = ()=>{
-        return state.data.map((row)=>{
+    const renderMeals = (stateObject)=>{
+        console.log("STATEDATA: ",stateObject.data)
+        return stateObject.data.map((row)=>{
+            
             return (
                 
                 <React.Fragment>
@@ -77,7 +84,7 @@ function PickMeals(props) {
                             style = {{"textAlign" : "left"}}
                             color="textPrimary"
                         >
-                        <b> {row[state.columns[0]]}:   x {row[state.columns[1]]}</b><br/>
+                        <b> {row[stateObject.columns[0]]}:   x {row[stateObject.columns[1]]}</b><br/>
                         </Typography>     
                 </React.Fragment> 
             ) 
@@ -123,12 +130,13 @@ function PickMeals(props) {
                                 paddingLeft: "1vw",
                                 }}>
                                 <Typography variant="h5" style = {{textAlign: "center"}} >
-                                    Required meals: {state.req_meals}
+                                    Required meals
                                 </Typography>
+                                {renderMeals(requiredMeals)}
                                 <Typography variant="h5" style = {{textAlign: "center"}} >
                                     Your Current Meals
                                 </Typography>
-                                {renderMeals()}
+                                {renderMeals(state)}
                             </Paper>
                         </Grid>
                     </Grid>

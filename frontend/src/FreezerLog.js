@@ -200,6 +200,7 @@ export default function FreezerLog (props) {
     // $.post(url, mealTypeId, function(returnable) {
     console.log('in update meals function about to post: ', del_id);
     var sqlvars = [
+      {"name":"vol_id", "value":props.vol_id},
       {"name":"person_id", "value":props.user_id},
       {"name":"mealType", "value":mealTypeId},
       {"name":"numItems", "value":num_items},

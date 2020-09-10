@@ -169,6 +169,7 @@ export default function FreezerManagers (props) {
                     <FreezerLog
                       title = "Freezer Log" 
                       url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                      vol_id = {props.user_id}
                       user_id = {state.freezerManagerId}
                       delivery_id = {props.delivery_id}
                       reload = {props.reload}

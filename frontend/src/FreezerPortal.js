@@ -138,6 +138,29 @@ function FreezerPortal(props) {
                     </TabPanel>
                     <TabPanel value={value} index={1} dir={theme.direction}>
 
+                       {/* <FreezerManagers title="Freezer Managers" url={"http://"+window.location.hostname+":3000/volunteers/getFreezerManagers"}> */}
+                
+                    {/* {branchManagers.branchManagerClicked == null */}
+                        <FreezerManagers 
+                            title="Freezer Managers" 
+                            state = {branchManagers} 
+                            setState = {setBranchManagers}
+                            user_id = {props.user_id}
+                            branch_id = {branchID}
+                            delivery_id = {-2}
+                            reload = {1}
+                            setReload = {(num)=>0}
+                            // url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
+                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}>
+
+                    
+
+                        </FreezerManagers>
+                    
+                        
+                    </TabPanel>
+                    <TabPanel value={value} index={2} dir={theme.direction}>
+
                         <FreezerLog 
                             delivery_id = {-1}
                             title = "Freezer Log" 
@@ -158,6 +181,7 @@ function FreezerPortal(props) {
                     aria-label="full width tabs example"
                     >
                     <Tab label="Freezer Managers" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
+                    <Tab label="Volunteer Freezer" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
                     <Tab label="My Itenerary" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
 
                     </Tabs>

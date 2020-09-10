@@ -76,7 +76,7 @@ con.query(sql,[req.body.branch_id], function (err, result) {
 router.post('/getMealsForDelivery', function(req, res, next) {
   var sql = 'select meal_type.meal_type as "Meal" , COUNT(M.meal_id) as "Count"\
   from meal_type\
-  left outer join (select * from meal where meal.delivery_id = ?) as M on meal_type.MT_id = M.meal_type\
+  left outer join (select * from meal where meal.delivery_id = ? and meal.freezer_id is not null) as M on meal_type.MT_id = M.meal_type\
   \
   group by meal_type.MT_id\
   '
@@ -122,16 +122,15 @@ router.post('/getRefNotes', function(req, res, next) {
   })
 router.post('/getMealsRequired', function(req, res, next) {
 
-  var sql = "SELECT  \
-  (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals\
+  var sql = "select meal_type.meal_type as \"Meal\" , COUNT(M.meal_id) as \"Count\"\
+  from meal_type\
+  left outer join (select * from meal where meal.delivery_id = ? and meal.freezer_id is null) as M on meal_type.MT_id = M.meal_type\
   \
-  FROM delivery\
-  JOIN recipient on recipient.person_id = delivery.recipient_id \
-  WHERE   delivery.delivery_id = ?"
+  group by meal_type.MT_id"
   var sqlDeets = [req.body.delivery_id]
   con.query(sql,sqlDeets, function (err, result) {
     if (err) throw err;
-    res.send(String(result[0].meals))
+    res.send(result)
   })
 })
 router.post('/getToContactDeliveries', function(req, res, next) {
@@ -214,7 +213,7 @@ router.post('/getFreezerLog', function(req, res, next) {
          select Mm.meal_type from	`meal` AS Mm\
          JOIN freezer on  freezer.freezer_id = Mm.freezer_id\
          WHERE freezer.person_id = ?\
-    AND Mm.delivery_id is null) as M ON M.meal_type = MT.MT_id\
+    AND Mm.delivery_id is null AND  Mm.vol_id is null) as M ON M.meal_type = MT.MT_id\
    \
    GROUP by MT.MT_id"
    sqlvars = [req.body.person_id]
@@ -496,17 +495,34 @@ router.post('/assignDeliveryMeals', function(req, res, next) {
   console.log("in assignDeliveryMeals sql")
   // sql query for the data
   sql = "\
-  UPDATE meal\
-    SET meal.delivery_id = ?\
-    WHERE meal_type =?\
+  UPDATE meal " +   ((req.body.delivery_id == -2) ? " SET  meal.`vol_id` =  ? " : "SET meal.delivery_id = ?, meal.vol_id = ?")
+    +" WHERE meal_type =?\
     \
     AND meal.delivery_id is NULL\
+    AND meal.vol_id is NULL\
     AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
     LIMIT ?"
   //returns id, name, address, branch name
   // res.send("Got here!")
-  con.query(sql, [req.body.delivery_id, req.body.mealType, req.body.person_id ,parseInt(req.body.numItems)], function (err, result) {
-    console.log("Sql deets: ",[req.body.delivery_id, req.body.mealType, req.body.person_id ,parseInt(req.body.numItems)]);
+  var sqlvars = null
+  if(req.body.delivery_id == -2) {
+    sqlvars = [
+      req.body.vol_id,
+      req.body.mealType,
+      req.body.person_id ,
+      parseInt(req.body.numItems)
+    ]
+  } else {
+    sqlvars = [
+      req.body.delivery_id, 
+      req.body.vol_id,
+      req.body.mealType,
+      req.body.person_id ,
+      parseInt(req.body.numItems)
+    ]
+  }
+  con.query(sql,sqlvars , function (err, result) {
+    console.log("Sql deets: ",sqlvars);
     if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
@@ -523,17 +539,45 @@ router.post('/assignDeliveryMeals', function(req, res, next) {
 router.post('/removeDeliveryMeals', function(req, res, next) {
   console.log("in removeDeliveryMeals sql")
   //sql query for the data
-  sql = "\
+  var sqlvars = null
+  var sql = null
+  if(req.body.delivery_id != -2) {
+    sql = "\
     UPDATE meal\
     SET meal.delivery_id = null\
+    meal.vol_id = null     \
     WHERE meal_type = ?\
     \
     AND meal.delivery_id = ?\
     AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
     LIMIT ?"
+    sqlvars = [ 
+      req.body.mealType, 
+      req.body.delivery_id, 
+      req.body.person_id ,
+      parseInt(req.body.numItems)]
+  } else {
+    
+      sql = "\
+      UPDATE meal\
+      SET meal.vol_id = null\
+      WHERE meal_type = ?\
+      \
+      AND meal.vol_id = ?\
+      AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
+      LIMIT ?"
+      sqlvars = [ 
+        req.body.mealType, 
+        req.body.vol_id, 
+        req.body.person_id ,
+        parseInt(req.body.numItems)]
+    
+  }
+
+  
   //returns id, name, address, branch name
   // res.send("Got here!")
-  con.query(sql, [ req.body.mealType, req.body.delivery_id, req.body.person_id ,parseInt(req.body.numItems)], function (err, result) {
+  con.query(sql, sqlvars, function (err, result) {
         if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
