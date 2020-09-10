@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2020 at 07:35 AM
+-- Generation Time: Sep 10, 2020 at 10:05 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -28,19 +28,21 @@ DELIMITER $$
 -- Procedures
 --
 DROP PROCEDURE IF EXISTS `deleteMeals`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteMeals` (IN `freezer_id` INT(11), IN `mealtype` INT(11), IN `num_meals` INT(50))  BEGIN
-	DELETE FROM `meal` WHERE meal.freezer_id = freezer_id AND meal.meal_type = mealtype  AND meal.delivery_id is NULL LIMIT num_meals;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteMeals` (IN `freezer_id` INT(11), IN `mealtype` INT(11), IN `num_meals` INT(50), IN `del_id` INT(11))  BEGIN
+	DELETE FROM `meal` WHERE (meal.freezer_id = freezer_id AND meal.meal_type = mealtype  AND meal.delivery_id is NULL) OR (meal.freezer_id is NULL AND meal.meal_type = mealtype  AND meal.delivery_id = del_id)
+    
+    LIMIT num_meals;
 END$$
 
 DROP PROCEDURE IF EXISTS `insertMeals`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `insertMeals` (IN `freezer_id` INT(11), IN `mealtype` INT(11), IN `num_meals` INT(50))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insertMeals` (IN `freezer_id` INT(11), IN `mealtype` INT(11), IN `num_meals` INT(50), IN `del_id` INT(11))  BEGIN
 	DECLARE x  INT;
 	SET x = 1;
 	loop_label:  LOOP
 		IF  x > num_meals THEN 
 			LEAVE  loop_label;
 		END  IF;
-         INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES (NULL, mealtype, freezer_id, NULL);
+         INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`) VALUES (NULL, mealtype, freezer_id, del_id);
 		SET  x = x + 1;
 	END LOOP;
 END$$
@@ -175,9 +177,9 @@ CREATE TABLE `delivery` (
 --
 
 INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, `delivery_start`, `delivery_end`, `branch_id`) VALUES
-(1, 2, 3, 1, 1, '2020-09-08 22:42:40', '2020-09-10 00:34:09', 1),
+(1, 2, 3, 1, 2, '2020-09-08 22:42:40', '2020-09-10 00:34:09', 1),
 (4, 2, 3, 1, 1, '2020-09-06 23:07:21', '2020-09-06 23:07:23', 1),
-(5, 2, 3, 19, 8, NULL, NULL, 1),
+(5, 2, 3, 19, 1, NULL, NULL, 1),
 (11, NULL, 9, 5, 8, NULL, NULL, 2),
 (12, 2, NULL, 9, 8, NULL, NULL, 1),
 (13, 2, 24, 25, 8, NULL, NULL, 1);
@@ -262,7 +264,7 @@ CREATE TABLE `meal` (
 --
 
 INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`, `vol_id`) VALUES
-(200, 1, 1, 13, NULL),
+(200, 1, NULL, 13, NULL),
 (204, 1, 2, 5, NULL),
 (205, 1, 2, 12, NULL),
 (206, 2, 2, 12, NULL),
@@ -271,7 +273,25 @@ INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`, `vol_id
 (225, 2, 1, 13, NULL),
 (230, 1, 1, 13, NULL),
 (231, 1, 1, 13, NULL),
-(232, 1, 1, 13, NULL);
+(232, 1, 1, 13, NULL),
+(305, 1, NULL, 11, NULL),
+(306, 1, NULL, 11, NULL),
+(307, 1, 1, 1, NULL),
+(308, 1, 1, 1, NULL),
+(309, 1, 1, 1, NULL),
+(310, 1, 1, 1, NULL),
+(311, 1, 1, 1, NULL),
+(312, 2, 1, NULL, NULL),
+(313, 2, 1, NULL, NULL),
+(314, 1, 1, NULL, NULL),
+(315, 1, 1, NULL, NULL),
+(316, 1, 1, NULL, NULL),
+(317, 1, 1, NULL, NULL),
+(318, 1, 1, NULL, NULL),
+(319, 1, 1, NULL, NULL),
+(320, 1, 1, NULL, NULL),
+(321, 1, 1, NULL, NULL),
+(322, 1, 1, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -360,7 +380,7 @@ INSERT INTO `recipient` (`person_id`, `rec_dogs`, `rec_children_under_5`, `rec_c
 (1, 0, 0, 0, 0, 1, 'None', 'None'),
 (5, 1, 1, 1, 1, 1, 'blah', 'de de de de de de de  blah'),
 (9, 1, 1, 1, 1, 1, '1', '1'),
-(19, 1, 0, 0, 0, 1, 'None', 'None'),
+(19, 0, 0, 0, 0, 1, 'None', 'None'),
 (25, 1, 1, 1, 1, 2, 'Vegan', 'None');
 
 -- --------------------------------------------------------
@@ -611,7 +631,7 @@ ALTER TABLE `freezer`
 -- AUTO_INCREMENT for table `meal`
 --
 ALTER TABLE `meal`
-  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=294;
+  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
 
 --
 -- AUTO_INCREMENT for table `meal_type`
