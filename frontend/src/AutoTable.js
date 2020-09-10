@@ -3,6 +3,7 @@ import MaterialTable from 'material-table'
 import $ from 'jquery'
 import Collapsible from 'react-collapsible';
 import './sass/main.scss'
+import IconButton from '@material-ui/core/IconButton';
 // import Popup from 'reactjs-popup'
 import NormalDrawer from './NormalDrawer'
 
@@ -51,16 +52,35 @@ export default function AutoTable(props){
   });
   const setColumns = (colNames)=>{
     var columns = []; 
-    colNames.forEach(element => columns.push({title: element, field: element}));
+    colNames.forEach(element => {
+      if(element!="id")      columns.push({title: element, field: element})
+      else columns.push({title: "Edit", field: element, render : rowData=>{
+        
+        if (typeof(props.openDrawer) == "function") {  //Add actions to rows
+          return ( 
+            <IconButton aria-label="Edit" onClick ={ ()=> {console.log("Row data: ", rowData.id); props.openDrawer(rowData.id)}}>
+              <Edit />
+            </IconButton>)
+        } else{
+          return null
+        }
+          //When clicked, Open a drawer to display a form to add a volunteer
+          
+        }})
+    });
     return columns
   }
+
   
-  console.log(props.url)
 
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   React.useEffect(() => {
-    
+    if(typeof(props.reload) != "undefined"){
+      if(props.reload==false ){ return
+      }
+    }
     $.post( props.url ,props.form,  function( returnable ) {
+      
       if(returnable === null) return 
       if (returnable === undefined) return 
       if(returnable.length === 0) return 
@@ -70,11 +90,11 @@ export default function AutoTable(props){
       // console.log("VolunteersObj = ",returnable)
       
       // To use an encapsulated function, put a dollar in front of it (it just works ?!)
-      
+      console.log("Cols" , cols)
       $(setState(state => ({ ...state,columns:cols.toArray(), data : returnable})))
       // this.props.setLogged(true)
   });
-  }, [props.url,props.form ]);
+  }, [props.url,props.form, props.reload ]);
 
 
   const [modalState,setModalState] = React.useState({
@@ -88,7 +108,6 @@ export default function AutoTable(props){
   const closeModal = () => {
     setModalState(state => ({open: false}))
   }
-  
     
     return(
 
@@ -109,7 +128,7 @@ export default function AutoTable(props){
         //     </div>
         //   )
         // }}
-        actions = {props.showAdder?[  //Add actions to rows and to toolbar
+        actions = {props.showAdder?[  //Add actions to toolbar
           {
             icon: () => <AddBox/>,
             tooltip: 'Add Volunteer',
@@ -117,7 +136,9 @@ export default function AutoTable(props){
             //When clicked, Open a drawer to display a form to add a volunteer
             onClick : openModal
           }
-        ] : null}
+        ] : null
+      
+      }
       />
       </Collapsible>
       {props.showAdder?(

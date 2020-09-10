@@ -91,7 +91,7 @@ router.post('/getDeliveryDetails', function(req, res, next) {
     sqlWhere = sqlWhere+(i==0 ? "":"OR")+" lower(delivery_status.stat_name) =  ? "
   }
   sqlWhere = sqlWhere +")"
-  sql = "select concat(person.person_fname,' ',person.person_lname) as 'Name', address.add_suburb 'Suburb',delivery_type(person.person_id) as 'Delivery Type', delivery_status.stat_name as 'Delivery Status'\
+  sql = "select delivery.delivery_id as id,  concat(person.person_fname,' ',person.person_lname) as 'Name', address.add_suburb 'Suburb',delivery_type(person.person_id) as 'Delivery Type', delivery_status.stat_name as 'Delivery Status'\
   from person ,address, delivery, delivery_status\
   where person.person_id = delivery.recipient_id\
   AND person.add_id = address.add_id\

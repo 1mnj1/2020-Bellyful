@@ -50,9 +50,10 @@ function DeliveryForm(props) {
       {/* <Typography variant="h3" component="h3" gutterBottom>
               Create Referral
       </Typography> */}
-      <FormControl style = {{width:"80vw"}}>
-          <InputLabel id="RTlabel">Nearest Branch</InputLabel>
+      <FormControl style = {{width:"80vw"}} >
+          <InputLabel id="RTlabel" shrink= {true}>Nearest Branch</InputLabel>
             <Select
+            
             name = "branch"
             label="Branch Name"
                 labelId="branch"

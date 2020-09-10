@@ -140,6 +140,9 @@ export default function DeliveryDetail (props) {
         <form className = "Delivery_Detail">
             
             <TextField
+            InputLabelProps={{
+                shrink: true,
+              }}
               style = {{width: mobileCheck()?"80%":"92%"}}
               autoFocus = {true}
               id="Delivery Notes"

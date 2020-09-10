@@ -68,27 +68,28 @@ function DeliveryReporting() {
           <NormalDrawer anchor = 'right' closeOnDocumentClick onClose = {closeModal} open = {modalState.open}  >
             <CreateDeliveryNavigation closeSelf = {closeModal}/>
           </NormalDrawer>
-          ) :null 
+          ) :modalState.RCOpen ? (
+            <NormalDrawer anchor = 'right' closeOnDocumentClick onClose = {closeToContact} open = {modalState.RCOpen}  >
+              <CreateDeliveryNavigation closeSelf = {closeToContact}  delivery_id = {modalState.delivery_id} />
+            </NormalDrawer> ) 
+          :<div/>
+          
         }
         </div>
         <div className="App-MainContents">
-          <AutoTable title = "To Contact" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} 
+          <AutoTable  reload = {!(modalState.open||modalState.RCOpen)} title = "To Contact" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} 
             form = {{"type": ["RC To Contact"]}} 
             openDrawer = {openToContact}>
 
-              {modalState.RCOpen ? (
-                <NormalDrawer anchor = 'right' closeOnDocumentClick onClose = {closeToContact} open = {modalState.RCOpen}  >
-                  <CreateDeliveryNavigation closeSelf = {closeToContact}  delivery_id = {state.delivery_id} />
-                </NormalDrawer> ) 
-              :<div/>}
+              
           </AutoTable>
-          <AutoTable title = "Outstanding" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} form = {{"type": ["assigned","unassigned","in transit","To Contact",]}}>
+          <AutoTable reload = {!(modalState.open||modalState.RCOpen)} title = "Outstanding" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} form = {{"type": ["assigned","unassigned","in transit","To Contact",]}}>
             
           </AutoTable>
-          <AutoTable title = "Completed Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} form = {{"type": ["done",]}}>
+          <AutoTable reload = {!(modalState.open||modalState.RCOpen)} title = "Completed Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} form = {{"type": ["done",]}}>
             
           </AutoTable>
-          <AutoTable title = "Rejections" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} form = {{"type": ["rejected by branch","rejected by recipient"]}}>
+          <AutoTable reload = {!(modalState.open||modalState.RCOpen)} title = "Rejections" url = {"http://"+window.location.hostname+":3000/manager/getDeliveryDetails"} form = {{"type": ["rejected by branch","rejected by recipient"]}}>
             
           </AutoTable>
         </div>

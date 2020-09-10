@@ -71,13 +71,52 @@ function CreateDeliveryNavigation(props) {
     const handleChange = (event, newValue) => {
         setValue(newValue);
     }
-    const [ref,setRef] = React.useState([{}]);
-    const [rec,setRec] = React.useState([{}]);
-    const [delivery, setDelivery] = React.useState([{}]);
+    
+
+
+
+    const [state,setState] = React.useState({
+      ref : [{}],
+      rec: [{}],
+      delivery: [{}]
+    })
+    
+    
+    const setRef = (data)=>{
+      setState({...state, ref: data })
+    }
+    const setRec = (data)=>{
+      setState({...state, rec: data })
+    }
+    const setDelivery = (data)=>{
+      setState({...state, delivery: data })
+    }
+
+    
+
+
     const [currPage, setPage] = React.useState(1)
 
-    const submit = ()=>{submitForms(ref,rec, delivery, props.closeSelf)}//  props.closeSelf()}
+    const submit = ()=>{submitForms(state.ref,state.rec, state.delivery, props.closeSelf)}//  props.closeSelf()}
+    //when delivery ID is set, set the form data to what is given by the server
     
+      React.useEffect(() => {
+        if(typeof(props.delivery_id)!="undefined"){
+            $(setPage(3))   
+            const url = "http://"+window.location.hostname+":3000/delivery/getCompleteDelivery"
+            $.post( url ,[{name: "delivery_id", value: props.delivery_id}],  function( returnable ) {
+              if(returnable === null) return 
+              if (returnable === undefined) return 
+              if(returnable.length === 0) return 
+              console.log("returnable: ", returnable)
+              $(setState({...state, ref: returnable.ref, rec:  returnable.rec, delivery: returnable.del}))
+              $(setPage(3))
+          });
+        }
+
+      }, [props.delivery_id ]);
+
+
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
     const DelivererNavigation = (
@@ -94,9 +133,9 @@ function CreateDeliveryNavigation(props) {
 
     return (
         <div>
-        {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {ref} currentPage = {currPage} class = {formstyle}/> : 
-        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {rec} currentPage = {currPage} class = {formstyle}/> : 
-        <DeliveryForm submit = {submit} class = {formstyle} formData = {delivery} setForm = {setDelivery}/>}
+        {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {state.ref} currentPage = {currPage} class = {formstyle}/> : 
+        currPage === 2 ? <RecipientForm setForm = {setRec} formData = {state.rec} currentPage = {currPage} class = {formstyle}/> : 
+        <DeliveryForm submit = {submit}  setForm = {setDelivery} formData = {state.delivery}  class = {formstyle}/>}
     
         {DelivererNavigation}
         </div>
