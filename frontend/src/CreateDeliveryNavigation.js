@@ -10,6 +10,7 @@ import RecipientForm from './RecipientForm'
 import DeliveryForm from './DeliveryForm'
 import { makeStyles } from '@material-ui/core/styles';
 import $ from 'jquery'
+import FreezerLog from './FreezerLog';
 const useStyles = makeStyles({
     root: {
       position: 'relative',
@@ -143,7 +144,17 @@ function CreateDeliveryNavigation(props) {
         <div>
         {currPage===1 ? <RefferrerForm setForm = {setRef} formData = {state.ref} currentPage = {currPage} class = {formstyle}/> : 
         currPage === 2 ? <RecipientForm setForm = {setRec} formData = {state.rec} currentPage = {currPage} class = {formstyle}/> : 
-        <DeliveryForm submit = {submit}  setForm = {setDelivery} formData = {state.delivery}  class = {formstyle}/>}
+        <DeliveryForm submit = {submit}  setForm = {setDelivery} formData = {state.delivery}  class = {formstyle}> 
+          {(typeof(props.delivery_id)!="undefined") ? <FreezerLog
+                      title = "Freezer Log" 
+                      url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                      delivery_id = {props.delivery_id}
+                      reload = {true}
+                      setReload = {()=>{return null}}
+                     
+                    /> :null}
+                      
+        </DeliveryForm>}
     
         {DelivererNavigation}
         </div>

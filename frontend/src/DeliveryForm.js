@@ -46,6 +46,7 @@ function DeliveryForm(props) {
   };
   return (
     <div style = {props.class} >
+      {props.children}
       <form className = "deliveryForm" >
       {/* <Typography variant="h3" component="h3" gutterBottom>
               Create Referral

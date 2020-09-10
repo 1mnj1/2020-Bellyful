@@ -185,6 +185,24 @@ router.post('/getToContactDeliveries', function(req, res, next) {
 // Gets the number of avaiable meals for all freezers and branches
 router.post('/getFreezerLog', function(req, res, next) {
   //sql query for the data
+  var sql = ""
+  var sqlvars = null
+  if(typeof(req.body.person_id) == "undefined"){
+    sql = "SELECT \
+    MT.MT_id AS 'Meal Type Id', \
+       MT.meal_type AS Dish,\
+     COUNT(M.meal_type) as \"cnt\"\
+  FROM meal_type AS MT \
+   left outer JOIN \
+     (\
+         select Mm.meal_type from	`meal` AS Mm\
+         JOIN delivery on  delivery.delivery_id = Mm.delivery_id\
+         WHERE delivery.delivery_id = ?\
+    AND Mm.freezer_id is null) as M ON M.meal_type = MT.MT_id\
+   \
+   GROUP by MT.MT_id"
+   sqlvars = [req.body.delivery_id]
+  } else {
   sql = "\
   SELECT \
     MT.MT_id AS 'Meal Type Id', \
@@ -199,9 +217,11 @@ router.post('/getFreezerLog', function(req, res, next) {
     AND Mm.delivery_id is null) as M ON M.meal_type = MT.MT_id\
    \
    GROUP by MT.MT_id"
+   sqlvars = [req.body.person_id]
+  }
   //returns meal type id, meal type name, and available meals
   // res.send("Got here!")
-  con.query(sql,[req.body.person_id], function (err, result) {
+  con.query(sql,sqlvars, function (err, result) {
         if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)

@@ -69,19 +69,24 @@ export default function FreezerLog (props) {
 
   // To get the data
   React.useEffect(() => {
+    var sqlVars = [{name: "person_id", value: props.user_id}]
+    if(typeof(props.user_id) == "undefined"){
+      sqlVars = [{name: "delivery_id", value: props.delivery_id}]
+    }
     console.log("User ID: ", props.user_id)
-      $.post( props.url,[{name: "person_id", value: props.user_id}], function(returnable) {
-      if(returnable === null) return 
-      if (returnable === undefined) return 
-      if(returnable.length === 0) return 
-      var fields = Object.keys(returnable[0])
-      
-      $(setState(state => ({ ...state,columns:fields, data : returnable})))
-      $(setQuantity(returnable.map(row=>0)))
-      if(props.delivery_id!==-1){
-        $(props.setReload(!props.reload))
-      }
-  });
+      $.post( props.url,sqlVars, function(returnable) {
+        if(returnable === null) return 
+        if (returnable === undefined) return 
+        if(returnable.length === 0) return 
+        var fields = Object.keys(returnable[0])
+        
+        $(setState(state => ({ ...state,columns:fields, data : returnable})))
+        $(setQuantity(returnable.map(row=>0)))
+        if(props.delivery_id!==-1){
+          $(props.setReload(!props.reload))
+        }
+    });
+    
   }, [props.url,props.title, reload]);
 
 
@@ -125,9 +130,10 @@ export default function FreezerLog (props) {
     // $.post(url, mealTypeId, function(returnable) {
     console.log('in update meals function about to post: ', url);
     var sqlvars = [
-      {"name":"person_id", "value":props.user_id},
+      typeof(props.user_id) =="undefined" ? {"name":"person_id", "value":"-1"} : {"name":"person_id", "value":props.user_id},
       {"name":"mealType", "value":mealTypeId},
-      {"name":"numItems", "value":num_items}
+      {"name":"numItems", "value":num_items},
+      {"name": "delivery_id", "value": props.delivery_id}
     ]
     $.post(url, sqlvars, function(returnable) {
       if(returnable === null) {
@@ -332,7 +338,7 @@ export default function FreezerLog (props) {
     <Button
       variant="contained" 
       color="secondary" 
-      onClick={props.delivery_id === -1 ? handleTopUp : handleAssignMeals}
+      onClick={props.delivery_id === -1 || typeof(props.user_id)=="undefined" ? handleTopUp : handleAssignMeals}
     >
       {props.delivery_id === -1 ? "Top up" : "Assign"}
     </Button>
@@ -340,7 +346,7 @@ export default function FreezerLog (props) {
     <Button 
       variant="contained" 
       color="primary" 
-      onClick={props.delivery_id === -1 ? handleTaken : handleRemoveMeals}
+      onClick={(props.delivery_id === -1 || typeof(props.user_id)=="undefined") ? handleTaken : handleRemoveMeals}
     >
       {props.delivery_id === -1 ? "Taken" : "Remove"}
     </Button>
