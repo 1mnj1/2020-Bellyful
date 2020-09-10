@@ -24,11 +24,6 @@ router.post('/getBranch', function(req, res, next) {
 router.post('/updateDelDeets', function(req, res, next) {
   console.log(req.body)
 
-  
-  var delTime = (req.body.DelTime.replace("T", " "))+":00"
-  // 2020-09-18T21:19
-  // 2020-09-16 21:19:00
-  console.log(delTime)
 
   var sql = "select referrer.person_id as id \
   from referrer \
@@ -46,15 +41,6 @@ router.post('/updateDelDeets', function(req, res, next) {
           if(result.length == 0){
             res.sendStatus(404)
         } });
-
-    });
-    sql = "UPDATE `delivery` SET `delivery_est_time` = ? WHERE `delivery`.`delivery_id` = ?"
-    con.query(sql, [delTime, req.body.delivery_id], function (err, result) {
-      if (err) throw err;
-      if(result.length == 0){
-        res.sendStatus(404)
-      } 
-      
 
     });
 
@@ -416,7 +402,7 @@ con.query(sql[0], function (err, result) {
     })
     router.post('/getStartStop', function(req, res, next) {
   
-      var sql = 'select delivery.delivery_est_time as estTime, delivery.delivery_start as  start, delivery.delivery_end as  end \
+      var sql = 'select delivery.delivery_start as  start, delivery.delivery_end as  end \
       from delivery\
       where delivery.delivery_id = ?'
       

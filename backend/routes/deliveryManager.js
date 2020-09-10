@@ -411,8 +411,8 @@ router.post('/submitDelivery', function(req, res, next) {
   console.log("Rquest: ",req.body)
   if(req.body.ref !== ''){
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
-    `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, ?, ?, '1', 'current_timestamp()', NULL, NULL, ?)"
+    `delivery_start`, `delivery_end`, `branch_id`)\
+    VALUES (NULL, NULL, ?, ?, '1', NULL, NULL, ?)"
     sqlData = [
       req.body.ref,
       req.body.rec,
@@ -420,8 +420,8 @@ router.post('/submitDelivery', function(req, res, next) {
     ]
   } else {
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
-    `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, NULL, ?, '1', 'current_timestamp()', NULL, NULL, ?)"
+     `delivery_start`, `delivery_end`, `branch_id`)\
+    VALUES (NULL, NULL, NULL, ?, '1', NULL, NULL, ?)"
     sqlData = [
       req.body.rec,
       req.body.branch

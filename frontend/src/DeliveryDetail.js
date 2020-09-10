@@ -54,8 +54,7 @@ export default function DeliveryDetail (props) {
     const [state,setState] = React.useState({
         data : [{}],
         columns: [],
-        notes : null,
-        delTime: "2020-08-12T17:38"
+        notes : null
     })
     
     //get the meals for this delivery
@@ -79,19 +78,7 @@ export default function DeliveryDetail (props) {
         })
 
     }, [props.delivery_id])
-    React.useEffect(()=>{
-        $.post("http://"+window.location.hostname+":3000/volunteer/getDelTime",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
-            // console.log("Meal Detials: ",returnable)
-            if(returnable === null) return 
-            if (returnable === undefined) return 
-            console.log("Time: ", returnable)
-            var StrDate = String(returnable)
-            
-            console.log("New time: "+StrDate.slice(0,StrDate.length-8))
-            $(setState(state => ({ ...state,delTime: StrDate.slice(0,StrDate.length-8)})))
-        })
-
-    }, [props.delivery_id])
+    
     
     //render the meals, this returns a series of items
     const renderMeals = ()=>{
@@ -175,26 +162,7 @@ export default function DeliveryDetail (props) {
             <Button variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"40%":"46%"}}>
                 Text
             </Button> <br/> <br/>
-            <TextField
-                id="datetime-local"
-                label="Est Delivery Time"
-                type="datetime-local"
-                
-                className={classes.textField}
-                InputLabelProps={{
-                shrink: true,
-                }}
-                name = "DelTime"
-                style = {{width: mobileCheck()?"80%":"92%"}}
-                // 
-                onChange = { (event)=>{
-                    var target = event.target
-                    if(target == null){return};
-                    console.log(target.value);
-                    setState(state => ({ ...state,delTime: target.value}))
-                }}
-                value={state.delTime}
-            /><br/> <br/>
+            
             {props.outstanding ? 
             (<div><Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Add to Confirmed Deliveries
@@ -202,8 +170,8 @@ export default function DeliveryDetail (props) {
             <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Cancelled by recipient
             </Button> <br/> <br/>
-            <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Branch")} style = {{width: mobileCheck()?"80%":"92%"}}>
-                Cancelled by me
+            <Button variant="contained"  onClick = {()=>updateDelState("Unassigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
+                I cant do this anymore
             </Button> <br/>
 
         </form>
