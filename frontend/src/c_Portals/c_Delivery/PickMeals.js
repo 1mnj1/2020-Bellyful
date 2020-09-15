@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import Slide from '@material-ui/core/Slide';
 import $ from 'jquery'
-import FreezerManagers from './FreezerManagers'
+import FreezerManagers from '../c_Freezer/FreezerManagers'
 
 
 function PickMeals(props) {

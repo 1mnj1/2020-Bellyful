@@ -2,7 +2,7 @@ import React from 'react'
 import MaterialTable from 'material-table'
 import $ from 'jquery'
 import Collapsible from 'react-collapsible';
-import './sass/main.scss'
+import '../sass/main.scss'
 import IconButton from '@material-ui/core/IconButton';
 // import Popup from 'reactjs-popup'
 import NormalDrawer from './NormalDrawer'

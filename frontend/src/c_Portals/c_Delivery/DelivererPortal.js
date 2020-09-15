@@ -19,7 +19,6 @@ import UnassignedDeliveries from './UnassignedDeliveries';
 
 import MyOustanding from './MyOutstanding'
 import PickMeals from './PickMeals'
-import DynamicComponent from './Dynamic';
 import MyConfirmed from './MyConfirmed'
 import DeliveryDriving from './DeliveryDriving'
 

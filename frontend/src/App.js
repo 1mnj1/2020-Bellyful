@@ -1,22 +1,22 @@
 import React from 'react';
-import './App.css';
-import MainAppBar from './Menu'
-import LoginTab from './Login'
 import { useCookies} from 'react-cookie'
-import Reporting from './Reporting'
-import DelivererPortal from './DelivererPortal'
-import DeliveryReporting from './DeliveryReporting'
-import FreezerPortal from './FreezerPortal'
-import DeliveryDriving from './DeliveryDriving'
-import ProfilePage from './ProfilePage'
+import './App.css';
+import MainAppBar from './c_Navigation/Menu'
+import LoginTab from './c_Navigation/Login'
+import Reporting from './c_WebApp/Reporting'
+import DelivererPortal from './c_Portals/c_Delivery/DelivererPortal'
+import DeliveryReporting from './c_WebApp/DeliveryReporting'
+import FreezerPortal from './c_Portals/c_Freezer/FreezerPortal'
+import DeliveryDriving from './c_Portals/c_Delivery/DeliveryDriving'
+import ProfilePage from './c_Portals/ProfilePage'
 
-const pageIndex = require('./pageIndexer')
+const pageIndex = require('./c_Navigation/pageIndexer')
 
 function App() {
   // const [loggedIn, setLoggedIn] = React.useState(0)
   const [cookie, setCookie] = useCookies(["user_level"]);
   
-console.log(cookie.user_level)
+  console.log(cookie.user_level)
   
   const [page,setPage] = React.useState(0)
   const resetPage = (newPage)=>(page === newPage? setPage(0) : setPage(newPage))

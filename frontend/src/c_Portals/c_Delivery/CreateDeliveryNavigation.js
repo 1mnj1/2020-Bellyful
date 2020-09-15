@@ -5,12 +5,12 @@ import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
 // import AcUnitIcon from '@material-ui/icons/AcUnit'
 import PersonIcon from '@material-ui/icons/Person'
-import RefferrerForm from './ReferrerForm'
-import RecipientForm from './RecipientForm'
-import DeliveryForm from './DeliveryForm'
+import RefferrerForm from '../../c_Forms/ReferrerForm'
+import RecipientForm from '../../c_Forms/RecipientForm'
+import DeliveryForm from '../../c_Forms/DeliveryForm'
 import { makeStyles } from '@material-ui/core/styles';
 import $ from 'jquery'
-import FreezerLog from './FreezerLog';
+import FreezerLog from '../c_Freezer/FreezerLog';
 const useStyles = makeStyles({
     root: {
       position: 'relative',

@@ -3,8 +3,8 @@ import AutoTable from './AutoTable'
 import Fab from '@material-ui/core/Fab';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-import CreateDeliveryNavigation from './CreateDeliveryNavigation';
-import NormalDrawer from './NormalDrawer'
+import CreateDeliveryNavigation from '../c_Portals/c_Delivery/CreateDeliveryNavigation';
+import NormalDrawer from './NormalDrawer';
 
 const useStyles = makeStyles((theme) => ({
   root: {

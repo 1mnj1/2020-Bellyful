@@ -1,9 +1,9 @@
 import React from 'react';
 import AutoTable from './AutoTable'
 // import CreateDeliveryNavigation from './CreateDeliveryNavigation'
-import VolunteerForm from './VolunteerForm';
+import VolunteerForm from '../c_Forms/VolunteerForm';
 import $ from 'jquery'
-import FreezerForm from './FreezerForm'
+import FreezerForm from '../c_Forms/FreezerForm';
 
 function Reporting() {
   
