@@ -11,7 +11,8 @@ import Select from '@material-ui/core/Select';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider'
 // import Checkbox from '@material-ui/core/Checkbox';
-
+import SaveIcon from '@material-ui/icons/Save';
+import Button from '@material-ui/core/Button';
 
 
 const fullWidth = 100;
@@ -40,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(1),
         width: String(fullWidth/4)+'ch',
     }, 
+    button : {
+      margin : theme.spacing(1)
+    }
   }
 ));
 
@@ -179,10 +183,18 @@ function VolunteerForm(props) {
               Emergency Contact
             </Typography>
             <br/>
-            <br/>
             <PersonForm formData = {props.formData}/>
             </form>
-            <button onClick = {saveForm}>Submit</button>
+            <br/>
+            <Button 
+              variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              startIcon={<SaveIcon />}
+              onClick = {saveForm}>
+                Submit
+            </Button>
     </div>
   );
 }

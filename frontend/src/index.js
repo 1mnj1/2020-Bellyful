@@ -4,6 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { CookiesProvider } from 'react-cookie';
+import WebFont from 'webfontloader';
+WebFont.load({
+  google: {
+    families: ['Balsamiq sans:300,400,700', 'sans-serif']
+  }
+});
+
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
