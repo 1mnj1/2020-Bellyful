@@ -148,6 +148,7 @@ function RecipientForm(props) {
               />
               <br/>
               <TextField
+              
               className={classes.fullText}
               id="allergyNotes"
               label="Add any other Allergy notes"

@@ -19,7 +19,7 @@ import Box from '@material-ui/core/Box';
             if(returnable === null) return 
             if (returnable === undefined) return 
             console.log("Time: ", returnable)
-            $(setState(state => ({ ...state, estTime: returnable[0].estTime, start: returnable[0].start, end: returnable[0].end    })))
+            $(setState(state => ({ ...state,  start: returnable[0].start, end: returnable[0].end    })))
         })
 
     }, [props.delivery_id])

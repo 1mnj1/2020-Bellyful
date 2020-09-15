@@ -97,6 +97,7 @@ export default function MyOutstanding (props) {
     const createList = state.data.map((row, index) => {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
+      console.log(state.visible[index])
       return (
         
         <div>
@@ -135,14 +136,17 @@ export default function MyOutstanding (props) {
                       //phone
                     >
                     {/* the style whitespace property allows the use of the newline character */}
-                    <br/> {row[state.columns[4]]} {row[state.columns[4]]>1? "Meals": "Meal"}
+                    <br/> {row[state.columns[4]]} Required {row[state.columns[4]]>1? "Meals": "Meal"}
                     </Typography>
                   </React.Fragment>
                 }
               />
             </ListItem>
             {
-              state.visible[index] ? renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) : null
+              
+              state.visible[index] ? 
+              renderDropdown(value,row[state.columns[3]],row[state.columns[5]] ) 
+              : <div/>
             }
           <Divider component="li" />
         </div>

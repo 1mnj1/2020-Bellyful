@@ -21,6 +21,36 @@ router.post('/getBranch', function(req, res, next) {
     });
 });
 
+router.post('/updateDelDeets', function(req, res, next) {
+  console.log(req.body)
+
+
+  var sql = "select referrer.person_id as id \
+  from referrer \
+  join delivery on delivery.ref_id = referrer.person_id \
+  where delivery.delivery_id = ? "
+
+  con.query(sql, [req.body.delivery_id], function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.sendStatus(404)
+        } 
+        sql = "UPDATE `referrer` SET `notes` = ? WHERE `referrer`.`person_id` = ?"
+        con.query(sql, [req.body.refNotes,result[0].id], function (err, result) {
+          if (err) throw err;
+          if(result.length == 0){
+            res.sendStatus(404)
+        } });
+
+    });
+
+
+
+  res.sendStatus(200)
+});
+
+
+
 router.post('/getNewDeliveries', function(req, res, next) {
 
 var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
@@ -43,7 +73,23 @@ con.query(sql,[req.body.branch_id], function (err, result) {
   })
 })
 
-
+router.post('/getMealsForDelivery', function(req, res, next) {
+  var sql = 'select meal_type.meal_type as "Meal" , COUNT(M.meal_id) as "Count"\
+  from meal_type\
+  left outer join (select * from meal where meal.delivery_id = ? and meal.freezer_id is not null) as M on meal_type.MT_id = M.meal_type\
+  \
+  group by meal_type.MT_id\
+  '
+  
+   con.query(sql,[req.body.delivery_id], function (err, result) {
+    if (err) throw err;
+    if(result.length == 0 || result == undefined) {
+      res.send(null) ;return 
+    }
+    res.send(result)
+    
+  })
+  })
 
 router.post('/getDelTime', function(req, res, next) {
 
@@ -74,11 +120,27 @@ router.post('/getRefNotes', function(req, res, next) {
     res.send(result[0]["notes"])
   })
   })
+router.post('/getMealsRequired', function(req, res, next) {
 
+  var sql = "select meal_type.meal_type as \"Meal\" , COUNT(M.meal_id) as \"Count\"\
+  from meal_type\
+  left outer join (select * from meal where meal.delivery_id = ? and meal.freezer_id is null) as M on meal_type.MT_id = M.meal_type\
+  \
+  group by meal_type.MT_id"
+  var sqlDeets = [req.body.delivery_id]
+  con.query(sql,sqlDeets, function (err, result) {
+    if (err) throw err;
+    res.send(result)
+  })
+})
 router.post('/getToContactDeliveries', function(req, res, next) {
 
 
-  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
+  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, \
+  concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, \
+  person.person_phone AS phone, \
+  (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals,\
+  person.person_email AS email\
   FROM delivery\
   JOIN person on delivery.recipient_id = person.person_id\
   JOIN address on address.add_id = person.add_id\
@@ -122,6 +184,24 @@ router.post('/getToContactDeliveries', function(req, res, next) {
 // Gets the number of avaiable meals for all freezers and branches
 router.post('/getFreezerLog', function(req, res, next) {
   //sql query for the data
+  var sql = ""
+  var sqlvars = null
+  if(typeof(req.body.person_id) == "undefined"){
+    sql = "SELECT \
+    MT.MT_id AS 'Meal Type Id', \
+       MT.meal_type AS Dish,\
+     COUNT(M.meal_type) as \"cnt\"\
+  FROM meal_type AS MT \
+   left outer JOIN \
+     (\
+         select Mm.meal_type from	`meal` AS Mm\
+         JOIN delivery on  delivery.delivery_id = Mm.delivery_id\
+         WHERE delivery.delivery_id = ?\
+    AND Mm.freezer_id is null) as M ON M.meal_type = MT.MT_id\
+   \
+   GROUP by MT.MT_id"
+   sqlvars = [req.body.delivery_id]
+  } else {
   sql = "\
   SELECT \
     MT.MT_id AS 'Meal Type Id', \
@@ -133,12 +213,14 @@ router.post('/getFreezerLog', function(req, res, next) {
          select Mm.meal_type from	`meal` AS Mm\
          JOIN freezer on  freezer.freezer_id = Mm.freezer_id\
          WHERE freezer.person_id = ?\
-    AND Mm.delivery_id is null) as M ON M.meal_type = MT.MT_id\
+    AND Mm.delivery_id is null AND  Mm.vol_id is null) as M ON M.meal_type = MT.MT_id\
    \
    GROUP by MT.MT_id"
+   sqlvars = [req.body.person_id]
+  }
   //returns meal type id, meal type name, and available meals
   // res.send("Got here!")
-  con.query(sql,[req.body.person_id], function (err, result) {
+  con.query(sql,sqlvars, function (err, result) {
         if (err) throw err;
         console.log("Got a result!\n");
         console.log(result)
@@ -156,14 +238,22 @@ router.post('/getFreezerLog', function(req, res, next) {
 // Gets all the freezer managers and their details
 router.post('/getFreezerManagers', function(req, res, next) {
   //sql query for the data
-  sql = "SELECT CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name' ,CONCAT(address.add_num , ' ' , address.add_street) as 'Address', branch.branch_name as Branch, COUNT(meal.meal_id) as 'Available Meals'\
-  FROM freezer\
-  JOIN person ON freezer.person_id = person.person_id\
-  JOIN address ON freezer.add_id = address.add_id\
-  JOIN branch ON freezer.branch_id = branch.branch_id\
-  JOIN meal ON freezer.freezer_id = meal.freezer_id\
-  WHERE meal.delivery_id IS NULL\
-  AND meal.freezer_id = freezer.freezer_id\
+  sql = "\
+    SELECT\
+      CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name',\
+      CONCAT(address.add_num , ' ' , address.add_street) as 'Steet',\
+      address.add_suburb AS 'Suburb', \
+      branch.branch_name as Branch, \
+      person.person_phone AS 'Phone',\
+      COUNT(meal.meal_id) as 'Available Meals',\
+      freezer.person_id AS 'Person Id'\
+        FROM freezer\
+          JOIN person ON freezer.person_id = person.person_id\
+          JOIN address ON freezer.add_id = address.add_id\
+          JOIN branch ON freezer.branch_id = branch.branch_id\
+          JOIN meal ON freezer.freezer_id = meal.freezer_id\
+          WHERE meal.delivery_id IS NULL\
+          AND meal.freezer_id = freezer.freezer_id\
   "
   //returns id, name, address, branch name
   // res.send("Got here!")
@@ -180,15 +270,78 @@ router.post('/getFreezerManagers', function(req, res, next) {
   
 });
 
+router.post('/getMealsPerManager', function(req, res, next) {
+if (typeof(req.body.delivery_id) != "undefined"){
+  console.log("Its defined!")
+  const sql = "SELECT\
+   \
+   freezer.person_id AS 'Person Id',\
+   count(meal2.freezer_id) as meals\
+     FROM freezer\
+       \
+       JOIN branch ON freezer.branch_id = branch.branch_id\
+       left outer join \
+           (select meal.freezer_id from meal join delivery on meal.delivery_id = delivery.delivery_id where delivery.delivery_id = ?) \
+           as meal2 on meal2.freezer_id = freezer.freezer_id\
+       \
+       WHERE freezer.branch_id = ?\
+       group by freezer.person_id"
+   con.query(sql, [req.body.delivery_id, req.body.branch_id], function (err, result) {
+     if (err) throw err;
+     console.log("Got a result!\n");
+     console.log(result)
+     if(result.length == 0){
+       res.send(404)
+     } else {
+       res.send(result)
+     }
+     });
+}
+})
+
+// Gets all the freezer managers and their details
+router.post('/getFreezerManagers2', function(req, res, next) {
+  
+  //sql query for the data
+  var sql = "\
+  SELECT\
+  CONCAT(person.person_fname , ' ' , person.person_lname) as 'Name',\
+  CONCAT(address.add_num , ' ' , address.add_street) as 'Steet',\
+  address.add_suburb AS 'Suburb',\
+  branch.branch_name AS 'Branch',\
+  person.person_phone AS 'Phone',\
+  freezer.person_id AS 'Person Id'\
+    FROM freezer\
+      JOIN person ON freezer.person_id = person.person_id\
+      JOIN address ON freezer.add_id = address.add_id\
+      JOIN branch ON freezer.branch_id = branch.branch_id\
+      WHERE freezer.branch_id = ?\
+  "
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  con.query(sql, [req.body.branch_id], function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+  
+});
 
 
 
 
 
-router.post('/getMealsForDelivery', function(req, res, next) {
+
+router.post('/updateDelState', function(req, res, next) {
 var sql = ["start TRANSACTION;",
 "select delivery_status.stat_id into @a from delivery_status  where delivery_status.stat_name LIKE ?;",
-"UPDATE `delivery` SET `delivery_status` = @a\
+"UPDATE `delivery` SET `delivery_status` = @a \
 WHERE `delivery`.`delivery_id` = ?;",
 "COMMIT;"]
 var sqlVars = [
@@ -268,7 +421,7 @@ con.query(sql[0], function (err, result) {
     })
     router.post('/getStartStop', function(req, res, next) {
   
-      var sql = 'select delivery.delivery_est_time as estTime, delivery.delivery_start as  start, delivery.delivery_end as  end \
+      var sql = 'select delivery.delivery_start as  start, delivery.delivery_end as  end \
       from delivery\
       where delivery.delivery_id = ?'
       
@@ -334,4 +487,110 @@ con.query(sql[0], function (err, result) {
         res.send("complete")
       })
     })
+
+
+
+// Gets all the freezer managers and their details
+router.post('/assignDeliveryMeals', function(req, res, next) {
+  console.log("in assignDeliveryMeals sql")
+  // sql query for the data
+  sql = "\
+  UPDATE meal " +   ((req.body.delivery_id == -2) ? " SET  meal.`vol_id` =  ? " : "SET meal.delivery_id = ?, meal.vol_id = ?")
+    +" WHERE meal_type =?\
+    \
+    AND meal.delivery_id is NULL\
+    AND meal.vol_id is NULL\
+    AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
+    LIMIT ?"
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  var sqlvars = null
+  if(req.body.delivery_id == -2) {
+    sqlvars = [
+      req.body.vol_id,
+      req.body.mealType,
+      req.body.person_id ,
+      parseInt(req.body.numItems)
+    ]
+  } else {
+    sqlvars = [
+      req.body.delivery_id, 
+      req.body.vol_id,
+      req.body.mealType,
+      req.body.person_id ,
+      parseInt(req.body.numItems)
+    ]
+  }
+  con.query(sql,sqlvars , function (err, result) {
+    console.log("Sql deets: ",sqlvars);
+    if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
+// Gets all the freezer managers and their details
+router.post('/removeDeliveryMeals', function(req, res, next) {
+  console.log("in removeDeliveryMeals sql")
+  //sql query for the data
+  var sqlvars = null
+  var sql = null
+  if(req.body.delivery_id != -2) {
+    sql = "\
+    UPDATE meal\
+    SET meal.delivery_id = null\
+    meal.vol_id = null     \
+    WHERE meal_type = ?\
+    \
+    AND meal.delivery_id = ?\
+    AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
+    LIMIT ?"
+    sqlvars = [ 
+      req.body.mealType, 
+      req.body.delivery_id, 
+      req.body.person_id ,
+      parseInt(req.body.numItems)]
+  } else {
+    
+      sql = "\
+      UPDATE meal\
+      SET meal.vol_id = null\
+      WHERE meal_type = ?\
+      \
+      AND meal.vol_id = ?\
+      AND meal.freezer_id = (SELECT freezer.freezer_id from freezer where freezer.person_id = ?)\
+      LIMIT ?"
+      sqlvars = [ 
+        req.body.mealType, 
+        req.body.vol_id, 
+        req.body.person_id ,
+        parseInt(req.body.numItems)]
+    
+  }
+
+  
+  //returns id, name, address, branch name
+  // res.send("Got here!")
+  con.query(sql, sqlvars, function (err, result) {
+        if (err) throw err;
+        console.log("Got a result!\n");
+        console.log(result)
+        if(result.length == 0){
+          res.send(404)
+        } else {
+          res.send(result)
+        }
+    });
+  
+});
+
+
+
+
 module.exports = router;

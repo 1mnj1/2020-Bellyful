@@ -84,7 +84,7 @@ function DelivererPortal(props) {
     //Portal has global deliveryID, if it is -1 then no delivery is selected, else = Del ID of selected delivery
     const [deliveryID, setdeliveryID] = React.useState(-1);
     const [myOustanding, setMyOutstanding] = React.useState({
-            visible: null,
+            visible: [],
             columns: [ {}, ],
             data: [  ],
         });
@@ -97,13 +97,17 @@ function DelivererPortal(props) {
     const [value, setValue] = React.useState('0');
     const [branchID, setBranchID] = React.useState(null)
     const handleChange = (event, newValue) => {
-        console.log("Set Value to : " + newValue);
+        console.log("Set Value (2) to : " + newValue);
         console.log("DeliveryID for Portal = ", deliveryID)
         setValue(newValue);
+        
     }
+
     const handleChangeIndex = (index) => {
+        console.log("Set Value (1) to : " + index);
         setValue(index);
     }
+
     React.useEffect(()=>{
         $.post( "http://"+window.location.hostname+":3000/volunteer/getBranch",[{name: "vol_id", value: props.user_id}], function(returnable) {
             if(returnable === null) return 
@@ -114,7 +118,7 @@ function DelivererPortal(props) {
              
     })}, [props.user_id]);
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
-    
+ 
 
     return (
         <div className={classes.root}>
@@ -123,6 +127,7 @@ function DelivererPortal(props) {
             <SwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={value}
+
                 onChangeIndex={handleChangeIndex}
             >
                 <TabPanel value={value} index={0} dir={theme.direction}>
@@ -140,7 +145,13 @@ function DelivererPortal(props) {
                 <TabPanel value={value} index={1} dir={theme.direction}>
 
                     {deliveryID > -1 ? 
-                        <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
+                        <PickMeals 
+                        del_ID = {deliveryID} 
+                        user_id = {props.user_id} 
+                        resetDelivery = {()=>setdeliveryID(-1)}
+                        branch_id = {branchID}>
+
+                        </PickMeals>
                         : 
                         <MyOustanding user_id = {props.user_id} title = "My Outstanding" 
                         setdeliveryID = {setdeliveryID}
@@ -150,22 +161,27 @@ function DelivererPortal(props) {
                 </TabPanel>
                 <TabPanel value={value} index={2} dir={theme.direction}>
                         
-                    {myConfirmed.deliveryID == null? 
+                    {myConfirmed.deliveryID == null ? 
                         <MyConfirmed 
                         state = {myConfirmed} 
                         setState = {setMyConfirmed}
                         user_id = {props.user_id} title = "My confirmed" 
-                        url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>:  
-                    
-                    deliveryID > -1 ? 
-                        <PickMeals del_ID = {deliveryID} user_id = {props.user_id} resetDelivery = {()=>setdeliveryID(-1)}></PickMeals>
-                        :
-                        <DeliveryDriving  
-                            delivery_id = {myConfirmed.deliveryID} 
-                            confirmedState = {myConfirmed}
-                            setConfirmedState = {setMyConfirmed}
-                            setdeliveryID = {setdeliveryID}/>
-                        }
+                        url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
+                        
+                        : deliveryID > -1 ? 
+                            <PickMeals 
+                            del_ID = {deliveryID} 
+                            user_id = {props.user_id} 
+                            resetDelivery = {()=>setdeliveryID(-1)}
+                            branch_id = {branchID}>
+
+                            </PickMeals>
+                            : <DeliveryDriving  
+                                delivery_id = {myConfirmed.deliveryID} 
+                                confirmedState = {myConfirmed}
+                                setConfirmedState = {setMyConfirmed}
+                                setdeliveryID = {setdeliveryID}/>
+                            }
                 </TabPanel>
                 
             </SwipeableViews>
@@ -185,8 +201,7 @@ function DelivererPortal(props) {
                 <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
-        </
-        div>
+        </div>
 
     );
 }

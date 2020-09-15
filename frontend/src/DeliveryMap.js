@@ -119,14 +119,19 @@ const StyledTableCell = withStyles((theme) => ({
                 const initializeMap = ({ setMapObj, mapContainer }) => {
                     // Create the map, point it to the start coordinates and set the tilt/zoom level 
                     // Bigger zoom = longer initial loading time - tiles are loaded at 2^(zoomlevel)-1
-                
-                const map = new mapboxgl.Map({
-                    container: mapContainer.current,
-                    style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
-                    center: [coOrdinates[0][0], coOrdinates[0][1]],
-                    zoom: 16,
-                    pitch : 45
-                });
+                    var map = null
+                try {
+                   map = new mapboxgl.Map({
+                      container: mapContainer.current,
+                      style: "mapbox://styles/mapbox/streets-v11", // stylesheet location
+                      center: [coOrdinates[0][0], coOrdinates[0][1]],
+                      zoom: 16,
+                      pitch : 45
+                  });
+                } catch (e){
+                  console.log(e)
+                  return
+                }
             
                 // When the user clicks and moves, set state to the new move
                 map.on('move', (e) => {

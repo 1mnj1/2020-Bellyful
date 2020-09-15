@@ -46,13 +46,15 @@ function DeliveryForm(props) {
   };
   return (
     <div style = {props.class} >
+      
       <form className = "deliveryForm" >
       {/* <Typography variant="h3" component="h3" gutterBottom>
               Create Referral
       </Typography> */}
-      <FormControl style = {{width:"80vw"}}>
-          <InputLabel id="RTlabel">Nearest Branch</InputLabel>
+      <FormControl style = {{width:"80vw"}} >
+          <InputLabel id="RTlabel" shrink= {true}>Nearest Branch</InputLabel>
             <Select
+            
             name = "branch"
             label="Branch Name"
                 labelId="branch"
@@ -65,7 +67,7 @@ function DeliveryForm(props) {
         </FormControl><br/>
       </form>
       <Button variant="contained" onClick = {props.submit}>Submit</Button>
-
+      {props.children}
     </div>
   );
 }

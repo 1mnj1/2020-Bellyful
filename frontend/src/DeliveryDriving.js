@@ -54,10 +54,22 @@ export default function  DeliveryDriving(props) {
 
     }, [props.delivery_id])
 
-    var dummyAddress = [{address:"21 springwater vale unsworth heights auckland", type: "Start"},
-    {address:"1 springwater vale unsworth heights auckland", type: "Freezer"},
-    {address:"Massey University, Dairy Flat, Albany, Auckland", type:"Recipient"}]
+    
+    const removeDelivery = ()=>
+    {
+      var del_id = props.delivery_id
+      var oldState = {...props.confirmedState}
+      for (var i = 0; i < oldState.data.length; ++i){
+        if(oldState.data[i][props.confirmedState.columns[0]] == del_id){
+          oldState.data.splice(i, 1)
+          break
+        }
 
+      }
+      oldState.deliveryID = null
+      props.setConfirmedState(oldState)
+      
+    }
 
     return (
         <div>  
@@ -93,7 +105,7 @@ export default function  DeliveryDriving(props) {
                     <DeliveryDetail 
                     
                     setdeliveryID = {props.setdeliveryID} 
-                    reloadPage = {()=>{}} 
+                    reloadPage = {removeDelivery} 
                     delivery_id ={props.delivery_id} 
                     phone = {"02102202041"} 
                     email = {"Bruh@gmail.com"}/>

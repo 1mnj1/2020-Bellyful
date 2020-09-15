@@ -1,256 +1,127 @@
-import React from 'react';
+import React from "react"
+import $ from 'jquery'
+
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-
-
-import Alert from '@material-ui/lab/Alert';
-import Button from '@material-ui/core/Button';
-
-
-
-import $ from 'jquery'
+import Grid from '@material-ui/core/Grid';
+import FreezerLog from './FreezerLog';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-    maxWidth: 752,
-  },
-  demo: {
+    width: '100%',
     backgroundColor: theme.palette.background.paper,
-  },
-  title: {
-    margin: theme.spacing(4, 0, 2),
   },
 }));
 
-function generate(element) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
 
-export default function FreezerManagers(props) {
+export default function FreezerManagers (props) {
 
-    const [state, setState] = React.useState({
-        columns: [ {}, ],
-        data: [ {}, ],
-    });
-  
-  
-    console.log("before the get data request for freezer managers")
-    console.log(props.url)
-  
-    //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
-  
+  // allows the state to be saved when you leave the page. when you come back it will be the same
+  const state = props.state
+  const setState = props.setState
+  console.log(props.url)
+  console.log("User id: ", props.user_id)
     // To get the data
+    React.useEffect(()=>{
+      $.post( "http://"+window.location.hostname+":3000/volunteer/getMealsPerManager",[{"name":"branch_id","value":props.branch_id},  {"name":"delivery_id","value":props.delivery_id} ], 
+          function(returnable) {
+            var newfields = Object.keys(returnable[0])
+          
+            
+          
+            var meals = returnable.map((row)=>{
+              return row[newfields[1]]
+            })
+            $(setState(state => ({ ...state, meals:meals})))
+      })
+    }, [props.reload])
     React.useEffect(() => {
-        
-        $.post( props.url, function(returnable) {
+        // need to be using branch id
+        $.post( props.url,[{"name":"branch_id","value":props.branch_id}], function(returnable) {
         if(returnable === null) return 
         if (returnable === undefined) return 
         if(returnable.length === 0) return 
-  
         var fields = Object.keys(returnable[0])
-        var values = Object.values(returnable[0])
-        console.log('fields from object.keys', fields)
-        console.log('values from object.values', values)
+
+        var visible = []
+        for (var i = 0; i < returnable.length; ++i) visible.push(false)
+        // adding a new field onto the managers
+        var meals = []
+        if(props.delivery_id!=-1){
+          var returnableOrg = returnable
+          $.post( "http://"+window.location.hostname+":3000/volunteer/getMealsPerManager",[{"name":"branch_id","value":props.branch_id},  {"name":"delivery_id","value":props.delivery_id} ], 
+          function(returnable) {
+            var newfields = Object.keys(returnable[0])
+          
+            
+          
+            meals = returnable.map((row)=>{
+              return row[newfields[1]]
+            })
+            $(setState(state => ({ ...state,columns:fields, data : returnableOrg, hidden: visible, meals:meals})))
+          })
+        } else {
+
+         $(setState(state => ({ ...state,columns:fields, data : returnable, hidden: visible, meals:meals})))
+        }
+      
+      })
+    }, [props.url,props.user_id ]);
+
   
-        console.log("before logging the columns for props", props.title)
-        console.log("columns = ",fields)
-        console.log("before logging the objects for props", props.title)
-        console.log("deliveries = ",returnable)
-        
-        $(setState(state => ({ ...state,columns:fields, data : returnable})))
-    });
-    }, [props.url,props.title]);
-  
-  
+
+
   const classes = useStyles();
-  const [dense, setDense] = React.useState(false);
-  const [secondary, setSecondary] = React.useState(false);
 
-//   return (
-//     <div className={classes.root}>
-//       <FormGroup row>
-//         <FormControlLabel
-//           control={
-//             <Checkbox checked={dense} onChange={(event) => setDense(event.target.checked)} />
-//           }
-//           label="Enable dense"
-//         />
-//         <FormControlLabel
-//           control={
-//             <Checkbox
-//               checked={secondary}
-//               onChange={(event) => setSecondary(event.target.checked)}
-//             />
-//           }
-//           label="Enable secondary text"
-//         />
-//       </FormGroup>
-//       <Grid container spacing={2}>
-//         <Grid item xs={12} md={6}>
-//           <Typography variant="h6" className={classes.title}>
-//             Text only
-//           </Typography>
-//           <div className={classes.demo}>
-//             <List dense={dense}>
-//               {generate(
-//                 <ListItem>
-//                   <ListItemText
-//                     primary="Single-line item"
-//                     secondary={secondary ? 'Secondary text' : null}
-//                   />
-//                 </ListItem>,
-//               )}
-//             </List>
-//           </div>
-//         </Grid>
-//         <Grid item xs={12} md={6}>
-//           <Typography variant="h6" className={classes.title}>
-//             Icon with text
-//           </Typography>
-//           <div className={classes.demo}>
-//             <List dense={dense}>
-//               {generate(
-//                 <ListItem>
-//                   <ListItemIcon>
-//                     <FolderIcon />
-//                   </ListItemIcon>
-//                   <ListItemText
-//                     primary="Single-line item"
-//                     secondary={secondary ? 'Secondary text' : null}
-//                   />
-//                 </ListItem>,
-//               )}
-//             </List>
-//           </div>
-//         </Grid>
-//       </Grid>
-//       <Grid container spacing={2}>
-//         <Grid item xs={12} md={6}>
-//           <Typography variant="h6" className={classes.title}>
-//             Avatar with text
-//           </Typography>
-//           <div className={classes.demo}>
-//             <List dense={dense}>
-//               {generate(
-//                 <ListItem>
-//                   <ListItemAvatar>
-//                     <Avatar>
-//                       <FolderIcon />
-//                     </Avatar>
-//                   </ListItemAvatar>
-//                   <ListItemText
-//                     primary="Single-line item"
-//                     secondary={secondary ? 'Secondary text' : null}
-//                   />
-//                 </ListItem>,
-//               )}
-//             </List>
-//           </div>
-//         </Grid>
-//         <Grid item xs={12} md={6}>
-//           <Typography variant="h6" className={classes.title}>
-//             Avatar with text and icon
-//           </Typography>
-//           <div className={classes.demo}>
-//             <List dense={dense}>
-//               {generate(
-//                 <ListItem>
-//                   <ListItemAvatar>
-//                     <Avatar>
-//                       <FolderIcon />
-//                     </Avatar>
-//                   </ListItemAvatar>
-//                   <ListItemText
-//                     primary="Single-line item"
-//                     secondary={secondary ? 'Secondary text' : null}
-//                   />
-//                   <ListItemSecondaryAction>
-//                     <IconButton edge="end" aria-label="delete">
-//                       <DeleteIcon />
-//                     </IconButton>
-//                   </ListItemSecondaryAction>
-//                 </ListItem>,
-//               )}
-//             </List>
-//           </div>
-//         </Grid>
-//       </Grid>
-//     </div>
-//   );
-
-  const [checked, setChecked] = React.useState([0]);
-
-  const handleToggle = (value) => () => {
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
-
-
-
-function setAlert() {
-    return (<Alert severity="success">Thank you Joan</Alert>)
-  }
-  const createList = state.data.map((row) => {
+  const createList = state.data.map((row, idx) => {
     const value = row[state.columns[0]]
     console.log("Row: ",row, "Value: ", value)
-    const labelId = `checkbox-list-label-${value}`;
-
-    console.log("row 1: ", row[state.columns[0]])
-    console.log("row 2: ", row[state.columns[1]])
-    console.log("row 3: ", row[state.columns[2]])
-    console.log("row 4: ", row[state.columns[3]])
+    console.log("freezer manager id: ", row[state.columns[5]])
 
     return (
       <div>
         <div>
-          <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
-            <ListItemIcon>
-              <Checkbox
-                edge="start"
-                checked={checked.indexOf(value) !== -1}
-                tabIndex={-1}
-                disableRipple
-                inputProps={{ 'aria-labelledby': labelId }}
-              />
-            </ListItemIcon>
-            
+          {/* <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, branchManagerClicked: value, freezerManagerId: row[state.columns[5]]})}>           */}
+          <ListItem key={value} role={undefined} dense button onClick={()=>{var visible = [...state.hidden]; visible[idx] = !visible[idx]; console.log("visible", visible); setState({...state, hidden: visible, freezerManagerId: row[state.columns[5]]})}}>          
             <ListItemText
-              primary={row[state.columns[0]]}
-              secondary={
+              primary = {
+                <React.Fragment>
+                   <Grid container spacing = {3}>
+                     <Grid item xs = {6} >
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                        >
+                          {row[state.columns[0]]} 
+                        </Typography>
+                      </Grid>
+                      {(props.delivery_id==-1) ? null : <Grid item xs = {6} style = {{textAlign:"right"}}>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                          style={{whiteSpace: 'pre-line'}}
+                        >
+                          Meals: {state.meals[idx]}
+                        </Typography>
+                      </Grid>}
+                    </Grid>
+                  </React.Fragment>
+              }
+              secondary= {
                 <React.Fragment>
                   <Typography
                     component="span"
                     variant="body2"
                     className={classes.inline}
                     color="textPrimary"
+                    style={{whiteSpace: 'pre-line'}}
                   >
                     {row[state.columns[1]]}
                   </Typography>
@@ -261,21 +132,54 @@ function setAlert() {
                     color="textPrimary"
                     style={{whiteSpace: 'pre-line'}}
                   >
-                    <br/>{row[state.columns[2]]}
+                    <br/>{row[state.columns[2]]}&nbsp;
                   </Typography>
                   <Typography
                     component="span"
                     variant="body2"
                     className={classes.inline}
-                    style={{whiteSpace: 'pre-line'}} 
+                    color="textPrimary"
+                    style={{whiteSpace: 'pre-line'}}
                   >
-                  {/* the style whitespace property allows the use of the newline character */}
-                  <br/> {row[state.columns[3]]} {row[state.columns[3]]>1? "Meals": "Meal"}
+                    <br/>{row[state.columns[3]]}&nbsp;Branch
                   </Typography>
+                  <Typography
+                    component="span"
+                    variant="body2"
+                    className={classes.inline}
+                    color="textPrimary"
+                    style={{whiteSpace: 'pre-line'}}
+                  >
+                    <br/>{row[state.columns[4]]}&nbsp;
+                  </Typography>
+
+                  
+
+            
                 </React.Fragment>
               }
             />
+           
+            
           </ListItem>
+          {(state.hidden[idx] === false) ? null :
+                  
+                  <React.Fragment>
+    
+                    <FreezerLog
+                      title = "Freezer Log" 
+                      url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
+                      vol_id = {props.user_id}
+                      user_id = {state.freezerManagerId}
+                      delivery_id = {props.delivery_id}
+                      reload = {props.reload}
+                      setReload = {props.setReload}
+                     
+                    >
+                      
+                    </FreezerLog>
+                  </React.Fragment> 
+          }
         </div>
         
       </div>
@@ -288,19 +192,9 @@ function setAlert() {
       {createList}
     </List>
 
-    <Button 
-      variant="contained" 
-      color="secondary" 
-      onClick={setAlert}
-    >
-      I can do this!
-    </Button>
+
 
     </div>
   );
 
-}
-
-
-
-
+  }

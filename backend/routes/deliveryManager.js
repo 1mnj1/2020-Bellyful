@@ -354,6 +354,32 @@ router.post('/submitVolunteer', function(req, res, next) {
 
 })
 
+router.post('/submitFreezer', function(req, res, next) {
+  try {
+    
+  
+    findAddress(req, (add_id)=>{     
+          sqlVars = [
+            req.body.freezerManager,
+            add_id,
+            req.body.branch
+            
+          ]
+          // res.send("Got here!")
+          
+            sql = 'INSERT INTO `freezer` (`freezer_id`, `person_id`, `add_id`, `branch_id`) VALUES (NULL, ?,?,?)'
+            con.query(sql,sqlVars, function (err, result) {
+              if (err) console.log(err)
+              res.sendStatus(200)
+            })
+            
+
+                  
+          });
+  } catch (error) {
+      console.log(error)
+  }
+});
 router.post('/getBranch', function(req, res, next) {
   sql = 'select branch.branch_id as id, branch.branch_name as branch from branch'
 
@@ -385,8 +411,8 @@ router.post('/submitDelivery', function(req, res, next) {
   console.log("Rquest: ",req.body)
   if(req.body.ref !== ''){
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
-    `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, ?, ?, '1', 'current_timestamp()', NULL, NULL, ?)"
+    `delivery_start`, `delivery_end`, `branch_id`)\
+    VALUES (NULL, NULL, ?, ?, '8', NULL, NULL, ?)"
     sqlData = [
       req.body.ref,
       req.body.rec,
@@ -394,8 +420,8 @@ router.post('/submitDelivery', function(req, res, next) {
     ]
   } else {
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
-    `delivery_est_time`, `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, NULL, ?, '1', 'current_timestamp()', NULL, NULL, ?)"
+     `delivery_start`, `delivery_end`, `branch_id`)\
+    VALUES (NULL, NULL, NULL, ?, '8', NULL, NULL, ?)"
     sqlData = [
       req.body.rec,
       req.body.branch
@@ -410,6 +436,154 @@ router.post('/submitDelivery', function(req, res, next) {
         }
     });
 });
+router.post('/updateDelivery', function(req, res, next) {
+  var sql = ""
+  console.log("Rquest: ",req.body)
+  if(req.body.ref !== ''){
+    sql = "UPDATE `delivery` \
+    SET `ref_id` = ?, `delivery_status` = '1',`recipient_id` =  ?, `branch_id` = ? \
+    WHERE `delivery`.`delivery_id` = ?"
+    sqlData = [
+      req.body.ref,
+      req.body.rec,
+      req.body.branch,
+      req.body.delivery_id
+    ]
+  } 
+  con.query(sql, sqlData, function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          res.send([])
+        } else {
+          res.send(result)
+        }
+    });
+});
+
+router.post('/getCompleteDelivery', function(req, res, next) {
+  var sql = '\
+  SELECT \
+refPerson.person_fname as "reffname", \
+refPerson.person_lname as "reflname", \
+refPerson.person_email as "refemail", \
+refPerson.person_phone as "refphone", \
+refPerson.add_num as "refstreetNum", \
+refPerson.add_street as "refstreetName",\
+refPerson.add_suburb as "refsuburb",\
+refPerson.add_city as "refcity",\
+refPerson.add_postcode as "refpostcode",\
+referrer.RT_type as "refRefType",\
+referrer.organisation as "refrefOrg",\
+referrer.notes as "refrefNotes",\
+referrer.person_id as "refperson_id",\
+refPerson.add_id as "refaddress_id",\
+\
+recPerson.person_fname as "recfname",\
+recPerson.person_lname as "reclname",\
+recPerson.person_email as "recemail",\
+recPerson.person_phone as "recphone",\
+recAddress.add_num as "recstreetNum",\
+recAddress.add_street as "recstreetName",\
+recAddress.add_suburb as "recsuburb",\
+recAddress.add_city as "reccity",\
+recAddress.add_postcode as "recpostcode",\
+recipient.rec_adults as "recadults",\
+recipient.rec_children_under_5 as "recchild_under_5",\
+recipient.rec_children_between_5_10 as "recchild_between_5_10",\
+recipient.rec_children_between_11_17 as "recchild_between_11_17",\
+recipient.rec_dietary_req as "recdietaryReq",\
+recipient.rec_allergies as "recallergyNotes",\
+recipient.person_id as "recperson_id",\
+recAddress.add_id as "recaddress_id",\
+recipient.rec_dogs as "recrecDogs",\
+\
+delivery.branch_id as "delbranch"\
+\
+/* todo: meals */\
+\
+from delivery \
+join recipient 								on recipient.person_id = delivery.recipient_id \
+join person as recPerson 					on  recPerson.person_id = delivery.recipient_id  \
+left outer join referrer 					on delivery.ref_id = referrer.person_id \
+left outer join (\
+    select \
+    refPerson.person_id,\
+    refPerson.person_fname ,\
+    refPerson.person_lname ,\
+    refPerson.person_email ,\
+    refPerson.person_phone,\
+    refAddress.add_num ,\
+    refAddress.add_street,\
+    refAddress.add_suburb ,\
+    refAddress.add_city ,\
+    refAddress.add_postcode ,\
+    refAddress.add_id \
+        from person as refPerson \
+        left outer join address as refAddress on refPerson.add_id = refAddress.add_id \
+) as refPerson 		on delivery.ref_id = refPerson.person_id \
+join address as recAddress 					on recPerson.add_id = recAddress.add_id \
+\
+where delivery.delivery_id = ? \
+  \
+'
+  var sqlData = [req.body.delivery_id]
+  
+  con.query(sql, sqlData, function (err, result) {
+        if (err) throw err;
+        if(result.length == 0){
+          console.log("No delivery found!")
+          res.send({
+            "ref": [],
+            "rec": [],
+            "del": []
+        })
+        return;
+        } 
+        var reducer = (target, accumulator, colName) => {
+            if (colName.startsWith(target)){ 
+              field = colName.slice(3)
+              data = result[0][colName]
+              if((field == "address_id" || field == "person_id") && data==null) data = -1
+              else if(data == null) data = ""
+              else if(colName = "recDogs"&&data==0)return accumulator
+              accumulator.push({ "name": field , "value": data})
+            }
+            return accumulator 
+          };
+
+        keys = Object.keys(result[0])
+        ref = keys.reduce((accumulator, colName) =>reducer("ref", accumulator, colName) , [])
+        var selfRef = true
+        for (i = 0; i < ref.length; ++i){
+          if(ref[i]["value"] != "" && ref[i]["value"] != -1) selfRef = false
+        }
+        if(selfRef){
+          ref = [{"name": "selfRef", "value":true}]
+        }
+        rec  = keys.reduce((accumulator, colName) =>reducer("rec", accumulator, colName) , [])
+        del  = keys.reduce((accumulator, colName) =>reducer("del", accumulator, colName) , [])
+        
+        console.log({
+          "ref": ref,
+          "rec": rec,
+          "del":del
+        } )
+        res.send({
+          "ref": ref,
+          "rec": rec,
+          "del": del
+      })
+
+
+    });
+});
+
+
+
+
+
+
+
 
 
 module.exports = router;
