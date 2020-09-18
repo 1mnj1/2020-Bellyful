@@ -40,7 +40,7 @@ export default function MainAppBar(props) {
     <React.Fragment>
         <CssBaseline />
         <HideOnScroll {...props}>
-            <AppBar position="fixed" style = {{background: "rgb(225, 127, 188)"}}>
+            <AppBar position="fixed" color="secondary">
                 <Toolbar variant="dense">
                     <Drawer loggedIn = {props.loggedIn} setLogged = {props.setLogged} setPage = {props.setPage}></Drawer>
                     <Typography variant="h6" color="inherit">
