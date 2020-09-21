@@ -1,6 +1,7 @@
 .App {
-  
+  min-height: 100vh;
   text-align: center;
+  background: -moz-linear-gradient(#eaaad4,white);
 }
 
 .App-MainContents {
@@ -17,11 +18,12 @@
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #c6589f;
 }
 body{
-  background-color: 'pink'
+  background-color: rgb(239, 230, 215)
 }
+
 .App-link {
   color: #61dafb;
 }

@@ -4,6 +4,10 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { CookiesProvider } from 'react-cookie';
+import WebFont from 'webfontloader';
+import "typeface-nunito";
+
+
 ReactDOM.render(
   <React.StrictMode>
     <CookiesProvider>
