@@ -13,6 +13,7 @@ import FreezerManagers from '../c_Freezer/FreezerManagers'
 
 
 function PickMeals(props) {
+    console.log('Inside pick meals function');
     function HideOnScroll(props) {
         const { children, window } = props;
         // Note that you normally won't need to set the window ref as useScrollTrigger
@@ -133,10 +134,6 @@ function PickMeals(props) {
                                     Required meals
                                 </Typography>
                                 {renderMeals(requiredMeals)}
-                                <Typography variant="h5" style = {{textAlign: "center"}} >
-                                    Your Current Meals
-                                </Typography>
-                                {renderMeals(state)}
                             </Paper>
                         </Grid>
                     </Grid>
