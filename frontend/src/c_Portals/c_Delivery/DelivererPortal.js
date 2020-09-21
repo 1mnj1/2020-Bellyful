@@ -167,7 +167,8 @@ function DelivererPortal(props) {
                         user_id = {props.user_id} title = "My confirmed" 
                         url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
                         
-                        : deliveryID > -1 ? 
+                        : 
+                        // deliveryID > -1 ? 
                             <PickMeals 
                             del_ID = {deliveryID} 
                             user_id = {props.user_id} 
@@ -175,11 +176,12 @@ function DelivererPortal(props) {
                             branch_id = {branchID}>
 
                             </PickMeals>
-                            : <DeliveryDriving  
-                                delivery_id = {myConfirmed.deliveryID} 
-                                confirmedState = {myConfirmed}
-                                setConfirmedState = {setMyConfirmed}
-                                setdeliveryID = {setdeliveryID}/>
+                            // : 
+                            // <DeliveryDriving  
+                            //     delivery_id = {myConfirmed.deliveryID} 
+                            //     confirmedState = {myConfirmed}
+                            //     setConfirmedState = {setMyConfirmed}
+                            //     setdeliveryID = {setdeliveryID}/>
                             }
                 </TabPanel>
                 
