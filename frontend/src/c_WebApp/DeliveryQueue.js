@@ -1,4 +1,11 @@
-import React from 'react'
+import React from 'react';
+import AutoTable from './AutoTable'
+// import CreateDeliveryNavigation from './CreateDeliveryNavigation'
+import VolunteerForm from '../c_Forms/VolunteerForm';
+import $ from 'jquery'
+import FreezerForm from '../c_Forms/FreezerForm';
+import { makeStyles } from '@material-ui/core/styles';
+import {Typography, List, ListItem} from '@material-ui/core'
 
 function DeliveryQueue(props){
     const [vol,setVol] = React.useState([{}]);
@@ -28,7 +35,7 @@ function DeliveryQueue(props){
     }
     return(
         <div>
-            <Typography variant = "h4" align = 'left' className = {classes.root}>Delivery Queue</Typography>
+            <Typography variant = "h4" align = 'left'>Delivery Queue</Typography>
             <br/>
             <AutoTable title = "Volunteers" url = {"http://"+window.location.hostname+":3000/manager/getVolunteers" } showAdder = {true}>
                 <VolunteerForm formData = {vol} setForm = {updateVol}/>
@@ -45,3 +52,4 @@ function DeliveryQueue(props){
           </div>
     )
 }
+export default DeliveryQueue;

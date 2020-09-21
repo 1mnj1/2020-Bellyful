@@ -6,6 +6,8 @@ import $ from 'jquery'
 import FreezerForm from '../c_Forms/FreezerForm';
 import { makeStyles } from '@material-ui/core/styles';
 import {Typography, List, ListItem} from '@material-ui/core'
+import DeliveryQueue from './DeliveryQueue.js'
+import DeliveryReporting from './DeliveryReporting.js'
 
 const drawerWidth = 240;
 
@@ -69,7 +71,11 @@ function Reporting() {
           </List>
         </div>
         <div className={classes.mainview}>
-          
+          {selectedIndex === 0 ? null : null}
+          {selectedIndex === 1 ? <DeliveryQueue/> : null}
+          {selectedIndex === 2 ? <DeliveryReporting/> : null}
+          {selectedIndex === 3 ? null : null}
+          {selectedIndex === 4 ? null : null}
         </div>
       </div>
       
