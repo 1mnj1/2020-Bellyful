@@ -48,7 +48,7 @@ function App() {
     
     <ThemeProvider theme={theme}>
       <div className="App">
-        < MainAppBar  setPage = {resetPage} setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level[0]}/>
+        < MainAppBar setPage = {resetPage} setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level[0]}/>
         {/* ONLY THE LOGIN PAGE IS DISPLAYED IF THE USER LEVEL IS 0 */}
         {/* eslint-disable-next-line*/}
         {cookie.user_level[0]!=0? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level[0]>0} />}
