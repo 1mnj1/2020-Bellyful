@@ -50,7 +50,7 @@ const classes = makeStyles((theme) => ({
 
 
 export default function DeliveryDetail (props) {
-
+    console.log('Inside delivery detail function');
     const [state,setState] = React.useState({
         data : [{}],
         columns: [],
@@ -133,7 +133,7 @@ export default function DeliveryDetail (props) {
                 {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>:null}
             </Grid>
            { mobileCheck()? null :<Grid item xs = {6}>
-                <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>
+                <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>View Freezers</Button>
             </Grid>}
         </Grid>
         <br/><br/>

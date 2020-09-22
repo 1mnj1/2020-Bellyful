@@ -13,29 +13,30 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import DeliveryDetail from './DeliveryDetail'
 
+import './testStyles.css';
+
+import DeliveryStartStop from './DeliveryStartStop'
+
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
-    
-    // textAlign: "center",
-    backgroundColor: theme.palette.background.paper,
   },
+
+  list: {
+    backgroundColor: "#f7f7f7",
+  }
 }));
 
 
+
+
 export default function MyOutstanding (props) {
-    
-    // const [state, setState] = React.useState({
-    //     visible: [],
-    //     columns: [ {}, ],
-    //     data: [  ],
-    // });
+
     const state = props.state
     const setState = props.setState
     
-
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
     console.log("User id: ", props.user_id)
     // To get the data
@@ -61,8 +62,7 @@ export default function MyOutstanding (props) {
 
     const classes = useStyles();
   
-    
-    
+  
     console.log(state.data.length)
     console.log(state.data)
     const createList = state.data.map((row, index) => {
@@ -112,6 +112,9 @@ export default function MyOutstanding (props) {
                   </React.Fragment>
                 }
               />
+              {/* <DeliveryStartStop delivery_id = {props.delivery_id}/> */}
+              {/* <Button>{}Start</Button> */}
+              {/* <Button>Stop</Button> */}
             </ListItem>
             
           </div>
@@ -124,7 +127,8 @@ export default function MyOutstanding (props) {
         <h2>{props.title}</h2> 
         
         {state.data.length <= 0 ? 
-        <div className={classes.root} > Nothing to show! </div> : <List className={classes.root}>
+        // <div className={classes.root} > None. Call a recipient from My Outstanding to sort out a delivery time.  </div> : <List className={classes.list}>
+        <div className={classes.root} > None. Call a recipient from My Outstanding to sort out a delivery time.  </div> : <List className={classes.list}>
             {createList}
         </List>}
 

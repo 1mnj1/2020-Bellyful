@@ -22,6 +22,12 @@ const useStyles = makeStyles((theme) => ({
     padding : 0,
     backgroundColor: theme.palette.background.paper,
   },
+
+
+  list: {
+    backgroundColor: "#f7f7f7",
+  }
+
 }));
 
 
@@ -108,11 +114,6 @@ export default function UnassignedDeliveries (props) {
     // console.log("Row: ",row, "Value: ", value)
     const labelId = `checkbox-list-label-${value}`;
 
-    // console.log("row 1: ", row[state.columns[1]])
-    // console.log("row 2: ", row[state.columns[2]])
-    // console.log("row 3: ", row[state.columns[3]])
-    // console.log("row 4: ", row[state.columns[4]])
-
     return (
         <div className = {classes.root}>
           <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)} >
@@ -168,12 +169,11 @@ export default function UnassignedDeliveries (props) {
     <div style = {{overflowX: "hidden", padding : '0px'}}>
       <h2>{props.title}</h2> 
     
-      <List className={classes.root} >
+      <List className={classes.list} >
         {createList}
       </List>
 
       <Button 
-        
         variant="contained" 
         color="secondary" 
         onClick={setAlert}

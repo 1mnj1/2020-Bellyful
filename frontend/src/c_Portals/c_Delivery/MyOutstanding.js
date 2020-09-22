@@ -22,6 +22,13 @@ const useStyles = makeStyles((theme) => ({
     // textAlign: "center",
     backgroundColor: theme.palette.background.paper,
   },
+
+
+  list: {
+    backgroundColor: "#f7f7f7",
+  }
+
+
 }));
 
 
@@ -159,7 +166,7 @@ export default function MyOutstanding (props) {
         {state.data.length <= 0 ? 
         <div className={classes.root} > Nothing to show! </div> 
         : 
-        <List className={classes.root}>
+        <List className={classes.list}>
             {createList}
         </List>}
 

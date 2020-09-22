@@ -92,7 +92,6 @@ function PickMeals(props) {
         })               
     }
     const mobileCheck = function() {
-        
         return window.screen.width < 620
       };
 
@@ -139,12 +138,12 @@ function PickMeals(props) {
                     </Grid>
                 </div>
                 <FreezerManagers
-                    title = "Freezer Managers from Pick Meal page"
+                    // title = "Freezer Managers from Pick Meal page"
                     url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}
                     user_id = {props.user_id}
                     state = {branchManagers} 
+                    hidden = {true}
                     setState = {setBranchManagers}
-                    // delivery_id = {props.delivery_id}
                     delivery_id = {props.del_ID}
                     branch_id = {props.branch_id}
                     reload = {reloadMeals}
