@@ -69,6 +69,15 @@ export default function MyOutstanding (props) {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
       // console.log("MY Confirmed value: ",value)
+      console.log(row[state.columns[0]]);
+      console.log(row[state.columns[1]]);
+      console.log(row[state.columns[2]]);
+      console.log(row[state.columns[3]]);
+      console.log(row[state.columns[4]]);
+      console.log(row[state.columns[5]]);
+      console.log(row[state.columns[6]]); // start time
+      console.log(row[state.columns[7]]); // end time
+
       return (
         
         <div>
@@ -113,8 +122,12 @@ export default function MyOutstanding (props) {
                 }
               />
               {/* <DeliveryStartStop delivery_id = {props.delivery_id}/> */}
-              {/* <Button>{}Start</Button> */}
-              {/* <Button>Stop</Button> */}
+              <Button 
+                variant="contained" 
+                color="start"
+              > 
+                {row[state.columns[6]] === undefined ? 'Start' : 'Stop'} 
+              </Button>
             </ListItem>
             
           </div>
