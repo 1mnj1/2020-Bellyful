@@ -94,7 +94,7 @@ export default function  DeliveryDriving(props) {
                 </HideOnScroll>
             </div>
             <div style = {{paddingTop: "3vh", paddingBottom: "10vh", overflowX: "hidden"}}>
-                <DeliveryStartStop delivery_id = {props.delivery_id}/>
+                {/* <DeliveryStartStop delivery_id = {props.delivery_id}/> */}
                 <div style = {{    background: "white",
                     marginLeft: "3%",
                     marginBottom: "1%",
