@@ -159,10 +159,10 @@ export default function DeliveryDetail (props) {
                 Update Notes
             </Button>
             <br/><br/>
-            <Button variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%"}}>
+            <Button variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%", backgroundColor : 'green', color : 'white'}}>
                 Call
             </Button> 
-            <Button variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"40%":"46%"}}>
+            <Button variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"40%":"46%", backgroundColor : 'blue', color : 'white'}}>
                 Text
             </Button> <br/> <br/>
             
