@@ -9,6 +9,12 @@ export const theme = createMuiTheme({
         secondary: {
           main: '#c6589f',
         },
+        start: {
+          main: '#24a85b',
+        },
+        stop: {
+          main: '#dd4a4e'
+        }
     },
     typography: {
         fontFamily: "Nunito",
