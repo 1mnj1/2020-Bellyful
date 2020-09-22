@@ -130,7 +130,7 @@ export default function DeliveryDetail (props) {
         <Grid container spacing = {3}>
             <Grid item xs = {mobileCheck()? 10 : 6} >
                 <Paper className={classes.paper} >{renderMeals()}</Paper>
-                {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>:null}
+                {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>View Freezers</Button>:null}
             </Grid>
            { mobileCheck()? null :<Grid item xs = {6}>
                 <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>View Freezers</Button>
