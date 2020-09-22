@@ -152,7 +152,7 @@ function DelivererPortal(props) {
 
                         </PickMeals>
                         : 
-                        <MyOustanding user_id = {props.user_id} title = "My Outstanding" 
+                        <MyOustanding user_id = {props.user_id} title = "My Outstanding Deliveries" 
                         setdeliveryID = {setdeliveryID}
                         url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}
                         myOustanding = {myOustanding} setMyOutstanding = {setMyOutstanding}/>
@@ -164,7 +164,7 @@ function DelivererPortal(props) {
                         <MyConfirmed 
                         state = {myConfirmed} 
                         setState = {setMyConfirmed}
-                        user_id = {props.user_id} title = "My confirmed" 
+                        user_id = {props.user_id} title = "My Confirmed Deliveries" 
                         url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
                         
                         : deliveryID > -1 ? 

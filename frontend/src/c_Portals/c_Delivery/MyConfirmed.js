@@ -138,10 +138,11 @@ export default function MyOutstanding (props) {
     return (
       <div style = {{overflowX: "hidden", paddingBottom: "20vh"}}>
         <h2>{props.title}</h2> 
+        <h5>{state.data.length <= 0 ? 'None. Call a recipient from My Outstanding to sort out a delivery time.' : 'Which one are you doing now?'}</h5>
+        <br/>
         
         {state.data.length <= 0 ? 
-        // <div className={classes.root} > None. Call a recipient from My Outstanding to sort out a delivery time.  </div> : <List className={classes.list}>
-        <div className={classes.root} > None. Call a recipient from My Outstanding to sort out a delivery time.  </div> : <List className={classes.list}>
+        <div className={classes.root} > </div> : <List className={classes.list}>
             {createList}
         </List>}
 
