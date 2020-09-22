@@ -94,7 +94,7 @@ export default function DeliveryDetail (props) {
                         >
                         <b> {row[state.columns[0]]}:   x {row[state.columns[1]]}</b><br/>
                         </Typography>     
-                </React.Fragment> 
+                </React.Fragment>
             ) 
         })               
     }
@@ -127,15 +127,17 @@ export default function DeliveryDetail (props) {
     
     return (
       <div style = {{overflowX: "hidden", textAlign : "left", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
-        <Grid container spacing = {3}>
+        {/* <Grid container spacing = {3}>
             <Grid item xs = {mobileCheck()? 10 : 6} >
                 <Paper className={classes.paper} >{renderMeals()}</Paper>
-                {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>:null}
+                 {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>:null}
             </Grid>
            { mobileCheck()? null :<Grid item xs = {6}>
                 <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>
-            </Grid>}
-        </Grid>
+                
+            </Grid>
+        </Grid> */}
+        {renderMeals()}
         <br/><br/>
         <form className = "Delivery_Detail">
             

@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import LocalShipping from '@material-ui/icons/LocalShipping'
-import { Person } from '@material-ui/icons';
+import { Person, AcUnit } from '@material-ui/icons';
 
 const pageIndex = require('./pageIndexer')
 const useStyles = makeStyles({
@@ -80,10 +80,10 @@ export default function SwipeableTemporaryDrawer(props) {
                 > 
                   <List>
                     {/* If the user's logged in status is greater than 2 (managers are level 3) show reporting tab */}
-                    {(props.loggedIn>2) ? listItem("Reporting", <AssessmentIcon/>,pageIndex["reporting"]) : null       }
-                    {(props.loggedIn>2) ? listItem("Delivery Reporting", <AssessmentIcon/>,pageIndex["deliveryreporting"]) : null       }
-                    {(props.loggedIn>1) ? listItem("Freezer Portal", <LocalShipping/>,pageIndex["freezerportal"]) : null       }
-                    {(props.loggedIn>0) ? listItem("Deliverer Portal", <LocalShipping/>,pageIndex["delivererportal"]) : null       }
+                    {(props.loggedIn>2) ? listItem("Managers Portal", <AssessmentIcon/>,pageIndex["reporting"]) : null       }
+                    {/* {(props.loggedIn>2) ? listItem("Delivery Reporting", <AssessmentIcon/>,pageIndex["deliveryreporting"]) : null       } */}
+                    {(props.loggedIn>1) ? listItem("Freezers", <AcUnit/>,pageIndex["freezerportal"]) : null       }
+                    {(props.loggedIn>0) ? listItem("Deliveries", <LocalShipping/>,pageIndex["delivererportal"]) : null       }
                     {(props.loggedIn>0) ? listItem("Profile", <Person/>,pageIndex["profile"]) : null       }
 
                   </List>

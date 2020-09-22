@@ -195,9 +195,9 @@ function DelivererPortal(props) {
                 variant="fullWidth"
                 aria-label="full width tabs example"
                 >
-                <Tab label="Branch Outstanding" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
-                <Tab label="My Outstanding" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
+                <Tab label="Branch Outstanding" {...a11yProps(0)} />
+                <Tab label="My Outstanding" {...a11yProps(1)} />
+                <Tab label="My Confirmed" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
         </div>
