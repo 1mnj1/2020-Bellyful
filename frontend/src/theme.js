@@ -14,6 +14,12 @@ export const theme = createMuiTheme({
         },
         stop: {
           main: '#dd4a4e'
+        },
+        text: {
+          main: '#3d90fa'
+        },
+        lightGrey: {
+          main: '#f5f5f5'
         }
     },
     typography: {
