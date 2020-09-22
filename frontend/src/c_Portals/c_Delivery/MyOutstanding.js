@@ -105,7 +105,7 @@ export default function MyOutstanding (props) {
             <ListItem key={value} role={undefined} dense button onClick={handleToggle(index)}>
                          
               <ListItemText
-                primary={row[state.columns[1]]}
+                primary={<Typography style = {{fontWeight : 'bold'}} variant = "body">{row[state.columns[1]]}</Typography>}
                 secondary={
                   <React.Fragment>
                     <Typography

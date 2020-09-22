@@ -28,10 +28,10 @@ router.post('/', function(req, res, next) {
             var data = $(result).serializeArray();
             res.send(String(data))
         }
-    }
+    })
 
     // res.send("Correct!")
-);}
+});
 
 
 

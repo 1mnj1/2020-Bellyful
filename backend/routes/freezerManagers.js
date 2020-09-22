@@ -130,5 +130,22 @@ router.post('/removeMeals', function(req, res, next) {
 
 });
 
+router.post('/getTotalMeals', function(req, res, next){
+
+  sql = 'select meal_type.meal_type as "Meal" , COUNT(M.meal_id) as "Count" from meal_type left outer join meal as M on meal_type.MT_id = M.meal_type group by meal_type.MT_id'
+
+  con.query(sql, function (err, result) {
+    if (err) throw err;
+    console.log("Got a result!\n");
+    console.log(result)
+    if(result.length == 0){
+      res.send(404)
+    } else {
+      res.send(result)
+    }
+  })
+});
+
+
 
 module.exports = router;
