@@ -12,8 +12,13 @@ import FreezerLog from './FreezerLog';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
+    // backgroundColor: theme.palette.background.paper,
+    backgroundColor: "#ffffff",
   },
+
+  // list: {
+  //   backgroundColor: "#f7f7f7",
+  // }
 }));
 
 
@@ -29,9 +34,6 @@ export default function FreezerManagers (props) {
       $.post( "http://"+window.location.hostname+":3000/volunteer/getMealsPerManager",[{"name":"branch_id","value":props.branch_id},  {"name":"delivery_id","value":props.delivery_id} ], 
           function(returnable) {
             var newfields = Object.keys(returnable[0])
-          
-            
-          
             var meals = returnable.map((row)=>{
               return row[newfields[1]]
             })
@@ -55,9 +57,6 @@ export default function FreezerManagers (props) {
           $.post( "http://"+window.location.hostname+":3000/volunteer/getMealsPerManager",[{"name":"branch_id","value":props.branch_id},  {"name":"delivery_id","value":props.delivery_id} ], 
           function(returnable) {
             var newfields = Object.keys(returnable[0])
-          
-            
-          
             meals = returnable.map((row)=>{
               return row[newfields[1]]
             })
@@ -71,7 +70,6 @@ export default function FreezerManagers (props) {
       })
     }, [props.url,props.user_id ]);
 
-  
 
 
   const classes = useStyles();
@@ -162,7 +160,7 @@ export default function FreezerManagers (props) {
            
             
           </ListItem>
-          {(state.hidden[idx] === false) ? null :
+          {(state.hidden[idx] === false) || (props.hidden === true) ? null :
                   
                   <React.Fragment>
     
@@ -186,9 +184,9 @@ export default function FreezerManagers (props) {
     );
   })
   return (
-    <div style = {{overflowX: "hidden"}}>
+    <div style = {{overflowX: "hidden",  paddingBottom: "20vh"}} className={classes.root}>
       <h2>{props.title}</h2> 
-    <List className={classes.root}>
+    <List className={classes.list}>
       {createList}
     </List>
 
