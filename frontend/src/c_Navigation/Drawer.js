@@ -82,7 +82,7 @@ export default function SwipeableTemporaryDrawer(props) {
                     {/* If the user's logged in status is greater than 2 (managers are level 3) show reporting tab */}
                     {(props.loggedIn>2) ? listItem("Managers Portal", <AssessmentIcon/>,pageIndex["reporting"]) : null       }
                     {/* {(props.loggedIn>2) ? listItem("Delivery Reporting", <AssessmentIcon/>,pageIndex["deliveryreporting"]) : null       } */}
-                    {(props.loggedIn>1) ? listItem("Freezers", <AcUnit/>,pageIndex["freezerportal"]) : null       }
+                    {(props.loggedIn>0) ? listItem("Freezers", <AcUnit/>,pageIndex["freezerportal"]) : null       }
                     {(props.loggedIn>0) ? listItem("Deliveries", <LocalShipping/>,pageIndex["delivererportal"]) : null       }
                     {(props.loggedIn>0) ? listItem("Profile", <Person/>,pageIndex["profile"]) : null       }
 

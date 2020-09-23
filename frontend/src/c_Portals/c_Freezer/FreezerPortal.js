@@ -76,7 +76,7 @@ function FreezerPortal(props) {
     const theme = useTheme();
 
 
-    const [value, setValue] = React.useState('0');
+    const [value, setValue] = React.useState(1);
     const [branchManagerClicked, setBranchManagerClicked] = React.useState(-1);
     const [freezerManagerId, setFreezerManagerId] = React.useState(-1);
 
@@ -100,19 +100,25 @@ function FreezerPortal(props) {
     }
 
     React.useEffect(()=>{
+        console.log("Testng use affect: ",  props.user_id)
         $.post( "http://"+window.location.hostname+":3000/volunteer/getBranch",[{name: "vol_id", value: props.user_id}], function(returnable) {
             if(returnable === null) return 
             if (returnable === undefined) return 
             if(returnable.length === 0) return
+
             $(setBranchID(returnable))
             return
              
     })}, [props.user_id]);
+    React.useEffect(()=>{
+        setValue(1)    
+    }, [props.user_id]);
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
     return (
-        <>
-        <div className={classes.root}>
+        <div>
+            {props.user_level > 1 ?
+            <div className={classes.root}>
                 <SwipeableViews
                     axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                     index={value}
@@ -180,14 +186,31 @@ function FreezerPortal(props) {
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     >
-                    <Tab label="Freezer Managers" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
+                    <Tab hidden = "true" label="Freezer Managers" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
                     <Tab label="Volunteer Freezer" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                    <Tab label="My Itenerary" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
+                    
 
                     </Tabs>
                 </AppBar>
-                </div>
-        </>
+                </div> : 
+                
+                
+                <FreezerManagers 
+                            title="Volunteer Freezers" 
+                            state = {branchManagers} 
+                            setState = {setBranchManagers}
+                            user_id = {props.user_id}
+                            branch_id = {branchID}
+                            delivery_id = {-2}
+                            reload = {1}
+                            setReload = {(num)=>0}
+                            // url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
+                            url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}>
+
+                    
+
+                        </FreezerManagers>}
+        </div>
         
         
 

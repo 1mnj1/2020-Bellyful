@@ -54,7 +54,7 @@ function App() {
         {cookie.user_level[0]!=0? null: <LoginTab setLogged = {(status)=>{ setCookie("user_level", status, { path: '/' }) }} loggedIn = {cookie.user_level[0]>0} />}
         {page === pageIndex["deliveryreporting"] && cookie.user_level[0]>2 ? <DeliveryReporting/> : null}
         {page === pageIndex["reporting"] && cookie.user_level[0]>2 ? <Reporting/> : null}
-        {page === pageIndex["freezerportal"] && cookie.user_level[0]>=2 ? <FreezerPortal user_id = {cookie.user_level[1]}/> : null}
+        {page === pageIndex["freezerportal"] && cookie.user_level[0]>=1 ? <FreezerPortal user_id = {cookie.user_level[1]} user_level = {cookie.user_level[0]}/> : null}
         {page === pageIndex["delivererportal"] && cookie.user_level[0]>=1 ? <DelivererPortal user_id = {cookie.user_level[1]}/> : null}
         {page === pageIndex["profile"] && cookie.user_level[0]>=1 ? <ProfilePage user_id = {cookie.user_level[1]}/> : null}
         {/* {page === pageIndex["base"] && cookie.user_level[0]>=1 ? <DeliveryDriving  delivery_id = {1} />: null}  */}
