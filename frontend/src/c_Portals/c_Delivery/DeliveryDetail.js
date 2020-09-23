@@ -63,7 +63,7 @@ export default function DeliveryDetail (props) {
     
     //get the meals for this delivery
     React.useEffect(()=>{
-        $.post("http://"+window.location.hostname+":3000/volunteer/getMealsForDelivery",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
+        $.post("http://"+window.location.hostname+":3000/volunteer/getMealsRequired",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)
             if(returnable === null) return 
             if (returnable === undefined) return 

@@ -12,8 +12,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import DeliveryDetail from './DeliveryDetail'
-
-
+import ReqMeals from '../c_Freezer/ReqMeals'
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,44 +74,50 @@ export default function MyOutstanding (props) {
         <div>
           <div>
             <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, deliveryID: value})    }>
-                         
-              <ListItemText
-                primary={row[state.columns[1]]}
-                secondary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      color="textPrimary"
-                      //name
-                    >
-                      {row[state.columns[2]]}
-                    </Typography>
-                    
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      color="textPrimary"
-                      style={{whiteSpace: 'pre-line'}}
-                      // street
-                    >
-                      <br/>{row[state.columns[3]]}
-                    </Typography>
-                    <Typography
-                      component="span"
-                      variant="body2"
-                      className={classes.inline}
-                      style={{whiteSpace: 'pre-line'}} 
-                      //phone
-                    >
-                    {/* the style whitespace property allows the use of the newline character */}
-                    <br/> {row[state.columns[4]]} {row[state.columns[4]]>1? "Meals": "Meal"}
-                    </Typography>
-                  </React.Fragment>
-                }
-              />
+              <Grid  container spacing={3}>
+                <Grid item xs={12} sm={9}>
+                  <ListItemText
+                    primary={row[state.columns[1]]}
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                          //name
+                        >
+                          {row[state.columns[2]]}
+                        </Typography>
+                        
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                          style={{whiteSpace: 'pre-line'}}
+                          // street
+                        >
+                          <br/>{row[state.columns[3]]}
+                        </Typography>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          style={{whiteSpace: 'pre-line'}} 
+                          //phone
+                        >
+                        {/* the style whitespace property allows the use of the newline character */}
+                        </Typography>
+                        
+                      </React.Fragment>
+                    }
+                  /> 
+                  </Grid>
+                <Grid item xs={12} sm={3}>
+                  <ReqMeals delivery_id = {value}/>
+                </Grid>
+              </Grid>
             </ListItem>
             
           </div>
