@@ -26,16 +26,16 @@ const useStyles = makeStyles((theme) => ({
     Navigation_root: {
       width: '100%',
       position: 'fixed',
-      bottom: 0
-    },
-    root: {
-        backgroundColor: 'rgb(239, 230, 215)',
-        flexGrow: 1
+      bottom: 0,
+      padding : 0,
     },
     fullPanel : {
         width :'100%',
         height : '100%',
-        backgroundColor : 'blue'
+        padding : 0,
+    },
+    tabPanel :  {
+        padding : 0,
     }
 
 }));
@@ -120,16 +120,16 @@ function DelivererPortal(props) {
  
 
     return (
-        <div className={classes.root}>
+        <div>
             
                 
             <SwipeableViews
                 axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
                 index={value}
-
+                className = {classes.fullPanel}
                 onChangeIndex={handleChangeIndex}
             >
-                <TabPanel value={value} index={0} dir={theme.direction}>
+                <TabPanel value={value} index={0} dir={theme.direction} className = {classes.tabPanel}>
                         {/* Assigned Deliveries */}
                         <UnassignedDeliveries 
 
@@ -138,10 +138,10 @@ function DelivererPortal(props) {
                             user_id = {props.user_id}
                             branch_id = {branchID}
                         >
-                    </UnassignedDeliveries>
+                        </UnassignedDeliveries>
                     
                 </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
+                <TabPanel value={value} index={1} dir={theme.direction} >
 
                     {deliveryID > -1 ? 
                         <PickMeals 
@@ -152,7 +152,7 @@ function DelivererPortal(props) {
 
                         </PickMeals>
                         : 
-                        <MyOustanding user_id = {props.user_id} title = "My Outstanding" 
+                        <MyOustanding user_id = {props.user_id} title = "My Outstanding Deliveries" 
                         setdeliveryID = {setdeliveryID}
                         url = {"http://"+window.location.hostname+":3000/volunteer/getToContactDeliveries"}
                         myOustanding = {myOustanding} setMyOutstanding = {setMyOutstanding}/>
@@ -164,7 +164,7 @@ function DelivererPortal(props) {
                         <MyConfirmed 
                         state = {myConfirmed} 
                         setState = {setMyConfirmed}
-                        user_id = {props.user_id} title = "My confirmed" 
+                        user_id = {props.user_id} title = "My Confirmed Deliveries" 
                         url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
                         
                         : 

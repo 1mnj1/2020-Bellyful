@@ -162,7 +162,7 @@ router.post('/getToContactDeliveries', function(req, res, next) {
   router.post('/getAssignedIntransit', function(req, res, next) {
 
 
-    var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email\
+    var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, person.person_phone AS phone, (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals, person.person_email AS email, delivery.delivery_start AS 'Start Time, delivery.delivery_end AS 'End Time'\
     FROM delivery\
     JOIN person on delivery.recipient_id = person.person_id\
     JOIN address on address.add_id = person.add_id\

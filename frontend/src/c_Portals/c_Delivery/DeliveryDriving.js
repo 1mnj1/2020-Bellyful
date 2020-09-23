@@ -28,6 +28,8 @@ import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 export default function  DeliveryDriving(props) {
+
+    console.log('Inside delivery driving function');
     function HideOnScroll(props) {
         const { children, window } = props;
         // Note that you normally won't need to set the window ref as useScrollTrigger
@@ -92,8 +94,7 @@ export default function  DeliveryDriving(props) {
                 </HideOnScroll>
             </div>
             <div style = {{paddingTop: "3vh", paddingBottom: "10vh", overflowX: "hidden"}}>
-                <DeliveryStartStop delivery_id = {props.delivery_id}/>
-                {address==null?null: <DeliveryMap addressDetails = {address}/>}
+                {/* <DeliveryStartStop delivery_id = {props.delivery_id}/> */}
                 <div style = {{    background: "white",
                     marginLeft: "3%",
                     marginBottom: "1%",

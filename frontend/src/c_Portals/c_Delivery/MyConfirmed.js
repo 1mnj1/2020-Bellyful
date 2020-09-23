@@ -13,29 +13,30 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import DeliveryDetail from './DeliveryDetail'
 
+import './testStyles.css';
+
+import DeliveryStartStop from './DeliveryStartStop'
+
 
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
-    
-    // textAlgit n: "center",
-    backgroundColor: theme.palette.background.paper,
   },
+
+  list: {
+    backgroundColor: "#f7f7f7",
+  }
 }));
 
 
+
+
 export default function MyOutstanding (props) {
-    
-    // const [state, setState] = React.useState({
-    //     visible: [],
-    //     columns: [ {}, ],
-    //     data: [  ],
-    // });
+
     const state = props.state
     const setState = props.setState
     
-
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
     console.log("User id: ", props.user_id)
     // To get the data
@@ -61,14 +62,22 @@ export default function MyOutstanding (props) {
 
     const classes = useStyles();
   
-    
-    
+  
     console.log(state.data.length)
     console.log(state.data)
     const createList = state.data.map((row, index) => {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
       // console.log("MY Confirmed value: ",value)
+      console.log(row[state.columns[0]]);
+      console.log(row[state.columns[1]]);
+      console.log(row[state.columns[2]]);
+      console.log(row[state.columns[3]]);
+      console.log(row[state.columns[4]]);
+      console.log(row[state.columns[5]]);
+      console.log(row[state.columns[6]]); // start time
+      console.log(row[state.columns[7]]); // end time
+
       return (
         
         <div>
@@ -112,6 +121,13 @@ export default function MyOutstanding (props) {
                   </React.Fragment>
                 }
               />
+              {/* <DeliveryStartStop delivery_id = {props.delivery_id}/> */}
+              <Button 
+                variant="contained" 
+                color="start"
+              > 
+                {row[state.columns[6]] === undefined ? 'Start' : 'Stop'} 
+              </Button>
             </ListItem>
             
           </div>
@@ -122,11 +138,13 @@ export default function MyOutstanding (props) {
     return (
       <div style = {{overflowX: "hidden", paddingBottom: "20vh"}}>
         <h2>{props.title}</h2> 
+        <h5>{state.data.length <= 0 ? 'None. Call a recipient from My Outstanding to sort out a delivery time.' : 'Which one are you doing now?'}</h5>
+        <br/>
         
         {state.data.length <= 0 ? 
-        <div className={classes.root} > Nothing to show! </div> 
-        : 
-        <List className={classes.root}>
+        <div className={classes.root} > </div>
+         : 
+         <List className={classes.list}>
             {createList}
         </List>}
         {/* https://www.google.co.nz/maps/place/Massey+University,+Auckland+Campus/@-36.7337425,174.6971653,16z/data=!4m8!1m2!2m1!1smassey+univerity!3m4!1s0x6d0d3bec3accd2e5:0xf92ffe426da0a3d0!8m2!3d-36.7337425!4d174.7015427

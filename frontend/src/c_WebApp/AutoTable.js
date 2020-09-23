@@ -115,12 +115,14 @@ export default function AutoTable(props){
     <Collapsible trigger = {props.title}
     transitionTime={100} 
     triggerClassName = 'CustomTriggerCSS--open'
-    triggerOpenedClassName = 'CustomTriggerCSS'>
+    triggerOpenedClassName = 'CustomTriggerCSS'
+    open = {true}>
         <MaterialTable
         title= {null}
         columns={state.columns}
         data={state.data}
         icons={tableIcons}
+
         // detailPanel = {rowData => {
         //   return(
         //     <div>

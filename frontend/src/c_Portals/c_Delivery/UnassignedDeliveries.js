@@ -17,11 +17,17 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100vw",
-    
+    width: "100%",
     // textAlign: "center",
+    padding : 0,
     backgroundColor: theme.palette.background.paper,
   },
+
+
+  list: {
+    backgroundColor: "#f7f7f7",
+  }
+
 }));
 
 
@@ -108,15 +114,9 @@ export default function UnassignedDeliveries (props) {
     // console.log("Row: ",row, "Value: ", value)
     const labelId = `checkbox-list-label-${value}`;
 
-    // console.log("row 1: ", row[state.columns[1]])
-    // console.log("row 2: ", row[state.columns[2]])
-    // console.log("row 3: ", row[state.columns[3]])
-    // console.log("row 4: ", row[state.columns[4]])
-
     return (
-      <div>
-        <div>
-          <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)}>
+        <div className = {classes.root}>
+          <ListItem key={value} role={undefined} dense button onClick={handleToggle(value)} >
             <ListItemIcon>
               <Checkbox
                 edge="start"
@@ -162,26 +162,24 @@ export default function UnassignedDeliveries (props) {
             />
           </ListItem>
         </div>
-        
-      </div>
     );
   })
   console.log(state.data)
   return (
-    <div style = {{overflowX: "hidden"}}>
+    <div style = {{overflowX: "hidden", padding : '0px'}}>
       <h2>{props.title}</h2> 
     
-    <List className={classes.root}>
-      {createList}
-    </List>
+      <List className={classes.list} >
+        {createList}
+      </List>
 
-    <Button 
-      variant="contained" 
-      color="secondary" 
-      onClick={setAlert}
-    >
-      I can do this!
-    </Button>
+      <Button 
+        variant="contained" 
+        color="secondary" 
+        onClick={setAlert}
+      >
+        I can do this!
+      </Button>
 
     </div>
   );

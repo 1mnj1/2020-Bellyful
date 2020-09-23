@@ -13,6 +13,7 @@ import FreezerManagers from '../c_Freezer/FreezerManagers'
 
 
 function PickMeals(props) {
+    console.log('Inside pick meals function');
     function HideOnScroll(props) {
         const { children, window } = props;
         // Note that you normally won't need to set the window ref as useScrollTrigger
@@ -91,7 +92,6 @@ function PickMeals(props) {
         })               
     }
     const mobileCheck = function() {
-        
         return window.screen.width < 620
       };
 
@@ -133,21 +133,17 @@ function PickMeals(props) {
                                     Required meals
                                 </Typography>
                                 {renderMeals(requiredMeals)}
-                                <Typography variant="h5" style = {{textAlign: "center"}} >
-                                    Your Current Meals
-                                </Typography>
-                                {renderMeals(state)}
                             </Paper>
                         </Grid>
                     </Grid>
                 </div>
                 <FreezerManagers
-                    title = "Freezer Managers from Pick Meal page"
+                    // title = "Freezer Managers from Pick Meal page"
                     url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}
                     user_id = {props.user_id}
                     state = {branchManagers} 
+                    hidden = {true}
                     setState = {setBranchManagers}
-                    // delivery_id = {props.delivery_id}
                     delivery_id = {props.del_ID}
                     branch_id = {props.branch_id}
                     reload = {reloadMeals}

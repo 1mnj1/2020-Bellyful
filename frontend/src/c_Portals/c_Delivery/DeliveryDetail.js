@@ -50,7 +50,7 @@ const classes = makeStyles((theme) => ({
 
 
 export default function DeliveryDetail (props) {
-
+    console.log('Inside delivery detail function');
     const [state,setState] = React.useState({
         data : [{}],
         columns: [],
@@ -129,12 +129,11 @@ export default function DeliveryDetail (props) {
       <div style = {{overflowX: "hidden", textAlign : "left", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
         <Grid container spacing = {3}>
             <Grid item xs = {mobileCheck()? 10 : 6} >
-                {/* This might be needed. Ensure it shows the meals that the RCß picked for the recipient and not the voulunteer */}
-                {/* <Paper className={classes.paper} >{renderMeals()}</Paper>
-                {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>:null} */}
+                <Paper className={classes.paper} >{renderMeals()}</Paper>
+                {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>View Freezers</Button>:null}
             </Grid>
            { mobileCheck()? null :<Grid item xs = {6}>
-                {/* <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button> */}
+                <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>View Freezers</Button>
             </Grid>}
         </Grid>
         <br/><br/>
@@ -156,28 +155,28 @@ export default function DeliveryDetail (props) {
 
               />
                <br/> <br/>
-               <Button variant="contained"  onClick = {updateNotes} style = {{position: "relative" ,     width: mobileCheck()?"80%":"92%"}}>
-                Update Notes
+               <Button variant="contained" color="text" onClick = {updateNotes} style = {{position: "relative" ,     width: mobileCheck()?"80%":"92%"}}>
+                Save
             </Button>
             <br/><br/>
-            <Button variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%"}}>
+            <Button variant="contained" color="start" onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%"}}>
                 Call
             </Button> 
-            <Button variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"40%":"46%"}}>
+            <Button variant="contained" color="text" onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"40%":"46%"}}>
                 Text
             </Button> <br/> <br/>
             
             {props.outstanding ? 
             (<div><Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
-                Add to Confirmed Deliveries
+                Add to My Confirmed Deliveries
             </Button> <br/> <br/> </div>): null}
             <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Cancelled by recipient
             </Button> <br/> <br/>
-            <Button variant="contained"  onClick = {()=>updateDelState("Unassigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
-                I cant do this anymore
+            <Button variant="contained" color="lightGrey" onClick = {()=>updateDelState("Unassigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
+                Can't do afterall
             </Button> <br/>
-
+            
         </form>
       </div>
     );
