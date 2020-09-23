@@ -45,6 +45,10 @@ const classes = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
         
       },
+    button : {
+        padding : '2%',
+        width : '90%'
+    }
   }));
 
 
@@ -142,42 +146,48 @@ export default function DeliveryDetail (props) {
         <form className = "Delivery_Detail">
             
             <TextField
-            InputLabelProps={{
-                shrink: true,
-              }}
-              style = {{width: mobileCheck()?"80%":"92%"}}
-              autoFocus = {true}
-              id="Delivery Notes"
-              label="Delivery Notes"
-              name = "refNotes"
-              defaultValue = {state.notes}
-              multiline
-              rows = "3"
-              variant = "outlined"
+                InputLabelProps={{
+                    shrink: true,
+                    }}
+                style = {{width: mobileCheck()?"80%":"92%"}}
+                autoFocus = {true}
+                id="Delivery Notes"
+                label="Delivery Notes"
+                name = "refNotes"
+                defaultValue = {state.notes}
+                multiline
+                rows = "3"
+                variant = "outlined"/>
 
-              />
-               <br/> <br/>
-               <Button variant="contained"  onClick = {updateNotes} style = {{position: "relative" ,     width: mobileCheck()?"80%":"92%"}}>
+            <br/> <br/>
+
+            <Button className = {classes.button} variant="contained"  onClick = {updateNotes} style = {{position: "relative" ,     width: "90%"}}>
                 Update Notes
             </Button>
+
             <br/><br/>
-            <Button variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%", backgroundColor : 'green', color : 'white'}}>
+
+            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: '30%', backgroundColor : '#6cff6c', color : 'white'}}>
                 Call
             </Button> 
-            <Button variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"40%":"46%", backgroundColor : 'blue', color : 'white'}}>
+
+            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: '30%', backgroundColor : '#6c7bff', color : 'white', marginRight : 'auto'}}>
                 Text
-            </Button> <br/> <br/>
+            </Button> 
+            
+            <br/> <br/>
             
             {props.outstanding ? 
-            (<div><Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
+            (<div><Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{backgroundColor : '#c6589f', color : 'white'}}>
                 Add to Confirmed Deliveries
             </Button> <br/> <br/> </div>): null}
-            <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width: mobileCheck()?"80%":"92%"}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} >
                 Cancelled by recipient
             </Button> <br/> <br/>
-            <Button variant="contained"  onClick = {()=>updateDelState("Unassigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Unassigned")} >
                 I cant do this anymore
             </Button> <br/>
+        
 
         </form>
       </div>
