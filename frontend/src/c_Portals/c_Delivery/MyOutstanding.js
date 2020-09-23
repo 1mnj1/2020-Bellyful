@@ -17,7 +17,7 @@ import DeliveryDetail from './DeliveryDetail'
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "100vw",
+    width: "100%",
     
     // textAlign: "center",
     backgroundColor: theme.palette.background.paper,
