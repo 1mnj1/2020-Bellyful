@@ -471,7 +471,8 @@ con.query(sql[0], function (err, result) {
     router.post('/setStop', function(req, res, next) {
   
       var sql = 'UPDATE delivery \
-      SET delivery.delivery_end = CURRENT_TIMESTAMP()\
+      SET delivery.delivery_end = CURRENT_TIMESTAMP(),\
+      delivery.delivery_status = 4 \
       where delivery.delivery_id = ?'
       
        con.query(sql,[req.body.delivery_id], function (err, result) {

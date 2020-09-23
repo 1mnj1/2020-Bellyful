@@ -42,6 +42,7 @@ import Box from '@material-ui/core/Box';
             
             console.log("New time: "+StrDate.slice(0,StrDate.length-8))
             $(setState(state => ({ ...state, end: 1})))
+            $(props.reloadPage(props.delivery_id))
         })
       }
       

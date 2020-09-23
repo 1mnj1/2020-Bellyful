@@ -55,7 +55,19 @@ export default function MyOutstanding (props) {
     }, [props.url,props.user_id ]);
 
 
-    
+    const removeDelivery = (del_id)=>
+    {
+      var oldState = {...state}
+      for (var i = 0; i < oldState.data.length; ++i){
+        if(oldState.data[i][state.columns[0]] == del_id){
+          oldState.data.splice(i, 1)
+          break
+        }
+
+      }
+      setState(oldState)
+      
+    }
 
 
 
@@ -116,7 +128,7 @@ export default function MyOutstanding (props) {
                   </Grid>
                   <Grid item xs={12} sm={3}>
 
-                    <DeliveryStartStop nostyle = {true} delivery_id = {value} />
+                    <DeliveryStartStop nostyle = {true} delivery_id = {value} reloadPage = {removeDelivery}  />
                   </Grid>
                 <Grid item xs={12} sm={3}>
                   <ReqMeals delivery_id = {value}/>
