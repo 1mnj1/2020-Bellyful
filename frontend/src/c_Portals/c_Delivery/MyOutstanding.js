@@ -12,7 +12,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import DeliveryDetail from './DeliveryDetail'
-
+import ReqMeals from '../c_Freezer/ReqMeals'
+import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -103,7 +104,8 @@ export default function MyOutstanding (props) {
         <div>
           
             <ListItem key={value} role={undefined} dense button onClick={handleToggle(index)}>
-                         
+            <Grid  container spacing={3}>
+                <Grid item xs={12} sm={9}>          
               <ListItemText
                 primary={<Typography style = {{fontWeight : 'bold'}} variant = "body">{row[state.columns[1]]}</Typography>}
                 secondary={
@@ -141,6 +143,11 @@ export default function MyOutstanding (props) {
                   </React.Fragment>
                 }
               />
+              </Grid>
+                <Grid item xs={12} sm={3}>
+                  <ReqMeals delivery_id = {value}/>
+                </Grid>
+              </Grid>
             </ListItem>
             {
               

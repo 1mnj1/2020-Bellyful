@@ -190,8 +190,8 @@ function DelivererPortal(props) {
             <Tabs
                 value={value}
                 onChange={handleChange}
-                indicatorColor="primary"
-                textColor="primary"
+                indicatorColor="secondary"
+                textColor="secondary"
                 variant="fullWidth"
                 aria-label="full width tabs example"
                 >

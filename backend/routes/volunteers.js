@@ -133,6 +133,26 @@ router.post('/getMealsRequired', function(req, res, next) {
     res.send(result)
   })
 })
+router.post('/getAllMealsRequired', function(req, res, next) {
+
+  var sql = "select meal_type.meal_type as 'Meal' , COUNT(M.meal_id) as 'Count'\
+  from meal_type\
+  left outer join (\
+      \
+      select meal.meal_id, meal.meal_type, meal.freezer_id, meal.delivery_id from meal \
+      join delivery on delivery.delivery_id = meal.delivery_id\
+      join delivery_status on delivery_status.stat_id = delivery.delivery_status\
+  	  where meal.freezer_id is null and delivery.vol_id = ? and ( delivery_status.stat_name like 'In Transit' or delivery_status.stat_name like 'Assigned' )\
+      \
+  ) as M on meal_type.MT_id = M.meal_type\
+  group by meal_type.MT_id;"
+  console.log("Vol id: ", req.body.vol_id)
+  var sqlDeets = [req.body.vol_id]
+  con.query(sql,sqlDeets, function (err, result) {
+    if (err) throw err;
+    res.send(result)
+  })
+})
 router.post('/getToContactDeliveries', function(req, res, next) {
 
 
