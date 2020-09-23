@@ -202,7 +202,7 @@ function FreezerPortal(props) {
                             user_id = {props.user_id}
                             branch_id = {branchID}
                             delivery_id = {-2}
-                            reload = {1}
+                            reload = {branchID}
                             setReload = {(num)=>0}
                             // url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers"}>
                             url={"http://"+window.location.hostname+":3000/volunteer/getFreezerManagers2"}>

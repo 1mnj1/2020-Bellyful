@@ -38,7 +38,7 @@ export default function FreezerManagers (props) {
             })
             $(setState(state => ({ ...state, meals:meals})))
       })
-    }, [props.reload])
+    }, [props.reload, props.branch_id])
     React.useEffect(() => {
         // need to be using branch id
         $.post( props.url,[{"name":"branch_id","value":props.branch_id}], function(returnable) {
@@ -70,7 +70,7 @@ export default function FreezerManagers (props) {
         }
       
       })
-    }, [props.url,props.user_id ]);
+    }, [props.url,props.user_id,  props.branch_id ]);
 
     
 
