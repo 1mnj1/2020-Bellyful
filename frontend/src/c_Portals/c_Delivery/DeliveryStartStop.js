@@ -44,6 +44,8 @@ import Box from '@material-ui/core/Box';
             $(setState(state => ({ ...state, end: 1})))
         })
       }
+      
+      event.stopPropagation();
     }
 
 return (
