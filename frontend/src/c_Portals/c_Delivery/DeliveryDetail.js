@@ -46,8 +46,8 @@ const classes = makeStyles((theme) => ({
         
       },
     button : {
-        padding : '2%',
-        width : '90%'
+        margin : 'auto',
+        width : '100%',
     }
   }));
 
@@ -102,7 +102,7 @@ export default function DeliveryDetail (props) {
     
     
     return (
-      <div style = {{overflowX: "hidden", textAlign : "left", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
+      <div style = {{overflowX: "hidden", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
         {/* <Grid container spacing = {3}>
             <Grid item xs = {mobileCheck()? 10 : 6} >
                 <Paper className={classes.paper} >{renderMeals()}</Paper>
@@ -115,51 +115,45 @@ export default function DeliveryDetail (props) {
         </Grid> */}
         <br/><br/>
         <form className = "Delivery_Detail">
-            
+            <div style = {{width : '100%'}}>
             <TextField
-                InputLabelProps={{
-                    shrink: true,
-                    }}
-                style = {{width: mobileCheck()?"80%":"92%"}}
-                autoFocus = {true}
-                id="Delivery Notes"
-                label="Delivery Notes"
-                name = "refNotes"
-                defaultValue = {state.notes}
-                multiline
-                rows = "3"
-                variant = "outlined"/>
+            InputLabelProps={{
+                shrink: true,
+              }}
+              style = {{width : '90%', margin : 'auto', textAlign : 'left'}}
+              autoFocus = {true}
+              id="Delivery Notes"
+              label="Delivery Notes"
+              name = "refNotes"
+              defaultValue = {state.notes}
+              multiline
+              rows = "3"
+              variant = "outlined"
 
+              />
             <br/> <br/>
-
-            <Button className = {classes.button} variant="contained"  onClick = {updateNotes} style = {{position: "relative" ,     width: "90%"}}>
-                Update Notes
+            <Button className = {classes.button} variant="contained"  onClick = {updateNotes} style = {{width: mobileCheck()?"80%":"92%", margin : 'auto'}}>
+            Update Notes
             </Button>
-
             <br/><br/>
-
-            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: '30%', backgroundColor : '#6cff6c', color : 'white'}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#6cff6c', color : 'white', float : 'left', marginLeft : '10%' }}>
                 Call
             </Button> 
-
-            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: '30%', backgroundColor : '#6c7bff', color : 'white', marginRight : 'auto'}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"30%":"36%", backgroundColor : '#6c7bff', color : 'white', float : 'right', marginRight : '10%'}}>
                 Text
-            </Button> 
-            
-            <br/> <br/>
+            </Button> <br/> <br/>
             
             {props.outstanding ? 
-            (<div><Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{backgroundColor : '#c6589f', color : 'white'}}>
+            (<div><Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%", backgroundColor : '#c6589f', color : 'white'}}>
                 Add to Confirmed Deliveries
             </Button> <br/> <br/> </div>): null}
-            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} >
+            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width : mobileCheck() ? '80%':'90%'}}>
                 Cancelled by recipient
             </Button> <br/> <br/>
-            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Unassigned")} >
+            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Unassigned")} style = {{width : mobileCheck() ? '80%':'90%'}}>
                 I cant do this anymore
             </Button> <br/>
-        
-
+            </div>
         </form>
       </div>
     );
