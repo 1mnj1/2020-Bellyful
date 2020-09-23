@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: 0
     },
     root: {
-        backgroundColor: 'rgb(239, 230, 215)',
+        // backgroundColor: 'rgb(239, 230, 215)',
         flexGrow: 1
     }
   }));
@@ -142,7 +142,7 @@ function FreezerPortal(props) {
                 
                     {/* {branchManagers.branchManagerClicked == null */}
                         <FreezerManagers 
-                            title="Freezer Managers" 
+                            title="Volunteer Freezers" 
                             state = {branchManagers} 
                             setState = {setBranchManagers}
                             user_id = {props.user_id}
@@ -175,8 +175,8 @@ function FreezerPortal(props) {
                 <Tabs
                     value={value}
                     onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
+                    indicatorColor="secondary"
+                    textColor="secondary"
                     variant="fullWidth"
                     aria-label="full width tabs example"
                     >

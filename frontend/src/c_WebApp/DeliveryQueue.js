@@ -48,7 +48,6 @@ function DeliveryQueue(props){
             <AutoTable title = "Deliveries" url = {"http://"+window.location.hostname+":3000/manager/getDeliveries"}>
 
             </AutoTable>
-            <Typography variant = 'h5'> wassup </Typography>
           </div>
     )
 }
