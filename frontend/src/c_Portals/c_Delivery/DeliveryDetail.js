@@ -61,18 +61,7 @@ export default function DeliveryDetail (props) {
         notes : null
     })
     
-    //get the meals for this delivery
-    React.useEffect(()=>{
-        $.post("http://"+window.location.hostname+":3000/volunteer/getMealsRequired",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
-            // console.log("Meal Detials: ",returnable)
-            if(returnable === null) return 
-            if (returnable === undefined) return 
-            if(returnable.length === 0) return  
-            var fields = Object.keys(returnable[0])
-            $(setState(state => ({ ...state,columns:fields, data : returnable})))
-        })
-
-    }, [props.delivery_id])
+    
     React.useEffect(()=>{
         $.post("http://"+window.location.hostname+":3000/volunteer/getRefNotes",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)
@@ -84,24 +73,7 @@ export default function DeliveryDetail (props) {
     }, [props.delivery_id])
     
     
-    //render the meals, this returns a series of items
-    const renderMeals = ()=>{
-        return state.data.map((row)=>{
-            return (
-
-                <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                        >
-                        <b> {row[state.columns[0]]}:   x {row[state.columns[1]]}</b><br/>
-                        </Typography>     
-                </React.Fragment>
-            ) 
-        })               
-    }
+    
     const updateDelState = (data)=>{
         var formData = [
             {"name":"status", "value":data},
@@ -141,7 +113,6 @@ export default function DeliveryDetail (props) {
                 
             </Grid>
         </Grid> */}
-        {renderMeals()}
         <br/><br/>
         <form className = "Delivery_Detail">
             
