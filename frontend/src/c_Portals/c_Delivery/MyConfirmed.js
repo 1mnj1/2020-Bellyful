@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
     
-    // textAlign: "center",
+    // textAlgit n: "center",
     backgroundColor: theme.palette.background.paper,
   },
 }));
@@ -124,9 +124,17 @@ export default function MyOutstanding (props) {
         <h2>{props.title}</h2> 
         
         {state.data.length <= 0 ? 
-        <div className={classes.root} > Nothing to show! </div> : <List className={classes.root}>
+        <div className={classes.root} > Nothing to show! </div> 
+        : 
+        <List className={classes.root}>
             {createList}
         </List>}
+        {/* https://www.google.co.nz/maps/place/Massey+University,+Auckland+Campus/@-36.7337425,174.6971653,16z/data=!4m8!1m2!2m1!1smassey+univerity!3m4!1s0x6d0d3bec3accd2e5:0xf92ffe426da0a3d0!8m2!3d-36.7337425!4d174.7015427
+        
+        */}
+      {/* <a href="http://maps.google.com/maps?daddr=lat,long&amp;ll=">Take me there!</a> */}
+      <a href="http://maps.google.com/maps?daddr=-36.7337425,174.6971653&amp;ll=" target="_blank" >Get Directions</a>
+
 
       </div>
     );
