@@ -23,7 +23,7 @@ import Box from '@material-ui/core/Box';
         })
 
     }, [props.delivery_id])
-    const handleClick =  ()=>{
+    const handleClick =  (event)=>{
       if( state.start == null ) {
         $.post("http://"+window.location.hostname+":3000/volunteer/setStart",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)
@@ -48,7 +48,7 @@ import Box from '@material-ui/core/Box';
 
 return (
 <div>
-    <Button variant="contained"  onClick = {handleClick} style = {{width: "96%", marginLeft: "3vw"}}>
+    <Button variant="contained"  onClick = {handleClick}  style = {props.nostyle ? {width: "40%"} :{width: "96%", marginLeft: "3vw"}} >
         {state.start == null ? "Start" : "Stop"}
     </Button> 
     

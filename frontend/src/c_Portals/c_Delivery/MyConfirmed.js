@@ -14,7 +14,7 @@ import Typography from '@material-ui/core/Typography';
 import DeliveryDetail from './DeliveryDetail'
 import ReqMeals from '../c_Freezer/ReqMeals'
 import Grid from '@material-ui/core/Grid';
-
+import DeliveryStartStop from './DeliveryStartStop'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
@@ -73,7 +73,7 @@ export default function MyOutstanding (props) {
         
         <div>
           <div>
-            <ListItem key={value} role={undefined} dense button onClick={()=>setState({...state, deliveryID: value})    }>
+            <ListItem key={value} role={undefined} dense button> {/*onClick={()=>setState({...state, deliveryID: value})    }>*/}
               <Grid  container spacing={3}>
                 <Grid item xs={12} sm={9}>
                   <ListItemText
@@ -114,9 +114,14 @@ export default function MyOutstanding (props) {
                     }
                   /> 
                   </Grid>
+                  <Grid item xs={12} sm={3}>
+
+                    <DeliveryStartStop nostyle = {true} delivery_id = {value} />
+                  </Grid>
                 <Grid item xs={12} sm={3}>
                   <ReqMeals delivery_id = {value}/>
                 </Grid>
+                
               </Grid>
             </ListItem>
             
