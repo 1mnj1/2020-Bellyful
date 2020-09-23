@@ -341,7 +341,7 @@ export default function FreezerLog (props) {
       color="secondary" 
       onClick={props.delivery_id === -1 || typeof(props.user_id)=="undefined" ? handleTopUp : handleAssignMeals}
     >
-      {props.delivery_id === -1 ? "Top up" : "Assign"}
+      {props.delivery_id === -1 ? "Add Meal(s)" : "Take Meal(s)"}
     </Button>
     &nbsp;
     <Button 
@@ -349,7 +349,7 @@ export default function FreezerLog (props) {
       color="primary" 
       onClick={(props.delivery_id === -1 || typeof(props.user_id)=="undefined") ? handleTaken : handleRemoveMeals}
     >
-      {props.delivery_id === -1 ? "Taken" : "Remove"}
+      {props.delivery_id === -1 ? "Remove Meal(s)" : "Return Meal(s)"}
     </Button>
     </div>
     {/* quick way to show the buttons without them being cut off by the bottom navigation bar TODO: fix navigation bar to the bottom of the page */}

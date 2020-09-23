@@ -93,7 +93,8 @@ export default function FreezerManagers (props) {
                      <Grid item xs = {6} >
                         <Typography
                           component="span"
-                          variant="body2"
+                          variant="body1"
+                          style = {{fontWeight : 'bold'}}
                           className={classes.inline}
                           color="textPrimary"
                         >
