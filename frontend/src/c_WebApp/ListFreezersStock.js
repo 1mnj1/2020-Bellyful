@@ -18,26 +18,29 @@ function ListFreezerStock(props){
     const createList = state.data.map((row, index)=> {
         //TO ADD        Mapping functionality
 
+        const value = row
         //Component
         return (
             <div>
-                <Grid className = {classes.padding} style = {{backgroundColor : 'white'}} direction = 'row' container spacing = {3}>
-                    <Grid item xs={2}>
-                        <Typography className = {classes.rows} variant = "h6">{row[state.name]}</Typography>
+                <ListItem key={value}>
+                    <Grid className = {classes.padding} style = {{backgroundColor : 'white'}} direction = 'row' container spacing = {3}>
+                        <Grid item xs={2}>
+                            <Typography className = {classes.rows} variant = "h6">{row[state.name]}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography className = {classes.rows} variant = "h6">{row[state.lasagna]}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={2}>
-                        <Typography className = {classes.rows} variant = "h6">{row[state.lasagna]}</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
-                    </Grid>
-                </Grid>
+                </ListItem>
             </div>
         )
     })
