@@ -173,20 +173,30 @@ export default function UnassignedDeliveries (props) {
   return (
     <div style = {{overflowX: "hidden", padding : '0px'}}>
       <h2>{props.title}</h2> 
-    
-      <List className={classes.list} >
-        {createList}
-      </List>
-
+      <h5>{state.data.length <= 0 ? 'No new deliveries.' : 'Can you do complete any of these?'}</h5>
       <br/>
-      <Button 
-        className = {classes.button} 
-        variant="contained"  
-        onClick = {setAlert} 
-        style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%', margin : 'auto', width : '100%', borderRadius: 10, fontWeight : "bold", textTransform: 'none'}}
-      >
-        I can do this!
-      </Button> 
+
+      {state.data.length <= 0 ? 
+        <div className={classes.root} >  
+        </div> 
+        : 
+        <div>
+          <List className={classes.list}>
+            {createList}
+          </List>
+          
+          <br/>
+          
+          <Button 
+            className = {classes.button} 
+            variant="contained"  
+            onClick = {setAlert} 
+            style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%', margin : 'auto', width : '100%', borderRadius: 10, fontWeight : "bold", textTransform: 'none'}}
+          >
+            I can do this!
+          </Button> 
+        </div>
+      }
 
     </div>
   );
