@@ -133,7 +133,7 @@ function DelivererPortal(props) {
                         {/* Assigned Deliveries */}
                         <UnassignedDeliveries 
 
-                            title = "Branch Outstanding" 
+                            title = "New Deliveries" 
                             url = {"http://"+window.location.hostname+":3000/volunteer/getNewDeliveries"}
                             user_id = {props.user_id}
                             branch_id = {branchID}
