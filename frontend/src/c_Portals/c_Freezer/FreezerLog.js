@@ -56,7 +56,6 @@ export default function FreezerLog (props) {
 
     // State to keep track of the new quanitites for each meal
     const [quantity, setQuantity] = useState({});
-    const [quantityDictionary, setQuantityDictionary] = useState({});
     const [reload, setReload] = useState(0)
     
     // Function that will update the quantity state when the form changes
@@ -331,27 +330,34 @@ export default function FreezerLog (props) {
   return (
     <div style = {{overflowX: "hidden"}}>
       <h2>{props.title}</h2> 
-    <List className={classes.root}>
-      {createList}
-    </List>
-    <div>
-      <br/>
-    <Button
-      variant="contained" 
-      color="secondary" 
-      onClick={props.delivery_id === -1 || typeof(props.user_id)=="undefined" ? handleTopUp : handleAssignMeals}
-    >
-      {props.delivery_id === -1 ? "Add Meal(s)" : "Take Meal(s)"}
-    </Button>
-    &nbsp;
-    <Button 
-      variant="contained" 
-      color="primary" 
-      onClick={(props.delivery_id === -1 || typeof(props.user_id)=="undefined") ? handleTaken : handleRemoveMeals}
-    >
-      {props.delivery_id === -1 ? "Remove Meal(s)" : "Return Meal(s)"}
-    </Button>
-    </div>
+
+      {state.data.length <= 0 ? 
+        <div className={classes.root} > </div>
+        : 
+        <div>
+          <List className={classes.root}>
+            {createList}
+          </List>
+          <div>
+            <br/>
+          <Button
+            variant="contained" 
+            color="secondary" 
+            onClick={props.delivery_id === -1 || typeof(props.user_id)=="undefined" ? handleTopUp : handleAssignMeals}
+          >
+            {props.delivery_id === -1 ? "Add Meal(s)" : "Take Meal(s)"}
+          </Button>
+          &nbsp;
+          <Button 
+            variant="contained" 
+            color="primary" 
+            onClick={(props.delivery_id === -1 || typeof(props.user_id)=="undefined") ? handleTaken : handleRemoveMeals}
+          >
+            {props.delivery_id === -1 ? "Remove Meal(s)" : "Return Meal(s)"}
+          </Button>
+          </div>
+        </div>
+      }
     {/* quick way to show the buttons without them being cut off by the bottom navigation bar TODO: fix navigation bar to the bottom of the page */}
     <div>
       <br></br>
