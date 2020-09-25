@@ -178,13 +178,6 @@ export default function UnassignedDeliveries (props) {
         {createList}
       </List>
 
-      {/* <Button 
-        variant="contained" 
-        color="secondary" 
-        onClick={setAlert}
-      >
-        I can do this!
-      </Button> */}
       <br/>
       <Button 
         className = {classes.button} 
