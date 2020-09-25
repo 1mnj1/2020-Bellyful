@@ -15,6 +15,11 @@ import DeliveryDetail from './DeliveryDetail'
 import ReqMeals from '../c_Freezer/ReqMeals'
 import Grid from '@material-ui/core/Grid';
 import DeliveryStartStop from './DeliveryStartStop'
+
+
+import StyledButton from './StyledButton.js'
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
@@ -65,6 +70,15 @@ export default function MyOutstanding (props) {
       setState(oldState)
       
     }
+
+    function getDirections () {
+      return <a href="http://maps.google.com/maps?daddr=-36.7337425,174.6971653&amp;ll=" target="_blank" >Get Directions</a>
+    }
+
+    const mobileCheck = function() {
+        
+      return window.screen.width < 620
+    };
 
 
 
@@ -135,6 +149,7 @@ export default function MyOutstanding (props) {
 
                     <DeliveryStartStop nostyle = {true} delivery_id = {value} reloadPage = {removeDelivery}  />
                   </Grid>
+                  
                 <Grid item xs={12} sm={3}>
                   <ReqMeals delivery_id = {value}/>
                 </Grid>
@@ -159,12 +174,13 @@ export default function MyOutstanding (props) {
          <List className={classes.list}>
             {createList}
         </List>}
-        {/* https://www.google.co.nz/maps/place/Massey+University,+Auckland+Campus/@-36.7337425,174.6971653,16z/data=!4m8!1m2!2m1!1smassey+univerity!3m4!1s0x6d0d3bec3accd2e5:0xf92ffe426da0a3d0!8m2!3d-36.7337425!4d174.7015427
-        
-        */}
-      {/* <a href="http://maps.google.com/maps?daddr=lat,long&amp;ll=">Take me there!</a> */}
-      <a href="http://maps.google.com/maps?daddr=-36.7337425,174.6971653&amp;ll=" target="_blank" >Get Directions</a>
-
+          <br/>
+        <Grid>
+          <StyledButton>This is a button</StyledButton>
+          <Button className = {classes.button} variant="contained"  onClick = {getDirections()} style = {{width: mobileCheck()?"80%":"92%", margin : 'auto', backgroundColor: '#3d90fa'}}>
+            <a href="http://maps.google.com/maps?daddr=lat,long&amp;ll="> Get directions </a>
+          </Button>
+        </Grid>
 
       </div>
     );
