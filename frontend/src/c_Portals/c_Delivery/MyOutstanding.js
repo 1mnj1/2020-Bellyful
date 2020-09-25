@@ -90,7 +90,7 @@ export default function MyOutstanding (props) {
       setState(oldState)
       
     }
-    const renderDropdown = (value,phone,email)=>{
+    const renderDropdown = (value,phone,email)=>{ 
       
       return <DeliveryDetail 
               reloadPage = {removeDelivery} 
