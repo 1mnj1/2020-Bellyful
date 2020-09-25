@@ -13,8 +13,6 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
 import DeliveryDetail from './DeliveryDetail'
 
-import './testStyles.css';
-
 import DeliveryStartStop from './DeliveryStartStop'
 
 
