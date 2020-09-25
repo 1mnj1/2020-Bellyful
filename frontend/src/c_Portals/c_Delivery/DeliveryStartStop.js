@@ -23,7 +23,8 @@ import Box from '@material-ui/core/Box';
         })
 
     }, [props.delivery_id])
-    const handleClick =  (event)=>{
+
+    const handleClick = (event)=> {
       if( state.start == null ) {
         $.post("http://"+window.location.hostname+":3000/volunteer/setStart",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)
@@ -49,15 +50,24 @@ import Box from '@material-ui/core/Box';
       event.stopPropagation();
     }
 
+
+    function buttonColour () {
+        return state.start == null ? "#24a85b" : "#dd4a4e"
+    }
+
 return (
 <div>
-    <Button variant="contained"  onClick = {handleClick}  style = {props.nostyle ? {width: "40%"} :{width: "96%", marginLeft: "3vw"}} >
+    <Button 
+        variant="contained"  
+        onClick = {handleClick}  
+        style = {props.nostyle ? {width: "40%", backgroundColor: buttonColour()} : {width: "96%", marginLeft: "3vw", backgroundColor: buttonColour()}} 
+    >
         {state.start == null ? "Start" : "Stop"}
     </Button> 
     
 </div> )
   
-
+//   width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%', margin : 'auto', width : '100%', borderRadius: 10, fontWeight : "bold", textTransform: 'none'
 
 
 
