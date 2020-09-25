@@ -109,6 +109,11 @@ export default function UnassignedDeliveries (props) {
         })
   }
 
+  const mobileCheck = function() {
+    return window.screen.width < 620
+  };
+
+
   const createList = state.data.map((row) => {
     const value = row[state.columns[0]]
     // console.log("Row: ",row, "Value: ", value)
@@ -173,13 +178,22 @@ export default function UnassignedDeliveries (props) {
         {createList}
       </List>
 
-      <Button 
+      {/* <Button 
         variant="contained" 
         color="secondary" 
         onClick={setAlert}
       >
         I can do this!
-      </Button>
+      </Button> */}
+      <br/>
+      <Button 
+        className = {classes.button} 
+        variant="contained"  
+        onClick = {setAlert} 
+        style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%', margin : 'auto', width : '100%', borderRadius: 10, fontWeight : "bold", textTransform: 'none'}}
+      >
+        I can do this!
+      </Button> 
 
     </div>
   );
