@@ -192,14 +192,14 @@ function DelivererPortal(props) {
             <Tabs
                 value={value}
                 onChange={handleChange}
-                indicatorColor="primary"
-                textColor="primary"
+                indicatorColor="secondary"
+                textColor="secondary"
                 variant="fullWidth"
                 aria-label="full width tabs example"
                 >
-                <Tab label="Branch Outstanding" icon={<NotificationsActiveIcon/>} {...a11yProps(0)} />
-                <Tab label="My Outstanding" icon={<LocalShippingIcon/>} {...a11yProps(1)} />
-                <Tab label="My Confirmed" icon={<AcUnitIcon/>} {...a11yProps(2)} />
+                <Tab label="Branch Outstanding" {...a11yProps(0)} />
+                <Tab label="My Outstanding" {...a11yProps(1)} />
+                <Tab label="My Confirmed" {...a11yProps(2)} />
                 </Tabs>
             </AppBar>
         </div>

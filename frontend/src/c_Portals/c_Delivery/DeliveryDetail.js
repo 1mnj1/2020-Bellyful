@@ -45,6 +45,10 @@ const classes = makeStyles((theme) => ({
         color: theme.palette.text.secondary,
         
       },
+    button : {
+        margin : 'auto',
+        width : '100%',
+    }
   }));
 
 
@@ -57,18 +61,7 @@ export default function DeliveryDetail (props) {
         notes : null
     })
     
-    //get the meals for this delivery
-    React.useEffect(()=>{
-        $.post("http://"+window.location.hostname+":3000/volunteer/getMealsForDelivery",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
-            // console.log("Meal Detials: ",returnable)
-            if(returnable === null) return 
-            if (returnable === undefined) return 
-            if(returnable.length === 0) return  
-            var fields = Object.keys(returnable[0])
-            $(setState(state => ({ ...state,columns:fields, data : returnable})))
-        })
-
-    }, [props.delivery_id])
+    
     React.useEffect(()=>{
         $.post("http://"+window.location.hostname+":3000/volunteer/getRefNotes",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)
@@ -80,24 +73,7 @@ export default function DeliveryDetail (props) {
     }, [props.delivery_id])
     
     
-    //render the meals, this returns a series of items
-    const renderMeals = ()=>{
-        return state.data.map((row)=>{
-            return (
-
-                <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body2"
-                            className={classes.inline}
-                            color="textPrimary"
-                        >
-                        <b> {row[state.columns[0]]}:   x {row[state.columns[1]]}</b><br/>
-                        </Typography>     
-                </React.Fragment> 
-            ) 
-        })               
-    }
+    
     const updateDelState = (data)=>{
         var formData = [
             {"name":"status", "value":data},
@@ -126,24 +102,25 @@ export default function DeliveryDetail (props) {
     
     
     return (
-      <div style = {{overflowX: "hidden", textAlign : "left", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
-        <Grid container spacing = {3}>
+      <div style = {{overflowX: "hidden", paddingLeft: "1vw", paddingRight: "1vw", paddingBottom: "1vh" }}>
+        {/* <Grid container spacing = {3}>
             <Grid item xs = {mobileCheck()? 10 : 6} >
                 <Paper className={classes.paper} >{renderMeals()}</Paper>
-                {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>View Freezers</Button>:null}
+                 {mobileCheck()?<Button variant="contained" style = {{marginTop: "4%",width: "80%" }} onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>:null}
             </Grid>
            { mobileCheck()? null :<Grid item xs = {6}>
-                <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>View Freezers</Button>
-            </Grid>}
-        </Grid>
+                <Button variant="contained" onClick = {() => props.setdeliveryID(props.delivery_id)}>Update Meals</Button>
+                
+            </Grid>
+        </Grid> */}
         <br/><br/>
         <form className = "Delivery_Detail">
-            
+            <div style = {{width : '100%'}}>
             <TextField
             InputLabelProps={{
                 shrink: true,
               }}
-              style = {{width: mobileCheck()?"80%":"92%"}}
+              style = {{width : '90%', margin : 'auto', textAlign : 'left'}}
               autoFocus = {true}
               id="Delivery Notes"
               label="Delivery Notes"
@@ -154,15 +131,15 @@ export default function DeliveryDetail (props) {
               variant = "outlined"
 
               />
-               <br/> <br/>
-               <Button variant="contained" color="text" onClick = {updateNotes} style = {{position: "relative" ,     width: mobileCheck()?"80%":"92%"}}>
-                Save
+            <br/> <br/>
+            <Button className = {classes.button} variant="contained"  onClick = {updateNotes} style = {{width: mobileCheck()?"80%":"92%", margin : 'auto'}}>
+            Update Notes
             </Button>
             <br/><br/>
-            <Button variant="contained" color="start" onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"40%":"46%"}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%' }}>
                 Call
             </Button> 
-            <Button variant="contained" color="text" onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"40%":"46%"}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"30%":"36%", backgroundColor : '#3d90fa', color : 'white', float : 'right', marginRight : '10%'}}>
                 Text
             </Button> <br/> <br/>
             
@@ -170,13 +147,13 @@ export default function DeliveryDetail (props) {
             (<div><Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
                 Add to My Confirmed Deliveries
             </Button> <br/> <br/> </div>): null}
-            <Button variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width: mobileCheck()?"80%":"92%"}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width : mobileCheck() ? '80%':'90%'}}>
                 Cancelled by recipient
             </Button> <br/> <br/>
-            <Button variant="contained" color="lightGrey" onClick = {()=>updateDelState("Unassigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
+            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Unassigned")} style = {{width : mobileCheck() ? '80%':'90%'}}>
                 Can't do afterall
             </Button> <br/>
-            
+            </div>
         </form>
       </div>
     );

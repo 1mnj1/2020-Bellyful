@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {Typography, List, ListItem} from '@material-ui/core'
 import DeliveryQueue from './DeliveryQueue.js'
 import DeliveryReporting from './DeliveryReporting.js'
+import Dashboard from './Dashboard.js'
 
 const drawerWidth = 240;
 
@@ -46,7 +47,7 @@ function Reporting() {
   
   const classes = useStyles();
 
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedIndex, setSelectedIndex] = React.useState(0);
 
   const handleListItemClick = (event, index) => {
     setSelectedIndex(index);
@@ -59,7 +60,7 @@ function Reporting() {
         <div className = {classes.sidebar}>        
           <List component = 'nav' >
             <ListItem button selected = {selectedIndex == 0} 
-            onClick = {(event) => handleListItemClick(event, 0)} className = {classes.listItem} onClick>Dashboard</ListItem>
+            onClick = {(event) => handleListItemClick(event, 0)} className = {classes.listItem}>Dashboard</ListItem>
             <ListItem button selected = {selectedIndex == 1} 
             onClick = {(event) => handleListItemClick(event, 1)} className = {classes.listItem}>Delivery Queue</ListItem>
             <ListItem button selected = {selectedIndex == 2} 
@@ -71,7 +72,7 @@ function Reporting() {
           </List>
         </div>
         <div className={classes.mainview}>
-          {selectedIndex === 0 ? null : null}
+          {selectedIndex === 0 ? <Dashboard></Dashboard> : null}
           {selectedIndex === 1 ? <DeliveryQueue/> : null}
           {selectedIndex === 2 ? <DeliveryReporting/> : null}
           {selectedIndex === 3 ? null : null}

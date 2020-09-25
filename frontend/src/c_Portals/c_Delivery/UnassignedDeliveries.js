@@ -128,7 +128,7 @@ export default function UnassignedDeliveries (props) {
             </ListItemIcon>
             
             <ListItemText
-              primary={row[state.columns[1]]}
+              primary={<Typography style = {{fontWeight : "bold"}} varient = "body">{row[state.columns[1]]}</Typography>}
               secondary={
                 <React.Fragment>
                   <Typography

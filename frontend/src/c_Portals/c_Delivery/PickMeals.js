@@ -43,12 +43,13 @@ function PickMeals(props) {
         columns: [],
         req_meals: "0"
     })
+    const [reloadMeals,setReloadMeals] = React.useState(0)
     const [requiredMeals,setrequiredMeals ] = React.useState({
         data: [],
         columns: [],
         req_meals: "0"
     })
-    const [reloadMeals,setReloadMeals] = React.useState(0)
+    
     React.useEffect(()=>{
         $.post("http://"+window.location.hostname+":3000/volunteer/getMealsRequired",[{"name":"delivery_id", "value":props.del_ID}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)

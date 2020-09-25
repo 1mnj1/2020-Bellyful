@@ -1,6 +1,7 @@
 import React from "react"
 import $ from 'jquery'
 
+import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,7 +9,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import FreezerLog from './FreezerLog';
-
+import AllReqMeals from './AllReqMeals'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
@@ -39,7 +40,7 @@ export default function FreezerManagers (props) {
             })
             $(setState(state => ({ ...state, meals:meals})))
       })
-    }, [props.reload])
+    }, [props.reload, props.branch_id])
     React.useEffect(() => {
         // need to be using branch id
         $.post( props.url,[{"name":"branch_id","value":props.branch_id}], function(returnable) {
@@ -68,9 +69,9 @@ export default function FreezerManagers (props) {
         }
       
       })
-    }, [props.url,props.user_id ]);
+    }, [props.url,props.user_id,  props.branch_id ]);
 
-
+    
 
   const classes = useStyles();
 
@@ -91,7 +92,8 @@ export default function FreezerManagers (props) {
                      <Grid item xs = {6} >
                         <Typography
                           component="span"
-                          variant="body2"
+                          variant="body1"
+                          style = {{fontWeight : 'bold'}}
                           className={classes.inline}
                           color="textPrimary"
                         >
@@ -163,7 +165,7 @@ export default function FreezerManagers (props) {
           {(state.hidden[idx] === false) || (props.hidden === true) ? null :
                   
                   <React.Fragment>
-    
+                    
                     <FreezerLog
                       title = "Freezer Log" 
                       url = {"http://"+window.location.hostname+":3000/volunteer/getFreezerLog"}
@@ -186,10 +188,20 @@ export default function FreezerManagers (props) {
   return (
     <div style = {{overflowX: "hidden",  paddingBottom: "20vh"}} className={classes.root}>
       <h2>{props.title}</h2> 
-    <List className={classes.list}>
+    
+    <List className={classes.root}>
       {createList}
     </List>
-
+    {props.delivery_id == -2 ? 
+    <Paper>
+      Your Confirmed Deliveries Need: <br></br>
+      <AllReqMeals
+        user_id = {props.user_id} 
+      
+      />
+    </Paper>
+    
+    : null}
 
 
     </div>
