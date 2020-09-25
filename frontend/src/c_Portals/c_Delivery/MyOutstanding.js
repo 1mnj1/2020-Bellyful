@@ -169,9 +169,10 @@ export default function MyOutstanding (props) {
     return (
       <div style = {{overflowX: "hidden", paddingBottom: "20vh"}}>
         <h2>{props.title}</h2> 
-        
+        <h5> {state.data.length <= 0 ? 'You have no outstanding deliveries.' : ' '} </h5>
+      <br/>
         {state.data.length <= 0 ? 
-        <div className={classes.root} > Nothing to show! </div> 
+        <div className={classes.root} >  </div> 
         : 
         <List className={classes.list}>
             {createList}
