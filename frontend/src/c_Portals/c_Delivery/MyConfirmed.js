@@ -176,7 +176,7 @@ export default function MyOutstanding (props) {
         </List>}
           <br/>
         <Grid>
-          <StyledButton>This is a button</StyledButton>
+          <StyledButton customColor = '#24a85b'>This is a button</StyledButton>
           <Button className = {classes.button} variant="contained"  onClick = {getDirections()} style = {{width: mobileCheck()?"80%":"92%", margin : 'auto', backgroundColor: '#3d90fa'}}>
             <a href="http://maps.google.com/maps?daddr=lat,long&amp;ll="> Get directions </a>
           </Button>
