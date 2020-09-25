@@ -10,6 +10,7 @@ var freezerRouter = require('./routes/freezerManagers')
 var managerRouter = require('./routes/managers');
 var deliveryRouter = require('./routes/deliveryManager');
 var volunteerRouter = require('./routes/volunteers');
+var dashboardRouter = require('./routes/dashboardReporting');
 var app = express();
 
 // view engine setup
@@ -46,6 +47,9 @@ app.use('/manager', managerRouter)
 app.use('/freezer',freezerRouter)
 app.use('/delivery',deliveryRouter)
 app.use('/volunteer',volunteerRouter)
+app.use('/dashboard',dashboardRouter)
+
+
 // app.use('/manager', managerRouter);
 
 // catch 404 and forward to error handler

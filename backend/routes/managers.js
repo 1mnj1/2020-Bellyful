@@ -34,12 +34,13 @@ router.post('/getVolunteers', function(req, res, next) {
 
 router.post('/getDeliveries', function(req, res, next) {
   //sql query for the data
-  sql = "select concat(person.person_fname,' ',person.person_lname) as 'Volunteer',concat(person2.person_fname,' ',person2.person_lname) as 'Recipient', concat(person3.person_fname,' ',person3.person_lname) as 'Referrer',delivery_status.stat_name as 'Status', mealC.meal_count as 'Meals'\
+  sql = "select concat(person.person_fname,' ',person.person_lname) as 'Volunteer',\
+        concat(person2.person_fname,' ',person2.person_lname) as 'Recipient', \
+        concat(person3.person_fname,' ',person3.person_lname) as 'Referrer'\
   from delivery\
    join person as person2 on person2.person_id = delivery.recipient_id\
    join person as person3 on person3.person_id = delivery.ref_id\
    join delivery_status on delivery_status.stat_id = delivery.delivery_status\
-   left outer join (SELECT COUNT(meal.delivery_id) AS meal_count, delivery.delivery_id as id FROM meal join delivery on meal.delivery_id = delivery.delivery_id group by delivery.delivery_id) as mealC on mealC.id = delivery.delivery_id\
    left join person ON person.person_id = delivery.`vol_id` "
   // res.send("Got here!")
   con.query(sql, function (err, result) {
