@@ -20,16 +20,16 @@ function Dashboard(props){
 
     React.useEffect(() => {
         
-        $.post("http://"+window.location.hostname+":3000/freezerManagers/getTotalMeals", function(returnable){
+        $.post("http://"+window.location.hostname+":3000/freezer/getTotalMeals", function(returnable){    
             if(returnable === null) return 
             if (returnable === undefined) return 
             if(returnable.length === 0) return
             $(setTotal(returnable))
             return
-            console.log(total)
+            
         });
 
-    });
+    }, [classes]);
 
     return(
         <div>
@@ -38,15 +38,37 @@ function Dashboard(props){
             <Typography className = {classes.padding} variant = "h5" align = 'left'>Stock Levels</Typography>
             
             <Grid className = {classes.padding} style = {{backgroundColor : 'white'}} direction = 'row' container spacing = {3}>
-                <Grid item>
-                    <Typography className = {classes.padding} align = 'left'></Typography>
-                    <Typography className = {classes.rows} align = 'left' variant = "h6">Lasagna</Typography>
-                    <Typography className = {classes.rows} align = 'left' variant = "h6">Spaghetti Bolognese</Typography>
-                    <Typography className = {classes.rows} align = 'left' variant = "h6">Mac & Cheese</Typography>
-                    <Typography className = {classes.rows} align = 'left' variant = "h6">Vege Soup</Typography>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1"></Typography>
                 </Grid>
-                <Grid item>
-                    <Typography align = 'left'>Total</Typography>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Lasagna</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Spaghetti Bolognese</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Mac & Cheese</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Vege Soup</Typography>
+                </Grid>
+            </Grid>
+            <Grid className = {classes.padding} style = {{backgroundColor : 'white'}} direction = 'row' container spacing = {3}>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1"></Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Lasagna</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Spaghetti Bolognese</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Mac & Cheese</Typography>
+                </Grid>
+                <Grid item xs={2}>
+                    <Typography className = {classes.rows} variant = "body1">Vege Soup</Typography>
                 </Grid>
             </Grid>
         </div>
