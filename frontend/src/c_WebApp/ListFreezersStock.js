@@ -1,6 +1,7 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-
+import $ from "jquery"
+import { Grid } from '@material-ui/core';
 useStyles = makeStyles((theme)=> ({
     padding : {
         padding : '2vh',
@@ -15,35 +16,35 @@ useStyles = makeStyles((theme)=> ({
 
 function ListFreezerStock(props){
 
-    const createList = state.data.map((row, index)=> {
-        //TO ADD        Mapping functionality
+    const [state,useState] = React.useState([])
+    const update = 1
+    React.useEffect(()=>{
+        $.post( "http://"+window.location.hostname+":3000/dashboard/getManagerStockLevels", 
+        function(returnable) {
+            $(setState(returnable))
+        })
 
-        const value = row
-        //Component
-        return (
-            <div>
-                <ListItem key={value}>
-                    <Grid className = {classes.padding} style = {{backgroundColor : 'white'}} direction = 'row' container spacing = {3}>
-                        <Grid item xs={2}>
-                            <Typography className = {classes.rows} variant = "h6">{row[state.name]}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Typography className = {classes.rows} variant = "h6">{row[state.lasagna]}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Typography className = {classes.rows} variant = "h6">{row[]}</Typography>
-                        </Grid>
-                    </Grid>
-                </ListItem>
-            </div>
-        )
-    })
+    }, [update])
+    const createMapping = ()=>{
+        var currentID = -1
+        var writeHeader = true
+        
+        var newState = {}
+        for (var i = 0; i < state.length; ++i){
+            if(!(state[i].name in newState )){
+                newState[state[i].name] = []
+            }
+            newState[state[i].name].push([state[i].mealType, state[i].cnt])
+
+            
+        }
+        console.log("New Object: ", newState)
+        
+
+
+    }
+    createMapping()
+    
 
     return(
         <div>

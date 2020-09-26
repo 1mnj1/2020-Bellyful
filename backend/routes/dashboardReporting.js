@@ -9,7 +9,8 @@ router.post('/getManagerStockLevels', function(req, res, next) {
     //sql query for the data
     var sql = ""
     var sqlvars = null
-      sql = "select person.person_id, concat(person.person_fname, ' ', person.person_lname) as name, meal_type.meal_type  , COUNT(meals.meal_id)\
+      sql = "select person.person_id, concat(person.person_fname, ' ', person.person_lname) as name,\
+       meal_type.meal_type as mealType , COUNT(meals.meal_id)  as 'cnt'\
       from freezer\
       join person on person.person_id = freezer.person_id\
       join meal_type \
@@ -30,3 +31,9 @@ router.post('/getManagerStockLevels', function(req, res, next) {
     });
 
 });
+
+
+
+
+
+module.exports = router;
