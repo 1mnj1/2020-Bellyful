@@ -9,7 +9,7 @@ router.post('/getManagerStockLevels', function(req, res, next) {
     //sql query for the data
     var sql = ""
     var sqlvars = null
-      sql = "select person.person_id, concat(person.person_fname, ' ', person.person_lname) as name,\
+      sql = "select person.person_id as id, concat(person.person_fname, ' ', person.person_lname) as name,\
        meal_type.meal_type as mealType , COUNT(meals.meal_id)  as 'cnt'\
       from freezer\
       join person on person.person_id = freezer.person_id\

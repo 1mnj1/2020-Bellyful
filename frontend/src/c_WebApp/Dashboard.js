@@ -2,7 +2,7 @@ import React from 'react'
 import {Grid, Typography, Paper} from '@material-ui/core'
 import {makeStyles} from '@material-ui/core/styles'
 import $ from 'jquery'
-
+import ListFreezerStock from './ListFreezersStock'
 const useStyles = makeStyles((theme) => ({
     padding : {
         padding : '2vh',
@@ -37,39 +37,8 @@ function Dashboard(props){
             
             <Typography className = {classes.padding} variant = "h5" align = 'left'>Stock Levels</Typography>
             
-            <Grid className = {classes.padding} style = {{backgroundColor : 'white'}} direction = 'row' container spacing = {3}>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1"></Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Lasagna</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Spaghetti Bolognese</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Mac & Cheese</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Vege Soup</Typography>
-                </Grid>
-            </Grid>
-            <Grid className = {classes.padding} style = {{backgroundColor : 'white'}} direction = 'row' container spacing = {3}>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1"></Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Lasagna</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Spaghetti Bolognese</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Mac & Cheese</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    <Typography className = {classes.rows} variant = "body1">Vege Soup</Typography>
-                </Grid>
+            <Grid className = {classes.padding}  direction = 'row' container spacing = {3}>
+                <ListFreezerStock/>
             </Grid>
         </div>
     )
