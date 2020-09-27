@@ -32,7 +32,7 @@ function Dashboard(props){
     }, [classes]);
 
     return(
-        <div>
+        <div >
             <Typography className = {classes.padding} variant = "h4" align = 'left'>Dashboard</Typography>
             
             <Typography className = {classes.padding} variant = "h5" align = 'left'>Stock Levels</Typography>
