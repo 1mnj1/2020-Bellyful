@@ -611,6 +611,29 @@ router.post('/removeDeliveryMeals', function(req, res, next) {
   
 });
 
+router.post('/getCompletedDeliveries', function(req, res, next) {
+  var sql = "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', person.person_lname) AS name, \
+  concat(address.add_num , ' ' , address.add_street,', ', address.add_suburb) AS street, \
+  person.person_phone AS phone, \
+  (recipient.rec_children_under_5+ recipient.rec_children_between_5_10+ recipient.rec_children_between_11_17+ recipient.rec_adults) as meals,\
+  person.person_email AS email\
+  FROM delivery\
+  JOIN person on delivery.recipient_id = person.person_id\
+  JOIN address on address.add_id = person.add_id\
+  JOIN delivery_status on delivery.delivery_status = delivery_status.stat_id\
+  JOIN recipient on recipient.person_id = person.person_id \
+  WHERE delivery_status.stat_name like 'Done'\
+  AND delivery.vol_id = ?\
+  GROUP BY delivery.delivery_id\
+  ORDER BY delivery.delivery_id\
+  "
+  
+  con.query(sql,[req.body.user_id], function (err, result) {
+      if (err) throw err;
+      res.send(result)
+    })
+  });
+
 
 
 
