@@ -104,7 +104,7 @@ function CreateDeliveryNavigation(props) {
     
 
 
-    const [currPage, setPage] = React.useState(1)
+    const [currPage, setPage] = React.useState(2)
 
     const submit = ()=>{submitForms(state.ref,state.rec, state.delivery, props.closeSelf, props.delivery_id)}//  props.closeSelf()}
     //when delivery ID is set, set the form data to what is given by the server
@@ -129,10 +129,11 @@ function CreateDeliveryNavigation(props) {
     //For more information follow    https://material-ui.com/components/bottom-navigation/#bottom-navigation
 
     const DelivererNavigation = (
-        <BottomNavigation value={value} onChange={handleChange} className = {classes.root}>
-            <BottomNavigationAction lable="Referrer" value={1} icon={<PersonIcon/>} onClick = {()=>setPage(1)} />
-            <BottomNavigationAction lable="Recipient" value={2} icon={<PersonIcon/>} onClick = {()=>setPage(2)} />
-            <BottomNavigationAction lable="Delivery" value={3} icon={<LocalShippingIcon/>} onClick = {()=>setPage(3)} />
+        <BottomNavigation value={value} onChange={handleChange} className = {classes.root} showLabels>
+            
+            <BottomNavigationAction label="Recipient" value={2}  onClick = {()=>setPage(2)} />
+            <BottomNavigationAction label="Referrer" value={1}  onClick = {()=>setPage(1)} ></BottomNavigationAction>
+            <BottomNavigationAction label="Delivery" value={3}  onClick = {()=>setPage(3)} />
         </BottomNavigation>
     )
 
