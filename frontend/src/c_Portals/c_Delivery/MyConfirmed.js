@@ -15,6 +15,9 @@ import DeliveryDetail from './DeliveryDetail'
 import ReqMeals from '../c_Freezer/ReqMeals'
 import Grid from '@material-ui/core/Grid';
 import DeliveryStartStop from './DeliveryStartStop'
+
+import DeliveryUndo from './DeliveryUndo'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
@@ -66,7 +69,7 @@ export default function MyOutstanding (props) {
       
     }
 
-
+  
 
     const classes = useStyles();
   
@@ -134,11 +137,24 @@ export default function MyOutstanding (props) {
                   <Grid item xs={12} sm={3}>
 
                     <DeliveryStartStop nostyle = {true} delivery_id = {value} reloadPage = {removeDelivery}  />
+                    <br/>
+        
+                    <DeliveryUndo
+                      reloadPage = {removeDelivery} 
+                      delivery_id ={value} 
+                      setdeliveryID = {props.setdeliveryID}
+                    >
+
+                    </DeliveryUndo>
+
+
                   </Grid>
+                 
                 <Grid item xs={12} sm={3}>
                   <ReqMeals delivery_id = {value}/>
+
                 </Grid>
-                
+      
               </Grid>
             </ListItem>
             
@@ -159,11 +175,8 @@ export default function MyOutstanding (props) {
          <List className={classes.list}>
             {createList}
         </List>}
-        {/* https://www.google.co.nz/maps/place/Massey+University,+Auckland+Campus/@-36.7337425,174.6971653,16z/data=!4m8!1m2!2m1!1smassey+univerity!3m4!1s0x6d0d3bec3accd2e5:0xf92ffe426da0a3d0!8m2!3d-36.7337425!4d174.7015427
-        
-        */}
-      {/* <a href="http://maps.google.com/maps?daddr=lat,long&amp;ll=">Take me there!</a> */}
-      <a href="http://maps.google.com/maps?daddr=-36.7337425,174.6971653&amp;ll=" target="_blank" >Get Directions</a>
+  
+      {/* <a href="http://maps.google.com/maps?daddr=-36.7337425,174.6971653&amp;ll=" target="_blank" >Get Directions</a> */}
 
 
       </div>
