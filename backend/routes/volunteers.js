@@ -29,32 +29,19 @@ router.post('/updateDelDeets', function(req, res, next) {
   console.log(req.body)
 
 
-  var sql = "select referrer.person_id as id \
-  from referrer \
-  join delivery on delivery.ref_id = referrer.person_id \
-  where delivery.delivery_id = ? "
+  var  sql = "UPDATE `delivery` SET `notes` = ? WHERE `delivery`.`delivery_id` = ?"
+  con.query(sql, [req.body.refNotes,req.body.delivery_id], function (err, result) {
+    if (err) {
 
-  con.query(sql, [req.body.delivery_id], function (err, result) {
-        if (err) {
+      console.log(err)
+      return
+    };
+    if(result.length == 0){
+      res.sendStatus(404)
+    } 
+  });
 
-           console.log(err)
-            return
-     };
-        if(result.length == 0){
-          res.sendStatus(404)
-        } 
-        sql = "UPDATE `referrer` SET `notes` = ? WHERE `referrer`.`person_id` = ?"
-        con.query(sql, [req.body.refNotes,result[0].id], function (err, result) {
-          if (err) {
-
-           console.log(err)
-            return
-     };
-          if(result.length == 0){
-            res.sendStatus(404)
-        } });
-
-    });
+   
 
 
 
@@ -130,9 +117,8 @@ var sql = 'select delivery.delivery_start as start, delivery.delivery_end  as en
 })
 router.post('/getRefNotes', function(req, res, next) {
   
-  var sql = 'select referrer.notes as notes \
-   from referrer\
-   join delivery on delivery.ref_id = referrer.person_id\
+  var sql = 'select delivery.notes as notes \
+   from delivery\
    where delivery.delivery_id = ?'
   
    con.query(sql,[req.body.delivery_id], function (err, result) {

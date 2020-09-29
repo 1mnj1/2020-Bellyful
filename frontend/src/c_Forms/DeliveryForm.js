@@ -10,9 +10,36 @@ import Select from '@material-ui/core/Select';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+const fullWidth = 100;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+      marginBottom :theme.spacing(1),
+    marginRight: theme.spacing(1),
+    width: String(fullWidth/2)+'ch',
+  },
+  fullText: {
+      marginBottom :theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: String(fullWidth)+'ch',
+  },
+  threeQuarter:{
+      marginBottom :theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: String(fullWidth/4*3)+'ch',
+  }, 
+  oneQuarter:{
+      marginBottom :theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: String(fullWidth/4)+'ch',
+  }, 
 
-
+}));
 function DeliveryForm(props) {
+  const classes = useStyles();
   const findItem= (searchItem)=>{
     for (var i = 0; i <props.formData.length; ++i){
     
@@ -36,9 +63,21 @@ function DeliveryForm(props) {
           // this.props.setLogged(true)
       });
   }, [getData]);
-  var saveForm = (event)=> {
-    var formData = [{"name": "branch", "value": event.target.value }]
+  var saveBranch = (event)=> {
+    var formData = [
+      {"name": "branch", "value": event.target.value },
+      {"name": "notes", "value": props.formData[1].value }
+    ]
+
     console.log("Form data: ",formData)
+    props.setForm(formData)
+      
+    
+  
+  };
+  var saveForm = ()=> {
+    var formData = $("form.deliveryForm").serializeArray()
+    console.log("New form is: ", formData)
     props.setForm(formData)
       
     
@@ -60,13 +99,24 @@ function DeliveryForm(props) {
                 labelId="branch"
                 id="Branch"
             value = {findItem("branch")}
-            onChange={saveForm}
+            onChange={saveBranch}
             >
             {branch}
             </Select>
         </FormControl><br/>
+        <TextField
+              className={classes.fullText}
+              id="deliveryNotes"
+              label="Add any other delivery notes"
+              placeholder="Delivery notes"
+              name = "notes"
+              
+              multiline
+              defaultValue = {findItem("notes")}
+              onChange = {saveForm}
+              />
       </form>
-      <Button variant="contained" onClick = {props.submit}>Submit</Button>
+      <Button variant="contained" onClick = {()=>{saveForm();props.submit()}}>Submit</Button>
       {props.children}
     </div>
   );

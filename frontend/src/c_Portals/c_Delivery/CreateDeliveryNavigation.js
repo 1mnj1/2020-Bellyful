@@ -87,7 +87,7 @@ function CreateDeliveryNavigation(props) {
     const [state,setState] = React.useState({
       ref : [{}],
       rec: [{}],
-      delivery: [{}]
+      delivery: [{},{}]
     })
     
     

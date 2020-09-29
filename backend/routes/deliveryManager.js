@@ -475,20 +475,22 @@ router.post('/submitDelivery', function(req, res, next) {
   console.log("Rquest: ",req.body)
   if(req.body.ref !== ''){
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
-    `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, ?, ?, '8', NULL, NULL, ?)"
+    `delivery_start`, `delivery_end`, `branch_id`,  `notes`)\
+    VALUES (NULL, NULL, ?, ?, '8', NULL, NULL, ?,?)"
     sqlData = [
       req.body.ref,
       req.body.rec,
-      req.body.branch
+      req.body.branch,
+      req.body.notes
     ]
   } else {
     sql = "INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, \
-     `delivery_start`, `delivery_end`, `branch_id`)\
-    VALUES (NULL, NULL, NULL, ?, '8', NULL, NULL, ?)"
+     `delivery_start`, `delivery_end`, `branch_id`,  `notes`)\
+    VALUES (NULL, NULL, NULL, ?, '8', NULL, NULL, ?,?)"
     sqlData = [
       req.body.rec,
-      req.body.branch
+      req.body.branch,
+      req.body.notes
     ]
   }
   con.query(sql, sqlData, function (err, result) {
@@ -509,12 +511,13 @@ router.post('/updateDelivery', function(req, res, next) {
   console.log("Rquest: ",req.body)
   if(req.body.ref !== ''){
     sql = "UPDATE `delivery` \
-    SET `ref_id` = ?, `delivery_status` = '1',`recipient_id` =  ?, `branch_id` = ? \
+    SET `ref_id` = ?, `delivery_status` = '1',`recipient_id` =  ?, `branch_id` = ? ,  `notes` = ?\
     WHERE `delivery`.`delivery_id` = ?"
     sqlData = [
       req.body.ref,
       req.body.rec,
       req.body.branch,
+      req.body.notes,
       req.body.delivery_id
     ]
   } 
@@ -569,9 +572,10 @@ recipient.person_id as "recperson_id",\
 recAddress.add_id as "recaddress_id",\
 recipient.rec_dogs as "recrecDogs",\
 \
-delivery.branch_id as "delbranch"\
+delivery.branch_id as "delbranch",\
+ delivery.notes as "delnotes" \
 \
-/* todo: meals */\
+/* todo: meals; jk its already done because we are genius */\
 \
 from delivery \
 join recipient 								on recipient.person_id = delivery.recipient_id \
@@ -619,15 +623,21 @@ where delivery.delivery_id = ? \
             if (colName.startsWith(target)){ 
               field = colName.slice(3)
               data = result[0][colName]
-              if((field == "address_id" || field == "person_id") && data==null) data = -1
-              else if(data == null) data = ""
-              else if(colName = "recDogs"&&data==0)return accumulator
+              if((field == "address_id" || field == "person_id") && data==null) {
+                data = -1
+              }
+              else if(data == null){ data = ""
+              }
+              else if(colName = "recDogs"&&data==0) {
+                return accumulator
+              }
               accumulator.push({ "name": field , "value": data})
             }
             return accumulator 
           };
 
         keys = Object.keys(result[0])
+        console.log(keys)
         ref = keys.reduce((accumulator, colName) =>reducer("ref", accumulator, colName) , [])
         var selfRef = true
         for (i = 0; i < ref.length; ++i){
