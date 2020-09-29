@@ -116,31 +116,8 @@ export default function DeliveryDetail (props) {
         <br/><br/>
         <form className = "Delivery_Detail">
             <div style = {{width : '100%'}}>
-            <TextField
-            InputLabelProps={{
-                shrink: true,
-              }}
-              style = {{width : '90%', margin : 'auto', textAlign : 'left'}}
-              autoFocus = {true}
-              id="Delivery Notes"
-              label="Delivery Notes"
-              name = "refNotes"
-              defaultValue = {state.notes}
-              multiline
-              rows = "3"
-              variant = "outlined"
-
-              />
-            <br/> <br/>
-            <Button 
-                className = {classes.button} 
-                variant="contained"  
-                onClick = {updateNotes} 
-                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#549DFC', color : 'white',  margin : 'auto', borderRadius: 6, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
-            >
-                Save
-            </Button>
-            <br/><br/>
+            
+            
             <Button 
                 className = {classes.button} 
                 variant="contained"  
@@ -178,8 +155,8 @@ export default function DeliveryDetail (props) {
                     style = {{ width: mobileCheck()?"80%":"90%", backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '20px'}}
                 >
                     Cancelled by recipient
-                </Button> <br/> <br/>
-                <br/>
+                </Button>
+                <br/> <br/>
                 <Button 
                     className = {classes.button} 
                     variant="contained"  
@@ -188,6 +165,31 @@ export default function DeliveryDetail (props) {
                 >
                     Mark as Undone
                 </Button> <br/>
+                <br/> <br/>
+                <TextField
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    style = {{width : '90%', margin : 'auto', textAlign : 'left'}}
+                    autoFocus = {true}
+                    id="Delivery Notes"
+                    label="Delivery Notes"
+                    name = "refNotes"
+                    defaultValue = {state.notes}
+                    multiline
+                    rows = "3"
+                    variant = "outlined"
+
+                />
+                <br/> <br/>
+                <Button 
+                    className = {classes.button} 
+                    variant="contained"  
+                    onClick = {updateNotes} 
+                    style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#549DFC', color : 'white',  margin : 'auto', borderRadius: 6, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
+                >
+                    Save
+                </Button>
             </div>
         </form>
       </div>
