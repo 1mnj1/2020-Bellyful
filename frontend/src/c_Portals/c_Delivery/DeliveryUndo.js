@@ -65,10 +65,10 @@ return (
     <Button 
         variant="contained"  
         onClick = {()=>updateDelState("To Contact")} 
-        style = {{ width: '80%', backgroundColor : '#F5F5F5', float : 'right', color : '#494648', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', border: '1px solid #959594', height: '45px'}}
+        style = {{ width: '100%', backgroundColor : '#F5F5F5', float : 'right', color : '#494648', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', border: '1px solid #959594', height: '45px'}}
     >
         Mark as undone
-    </Button> <br/>
+    </Button>
     
 </div> )
   

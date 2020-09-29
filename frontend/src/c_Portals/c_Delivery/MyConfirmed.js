@@ -137,7 +137,7 @@ export default function MyOutstanding (props) {
                   <Grid item xs={12} sm={3}>
 
                     <DeliveryStartStop nostyle = {true} delivery_id = {value} reloadPage = {removeDelivery}  />
-                    <br/> <br/>
+                    <br/>
         
                     <DeliveryUndo
                       reloadPage = {removeDelivery} 
