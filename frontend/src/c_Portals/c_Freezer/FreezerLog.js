@@ -340,7 +340,7 @@ export default function FreezerLog (props) {
       variant="contained" 
       color="secondary" 
       onClick={props.delivery_id === -1 || typeof(props.user_id)=="undefined" ? handleTopUp : handleAssignMeals}
-      style = {{backgroundColor : '#C759A0', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px'}}
+      style = {{backgroundColor : '#C759A0', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', height: '45px'}}
     >
       {props.delivery_id === -1 ? "Add Meal(s)" : "Take Meal(s)"}
     </Button>
@@ -349,7 +349,7 @@ export default function FreezerLog (props) {
       variant="contained" 
       color="primary" 
       onClick={(props.delivery_id === -1 || typeof(props.user_id)=="undefined") ? handleTaken : handleRemoveMeals}
-      style = {{backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px'}}
+      style = {{backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', height: '45px'}}
     >
       {props.delivery_id === -1 ? "Remove Meal(s)" : "Return Meal(s)"}
     </Button>
