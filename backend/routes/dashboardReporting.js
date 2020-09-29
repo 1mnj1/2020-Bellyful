@@ -20,7 +20,11 @@ router.post('/getManagerStockLevels', function(req, res, next) {
     //returns meal type id, meal type name, and available meals
   // res.send("Got here!")
     con.query(sql,sqlvars, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){

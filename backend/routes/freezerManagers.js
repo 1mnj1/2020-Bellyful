@@ -15,7 +15,11 @@ router.post('/getItemWithBranch', function(req, res, next) {
     GROUP BY (meal_type.MT_id)"
     // res.send("Got here!")
     con.query(sql, function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           console.log("Got a result!\n");
           console.log(result)
           if(result.length == 0){
@@ -29,7 +33,11 @@ router.post('/getMealTypes', function(req, res, next) {
     sql = "SELECT meal_type.meal_type as \"Meal\" from meal_type"
     // res.send("Got here!")
     con.query(sql, function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           console.log("Got a result!\n");
           console.log(result)
           if(result.length == 0){
@@ -55,7 +63,11 @@ router.post('/createMeals', function(req, res, next) {
       req.body.delivery_id
     ] 
     con.query(sql,sqlVars, function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       console.log("Inserted ",req.body.numItems, " meals.");
       
       res.sendStatus(200)
@@ -64,7 +76,11 @@ router.post('/createMeals', function(req, res, next) {
   }
   var personQuery = "select freezer.freezer_id as ID from freezer where freezer.person_id = ?"
   con.query(personQuery, [req.body.person_id], (err,result)=>{
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     if ((result == undefined || result == null)) {return} ;
     if (result.length == 0) {return }
     
@@ -75,7 +91,11 @@ router.post('/createMeals', function(req, res, next) {
       null
     ] 
     con.query(sql,sqlVars, function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       console.log("Inserted ",req.body.numItems, " meals.");
       
       res.sendStatus(200)
@@ -100,7 +120,11 @@ router.post('/removeMeals', function(req, res, next) {
       req.body.delivery_id
     ] 
     con.query(sql,sqlVars, function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       console.log("Deleted ",req.body.numItems, " meals.");
       
       res.sendStatus(200)
@@ -110,7 +134,11 @@ router.post('/removeMeals', function(req, res, next) {
   var personQuery = "select freezer.freezer_id as ID from freezer where freezer.person_id = ?"
   console.log("selecting freezer with person_id: ",req.body.person_id)
   con.query(personQuery, [req.body.person_id], (err,result)=>{
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     if ((result == undefined || result == null)) {return} ;
     if (result.length == 0) {return }
     
@@ -121,7 +149,11 @@ router.post('/removeMeals', function(req, res, next) {
       null
     ] 
     con.query(sql,sqlVars, function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       console.log("Inserted ",req.body.numItems, " meals.");
       
       res.sendStatus(200)
@@ -135,7 +167,11 @@ router.post('/getTotalMeals', function(req, res, next){
   sql = 'select COUNT(M.meal_id) as "Count" from meal_type left outer join meal as M on meal_type.MT_id = M.meal_type group by meal_type.MT_id'
 
   con.query(sql, function (err, result) {
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     console.log("Got a result!\n");
     console.log(result)
     if(result.length == 0){

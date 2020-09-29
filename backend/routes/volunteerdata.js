@@ -19,7 +19,11 @@ router.post('/', function(req, res, next) {
         WHERE person.add_id = address.add_id"
 
     con.query(sql, function(err, result){
-        if(err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a Result\n");
         console.log(result);
         if(result.length == 0){

@@ -19,7 +19,11 @@ router.post('/', function(req, res, next) {
   sql = "select person_user_level, person_id from person   where person_email = ? and person_pass = ?"
 
   con.query(sql, loginDetails, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){

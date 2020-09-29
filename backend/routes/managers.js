@@ -21,7 +21,11 @@ router.post('/getVolunteers', function(req, res, next) {
   AND person1.add_id = address.add_id"
   // res.send("Got here!")
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -44,7 +48,11 @@ router.post('/getDeliveries', function(req, res, next) {
    left join person ON person.person_id = delivery.`vol_id` "
   // res.send("Got here!")
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
   
@@ -70,7 +78,11 @@ router.post('/getFreezerManager', function(req, res, next) {
   //returns id, name, address, branch name
   // res.send("Got here!")
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -101,7 +113,11 @@ router.post('/getDeliveryDetails', function(req, res, next) {
   
   // res.send("Got here!")
   con.query(sql,(Array.isArray(reQArr) ? reQArr : [reQArr]), function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -119,7 +135,11 @@ router.post('/getReferrerStatus', function(req, res, next) {
   const sql = "select referrer_type.RT_id, referrer_type.RT_type from referrer_type"
   // res.send("Got here!")
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -144,7 +164,11 @@ router.post('/getUnassignedDeliveries', function(req, res, next) {
   AND person3.person_id = delivery.ref_id"
   // res.send("Got here!")
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){

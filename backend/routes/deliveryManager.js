@@ -26,7 +26,11 @@ router.post('/getPersonId', function(req, res, next) {
 
     // res.send("Got here!")
     con.query(sql,personDetails, function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           if(result.length == 0){
             res.send("-1")
           } else {
@@ -53,7 +57,11 @@ router.post('/getAddress', function(req, res, next) {
     
     // res.send("Got here!")
     con.query(sql, addressDetails,function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           
           if(result.length == 0){
             res.send("-1")
@@ -84,7 +92,11 @@ function findAddress(req,success){
 
     // res.send("Got here!")
     con.query(sql,addressDetails, function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           console.log("Created address")
           
       });
@@ -96,7 +108,11 @@ function findAddress(req,success){
     AND address.add_postcode like ?\
     '
      con.query(sql, addressDetails,function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       address_ID = String(result[0].add_id)
       success(address_ID)
       
@@ -125,7 +141,11 @@ function findPerson(req,add_id, success){
 
     // res.send("Got here!")
     con.query(sql,addressDetails, function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           console.log("Created a person!\n");
           
       });
@@ -133,7 +153,11 @@ function findPerson(req,add_id, success){
       from person\
       where  person.person_phone like ?  AND person.person_email LIKE ? AND person.person_fname = ? AND person.person_lname = ?'
      con.query(sql, addressDetails,function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       
       person_ID = String(result[0].id)
       success(person_ID)
@@ -159,7 +183,11 @@ function findPerson(req,add_id, success){
 
     // res.send("Got here!")
     con.query(sql,addressDetails, function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           console.log("Updated Person!\n");
           
       });
@@ -173,7 +201,11 @@ router.post('/submitRecipient', function(req, res, next) {
       findPerson(req,add_id,(person_id)=>{
         sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
         con.query(sql,[person_id], function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           console.log("Checking if recipient exists!\n");
           var sql = ""
           var referrerDetails = ""
@@ -211,13 +243,21 @@ router.post('/submitRecipient', function(req, res, next) {
             
           // res.send("Got here!")
           con.query(sql,referrerDetails, function (err, result) {
-                if (err) throw err;
+                if (err) {
+
+           console.log(err)
+            return
+     };
                 console.log("Created a recipient!\n");
                 
             });
             sql = 'SELECT  recipient.person_id from recipient where recipient.person_id = ?'
             con.query(sql,[person_id], function (err, result) {
-              if (err) throw err;
+              if (err) {
+
+           console.log(err)
+            return
+     };
               res.send(String(result[0].person_id))
             })
             
@@ -239,7 +279,11 @@ router.post('/submitReferrer', function(req, res, next) {
       findPerson(req,add_id,(person_id)=>{
         sql = 'SELECT  referrer.person_id from referrer where referrer.person_id = ?'
         con.query(sql,[person_id], function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           console.log("Checking if Referrer exists!\n");
           var sql = ""
           var referrerDetails = ""
@@ -267,13 +311,21 @@ router.post('/submitReferrer', function(req, res, next) {
             
           // res.send("Got here!")
           con.query(sql,referrerDetails, function (err, result) {
-                if (err) throw err;
+                if (err) {
+
+           console.log(err)
+            return
+     };
                 console.log("Created a referrer!\n");
                 
             });
             sql = 'SELECT  referrer.person_id as id from referrer where referrer.person_id = ?'
             con.query(sql,[person_id], function (err, result) {
-              if (err) throw err;
+              if (err) {
+
+           console.log(err)
+            return
+     };
               res.send(String(result[0].id))
             })
             
@@ -334,7 +386,11 @@ router.post('/submitVolunteer', function(req, res, next) {
             
           // res.send("Got here!")
           con.query(sql,volDetails, function (err, result) {
-                if (err) throw err;
+                if (err) {
+
+           console.log(err)
+            return
+     };
                 console.log("Created a referrer!\n");
                 res.send(person_id)
             });
@@ -384,7 +440,11 @@ router.post('/getBranch', function(req, res, next) {
   sql = 'select branch.branch_id as id, branch.branch_name as branch from branch'
 
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0){
           res.send([])
         } else {
@@ -397,7 +457,11 @@ router.post('/getStatuses', function(req, res, next) {
   sql = 'SELECT vol_status.VS_id as id, vol_status.VS_stat as status from vol_status'
 
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0){
           res.send([])
         } else {
@@ -428,7 +492,11 @@ router.post('/submitDelivery', function(req, res, next) {
     ]
   }
   con.query(sql, sqlData, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0){
           res.send([])
         } else {
@@ -451,7 +519,11 @@ router.post('/updateDelivery', function(req, res, next) {
     ]
   } 
   con.query(sql, sqlData, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0){
           res.send([])
         } else {
@@ -529,7 +601,11 @@ where delivery.delivery_id = ? \
   var sqlData = [req.body.delivery_id]
   
   con.query(sql, sqlData, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0){
           console.log("No delivery found!")
           res.send({

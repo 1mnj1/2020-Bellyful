@@ -12,7 +12,11 @@ router.post('/getBranch', function(req, res, next) {
    '
 
   con.query(sql, [req.body.vol_id], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0){
           res.sendStatus(404)
         } else {
@@ -31,13 +35,21 @@ router.post('/updateDelDeets', function(req, res, next) {
   where delivery.delivery_id = ? "
 
   con.query(sql, [req.body.delivery_id], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0){
           res.sendStatus(404)
         } 
         sql = "UPDATE `referrer` SET `notes` = ? WHERE `referrer`.`person_id` = ?"
         con.query(sql, [req.body.refNotes,result[0].id], function (err, result) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           if(result.length == 0){
             res.sendStatus(404)
         } });
@@ -68,7 +80,11 @@ var sql =  "SELECT delivery.delivery_id AS id, concat(person.person_fname, ' ', 
 
   
 con.query(sql,[req.body.branch_id], function (err, result) {
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     res.send(result)
   })
 })
@@ -82,7 +98,11 @@ router.post('/getMealsForDelivery', function(req, res, next) {
   '
   
    con.query(sql,[req.body.delivery_id], function (err, result) {
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     if(result.length == 0 || result == undefined) {
       res.send(null) ;return 
     }
@@ -96,7 +116,11 @@ router.post('/getDelTime', function(req, res, next) {
 var sql = 'select delivery.delivery_start as start, delivery.delivery_end  as end from delivery where delivery.delivery_id =  ?'
 
  con.query(sql,[req.body.delivery_id], function (err, result) {
-  if (err) throw err;
+  if (err) {
+
+           console.log(err)
+            return
+     };
   if(result.length == 0 || result == undefined) {
     res.send(null) ;return 
   }
@@ -112,7 +136,11 @@ router.post('/getRefNotes', function(req, res, next) {
    where delivery.delivery_id = ?'
   
    con.query(sql,[req.body.delivery_id], function (err, result) {
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     if(result.length == 0 || result == undefined) {
       res.send(null) ;return 
     }
@@ -129,7 +157,11 @@ router.post('/getMealsRequired', function(req, res, next) {
   group by meal_type.MT_id"
   var sqlDeets = [req.body.delivery_id]
   con.query(sql,sqlDeets, function (err, result) {
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     res.send(result)
   })
 })
@@ -149,7 +181,11 @@ router.post('/getAllMealsRequired', function(req, res, next) {
   console.log("Vol id: ", req.body.vol_id)
   var sqlDeets = [req.body.vol_id]
   con.query(sql,sqlDeets, function (err, result) {
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     res.send(result)
   })
 })
@@ -175,7 +211,11 @@ router.post('/getToContactDeliveries', function(req, res, next) {
   
   
   con.query(sql,[req.body.user_id], function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       res.send(result)
     })
   })
@@ -197,7 +237,11 @@ router.post('/getToContactDeliveries', function(req, res, next) {
     
     
     con.query(sql,[req.body.user_id], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         res.send(result)
       })
     })
@@ -241,7 +285,11 @@ router.post('/getFreezerLog', function(req, res, next) {
   //returns meal type id, meal type name, and available meals
   // res.send("Got here!")
   con.query(sql,sqlvars, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -278,7 +326,11 @@ router.post('/getFreezerManagers', function(req, res, next) {
   //returns id, name, address, branch name
   // res.send("Got here!")
   con.query(sql, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -307,7 +359,11 @@ if (typeof(req.body.delivery_id) != "undefined"){
        WHERE freezer.branch_id = ?\
        group by freezer.person_id"
    con.query(sql, [req.body.delivery_id, req.body.branch_id], function (err, result) {
-     if (err) throw err;
+     if (err) {
+
+           console.log(err)
+            return
+     };
      console.log("Got a result!\n");
      console.log(result)
      if(result.length == 0){
@@ -340,7 +396,11 @@ router.post('/getFreezerManagers2', function(req, res, next) {
   //returns id, name, address, branch name
   // res.send("Got here!")
   con.query(sql, [req.body.branch_id], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -371,13 +431,29 @@ var sqlVars = [
 
 
 con.query(sql[0], function (err, result) {
-  if (err) throw err;
+  if (err) {
+
+           console.log(err)
+            return
+     };
   con.query(sql[1],sqlVars[0], function (err, result) {
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
     con.query(sql[2],sqlVars[1], function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       con.query(sql[3], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         res.send(result)
       })
     })
@@ -396,7 +472,11 @@ router.post('/updateStartStop', function(req, res, next) {
   
   
     con.query(sql, sqlVars,function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       res.sendStatus(200)
     })
   })
@@ -422,7 +502,11 @@ router.post('/updateStartStop', function(req, res, next) {
       
       console.log("SqlVars: ", sqlVars)
       con.query(sql, sqlVars, function (err, freezer) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(freezer.length == 0) {
           console.log("There are no freezer meals for this delivery!")
           
@@ -439,7 +523,11 @@ router.post('/updateStartStop', function(req, res, next) {
         join address as recAdd on rec.add_id = recAdd.add_id\
         where delivery.delivery_id = ?"
         con.query(sql, sqlVars, function (err, startStop) {
-          if (err) throw err;
+          if (err) {
+
+           console.log(err)
+            return
+     };
           if(startStop.length == 0) {
             console.log("There are no freezer meals for this delivery!")
             res.send(404)
@@ -461,7 +549,11 @@ router.post('/updateStartStop', function(req, res, next) {
       where delivery.delivery_id = ?'
       
        con.query(sql,[req.body.delivery_id], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0 || result == undefined) {
           res.send(null) ;return 
         }
@@ -474,7 +566,11 @@ router.post('/updateStartStop', function(req, res, next) {
       var sql = "UPDATE `delivery` SET `delivery_status` = '3', `delivery_start` = CURRENT_TIMESTAMP() WHERE `delivery`.`delivery_id` = ?"
       
        con.query(sql,[req.body.delivery_id], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0 || result == undefined) {
           res.send(null) ;return 
         }
@@ -491,7 +587,11 @@ router.post('/updateStartStop', function(req, res, next) {
       where delivery.delivery_id = ?'
       
        con.query(sql,[req.body.delivery_id], function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         if(result.length == 0 || result == undefined) {
           res.send(null) ;return 
         }
@@ -519,7 +619,11 @@ router.post('/updateStartStop', function(req, res, next) {
       
       
        con.query(sql,sqlQuery, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         res.send("complete")
       })
     })
@@ -559,7 +663,11 @@ router.post('/assignDeliveryMeals', function(req, res, next) {
   }
   con.query(sql,sqlvars , function (err, result) {
     console.log("Sql deets: ",sqlvars);
-    if (err) throw err;
+    if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -614,7 +722,11 @@ router.post('/removeDeliveryMeals', function(req, res, next) {
   //returns id, name, address, branch name
   // res.send("Got here!")
   con.query(sql, sqlvars, function (err, result) {
-        if (err) throw err;
+        if (err) {
+
+           console.log(err)
+            return
+     };
         console.log("Got a result!\n");
         console.log(result)
         if(result.length == 0){
@@ -644,7 +756,11 @@ router.post('/getCompletedDeliveries', function(req, res, next) {
   "
   
   con.query(sql,[req.body.user_id], function (err, result) {
-      if (err) throw err;
+      if (err) {
+
+           console.log(err)
+            return
+     };
       res.send(result)
     })
   });
