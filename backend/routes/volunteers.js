@@ -93,14 +93,14 @@ router.post('/getMealsForDelivery', function(req, res, next) {
 
 router.post('/getDelTime', function(req, res, next) {
 
-var sql = 'select delivery.delivery_est_time as time from delivery where delivery.delivery_id =  ?'
+var sql = 'select delivery.delivery_start as start, delivery.delivery_end  as end from delivery where delivery.delivery_id =  ?'
 
  con.query(sql,[req.body.delivery_id], function (err, result) {
   if (err) throw err;
   if(result.length == 0 || result == undefined) {
     res.send(null) ;return 
   }
-  res.send(result[0]["time"])
+  res.send([result[0]["start"],result[0]["end"]])
   
 })
 })
@@ -385,6 +385,21 @@ con.query(sql[0], function (err, result) {
 })
   
 })
+
+router.post('/updateStartStop', function(req, res, next) {
+  var sql = "UPDATE `delivery` SET `delivery_start` = ?, `delivery_end` = ? WHERE `delivery`.`delivery_id` = ?"
+  var sqlVars = [
+      req.body.start,
+      req.body.end,
+      req.body.delivery_id
+  ]
+  
+  
+    con.query(sql, sqlVars,function (err, result) {
+      if (err) throw err;
+      res.sendStatus(200)
+    })
+  })
 
     router.post('/getMapAddresses', function(req, res, next) {
       //needs to return:

@@ -12,7 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-
+import DeliveryDoneDetails from './DeliveryDoneDetails'
 import Grid from '@material-ui/core/Grid';
 
 
@@ -39,7 +39,7 @@ export default function UnassignedDeliveries (props) {
   const [state, setState] = React.useState({
       columns: [ {}, ],
       data: [ {}, ],
-      checked: []
+      visible: []
   });
   var updateProps = 1
 
@@ -86,16 +86,9 @@ export default function UnassignedDeliveries (props) {
   
 
   const handleToggle = (value) => () => {
-    const currentIndex = state.checked.indexOf(value);
-    const newChecked = [...state.checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-    console.log("Checked: ", newChecked)
-    setState(state => ({ ...state,checked:newChecked}));
+    var visible = [...state.visible]
+    visible[value] = !visible[value]
+    setState(state => ({ ...state,visible: visible}))
   };
 
 
@@ -118,13 +111,13 @@ export default function UnassignedDeliveries (props) {
   };
 
 
-  const createList = state.data.map((row) => {
+  const createList = state.data.map((row, index) => {
     const value = row[state.columns[0]]
     // console.log("Row: ",row, "Value: ", value)
 
     return (
         <div className = {classes.root}>
-           <ListItem key={value} role={undefined} dense button>
+           <ListItem key={value} role={undefined} dense button onClick={handleToggle(index)}>
             <Grid  container spacing={3}>
                 <Grid item xs={12} sm={9}>          
               <ListItemText
@@ -175,6 +168,12 @@ export default function UnassignedDeliveries (props) {
                 </Grid>
               </Grid>
             </ListItem>
+            {
+              
+              state.visible[index] ? 
+              <DeliveryDoneDetails delivery_id = {value}/> 
+              : <div/>
+            }
         </div>
     );
   })
