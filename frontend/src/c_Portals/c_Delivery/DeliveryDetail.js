@@ -163,7 +163,7 @@ export default function DeliveryDetail (props) {
                     onClick = {()=>updateDelState("Unassigned")} 
                     style = {{ width: mobileCheck() ? '80%'  : '90%', backgroundColor : '#F5F5F5', color : '#494648', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', border: '1px solid #959594'}}
                 >
-                    Mark as Undone
+                    Can't do afterall
                 </Button> <br/>
                 <br/> <br/>
                 <TextField
