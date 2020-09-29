@@ -191,7 +191,7 @@ export default function UnassignedDeliveries (props) {
             className = {classes.button} 
             variant="contained"  
             onClick = {setAlert} 
-            style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%', margin : 'auto', width : '100%', borderRadius: 10, fontWeight : "bold", textTransform: 'none'}}
+            style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#239A55', color : 'white', float : 'left', marginLeft : '10%', margin : 'auto', width : '100%', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '20px'}}
           >
             I can do this!
           </Button> 

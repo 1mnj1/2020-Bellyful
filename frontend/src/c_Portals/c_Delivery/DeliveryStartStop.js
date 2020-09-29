@@ -52,7 +52,7 @@ import Box from '@material-ui/core/Box';
 
 
     function buttonColour () {
-        return state.start == null ? "#24a85b" : "#dd4a4e"
+        return state.start == null ? "#24A85B" : "#DD4A4E"
     }
 
 return (
@@ -60,16 +60,12 @@ return (
     <Button 
         variant="contained"  
         onClick = {handleClick}  
-        style = {props.nostyle ? {width: "40%", backgroundColor: buttonColour()} : {width: "96%", marginLeft: "3vw", backgroundColor: buttonColour()}} 
+        style = {{ width: '100%', backgroundColor: buttonColour(), color : 'white', margin : 'auto', borderRadius: 12, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
     >
         {state.start == null ? "Start" : "Stop"}
     </Button> 
     
 </div> )
   
-//   width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%', margin : 'auto', width : '100%', borderRadius: 10, fontWeight : "bold", textTransform: 'none'
-
-
-
 
 }

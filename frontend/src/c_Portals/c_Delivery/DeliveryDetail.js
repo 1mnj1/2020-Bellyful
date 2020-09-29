@@ -132,27 +132,62 @@ export default function DeliveryDetail (props) {
 
               />
             <br/> <br/>
-            <Button className = {classes.button} variant="contained"  onClick = {updateNotes} style = {{width: mobileCheck()?"80%":"92%", margin : 'auto'}}>
-            Update Notes
+            <Button 
+                className = {classes.button} 
+                variant="contained"  
+                onClick = {updateNotes} 
+                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#549DFC', color : 'white',  margin : 'auto', borderRadius: 6, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
+            >
+                Save
             </Button>
             <br/><br/>
-            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("tel:+"+String(props.phone))}} style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#24a85b', color : 'white', float : 'left', marginLeft : '10%' }}>
+            <Button 
+                className = {classes.button} 
+                variant="contained"  
+                onClick = {()=>{window.open("tel:+"+String(props.phone))}} 
+                // style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#2EB767', color : 'white', float : 'left', marginLeft : '10%' }}
+                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#2EB767', color : 'white', float : 'left', marginLeft : '10%', borderRadius: 8, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
+            >
                 Call
             </Button> 
-            <Button className = {classes.button} variant="contained"  onClick = {()=>{window.open("sms:+"+String(props.phone))}} style = {{width: mobileCheck()?"30%":"36%", backgroundColor : '#3d90fa', color : 'white', float : 'right', marginRight : '10%'}}>
+            <Button 
+                className = {classes.button} 
+                variant="contained"  
+                onClick = {()=>{window.open("sms:+"+String(props.phone))}} 
+                // style = {{width: mobileCheck()?"30%":"36%", backgroundColor : '#3d90fa', color : 'white', float : 'right', marginRight : '10%'}}
+                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#3D90FA', color : 'white', float : 'right', marginRight : '10%', borderRadius: 8, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
+            >
                 Text
             </Button> <br/> <br/>
             
             {props.outstanding ? 
-            (<div><Button variant="contained"  onClick = {()=>updateDelState("Assigned")} style = {{width: mobileCheck()?"80%":"92%"}}>
-                Add to My Confirmed Deliveries
-            </Button> <br/> <br/> </div>): null}
-            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Rejected by Recipient")} style = {{width : mobileCheck() ? '80%':'90%'}}>
-                Cancelled by recipient
-            </Button> <br/> <br/>
-            <Button className = {classes.button} variant="contained"  onClick = {()=>updateDelState("Unassigned")} style = {{width : mobileCheck() ? '80%':'90%'}}>
-                Can't do afterall
-            </Button> <br/>
+            (<div>
+                <Button 
+                    variant="contained"  
+                    onClick = {()=>updateDelState("Assigned")} 
+                    // style = {{width: mobileCheck()?"80%":"92%"}}
+                    style = {{ width: mobileCheck()?"80%":"92%", backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px'}}
+                >
+                    Add to My Confirmed Deliveries
+                </Button> <br/> <br/> </div>): null}
+                <Button 
+                    className = {classes.button} 
+                    variant="contained"  
+                    onClick = {()=>updateDelState("Rejected by Recipient")} 
+                    // style = {{width : mobileCheck() ? '80%':'90%'}}
+                    style = {{ width: mobileCheck()?"80%":"90%", backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '20px'}}
+                >
+                    Cancelled by recipient
+                </Button> <br/> <br/>
+                <br/>
+                <Button 
+                    className = {classes.button} 
+                    variant="contained"  
+                    onClick = {()=>updateDelState("Unassigned")} 
+                    style = {{ width: mobileCheck() ? '80%'  : '90%', backgroundColor : '#F5F5F5', color : '#494648', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', border: '1px solid #959594'}}
+                >
+                    Mark as Undone
+                </Button> <br/>
             </div>
         </form>
       </div>
