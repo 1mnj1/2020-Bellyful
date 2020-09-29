@@ -123,7 +123,7 @@ export default function DeliveryDetail (props) {
                 variant="contained"  
                 onClick = {()=>{window.open("tel:+"+String(props.phone))}} 
                 // style = {{ width: mobileCheck()?"30%":"36%", backgroundColor : '#2EB767', color : 'white', float : 'left', marginLeft : '10%' }}
-                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#2EB767', color : 'white', float : 'left', marginLeft : '10%', borderRadius: 8, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
+                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#2EB767', color : 'white', float : 'left', marginLeft : '10%', borderRadius: 8, fontWeight : 'bold', fontSize: '16px', height: '45px'}}
             >
                 Call
             </Button> 
@@ -132,18 +132,19 @@ export default function DeliveryDetail (props) {
                 variant="contained"  
                 onClick = {()=>{window.open("sms:+"+String(props.phone))}} 
                 // style = {{width: mobileCheck()?"30%":"36%", backgroundColor : '#3d90fa', color : 'white', float : 'right', marginRight : '10%'}}
-                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#3D90FA', color : 'white', float : 'right', marginRight : '10%', borderRadius: 8, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
+                style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#3D90FA', color : 'white', float : 'right', marginRight : '10%', borderRadius: 8, fontWeight : 'bold', fontSize: '16px', height: '45px'}}
             >
                 Text
             </Button> <br/> <br/>
             
             {props.outstanding ? 
             (<div>
+                <br/>
                 <Button 
                     variant="contained"  
                     onClick = {()=>updateDelState("Assigned")} 
                     // style = {{width: mobileCheck()?"80%":"92%"}}
-                    style = {{ width: mobileCheck()?"80%":"92%", backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px'}}
+                    style = {{ width: mobileCheck()?"80%":"90%", backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', height: '45px'}}
                 >
                     Add to My Confirmed Deliveries
                 </Button> <br/> <br/> </div>): null}
@@ -152,7 +153,7 @@ export default function DeliveryDetail (props) {
                     variant="contained"  
                     onClick = {()=>updateDelState("Rejected by Recipient")} 
                     // style = {{width : mobileCheck() ? '80%':'90%'}}
-                    style = {{ width: mobileCheck()?"80%":"90%", backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '20px'}}
+                    style = {{ width: mobileCheck()?"80%":"90%", backgroundColor : '#CE92B9', color : 'white', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '20px', height: '45px'}}
                 >
                     Cancelled by recipient
                 </Button>
@@ -161,7 +162,7 @@ export default function DeliveryDetail (props) {
                     className = {classes.button} 
                     variant="contained"  
                     onClick = {()=>updateDelState("Unassigned")} 
-                    style = {{ width: mobileCheck() ? '80%'  : '90%', backgroundColor : '#F5F5F5', color : '#494648', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', border: '1px solid #959594'}}
+                    style = {{ width: mobileCheck() ? '80%'  : '90%', backgroundColor : '#F5F5F5', color : '#494648', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', border: '1px solid #959594', height: '45px'}}
                 >
                     Can't do afterall
                 </Button> <br/>
@@ -186,7 +187,7 @@ export default function DeliveryDetail (props) {
                     className = {classes.button} 
                     variant="contained"  
                     onClick = {updateNotes} 
-                    style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#549DFC', color : 'white',  margin : 'auto', borderRadius: 6, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
+                    style = {{ width: mobileCheck() ? '30%'  : '36%', backgroundColor : '#549DFC', color : 'white',  margin : 'auto', borderRadius: 6, fontWeight : 'bold', textTransform: 'none', fontSize: '16px', height: '45px'}}
                 >
                     Save
                 </Button>
