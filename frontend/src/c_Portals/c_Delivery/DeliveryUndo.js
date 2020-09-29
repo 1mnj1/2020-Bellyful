@@ -56,7 +56,7 @@ import Box from '@material-ui/core/Box';
             {"name":"delivery_id", "value":props.delivery_id}
         ]
         var reload = (item)=>{props.reloadPage(props.delivery_id)}
-        $.post("http://"+window.location.hostname+":3000/volunteer/updateDelState",formData,reload)
+        $.post(props.url,formData,reload)
         
     }
 
@@ -64,7 +64,7 @@ return (
 <div>
     <Button 
         variant="contained"  
-        onClick = {()=>updateDelState("To Contact")} 
+        onClick = {()=>updateDelState(props.status)} 
         style = {{ width: '100%', backgroundColor : '#F5F5F5', float : 'right', color : '#494648', margin : 'auto', borderRadius: 14, fontWeight : 'bold', textTransform: 'none', fontSize: '18px', border: '1px solid #959594', height: '45px'}}
     >
         Mark as undone
