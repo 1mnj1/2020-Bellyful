@@ -173,7 +173,7 @@ export default function UnassignedDeliveries (props) {
   return (
     <div style = {{overflowX: "hidden", padding : '0px'}}>
       <h2>{props.title}</h2> 
-      <h5>{state.data.length <= 0 ? 'No new deliveries.' : 'Can you do complete any of these?'}</h5>
+      <h5>{state.data.length <= 0 ? 'No new deliveries.' : 'Can you complete any of these?'}</h5>
       <br/>
 
       {state.data.length <= 0 ? 
