@@ -15,6 +15,9 @@ import DeliveryDetail from './DeliveryDetail'
 import ReqMeals from '../c_Freezer/ReqMeals'
 import Grid from '@material-ui/core/Grid';
 import DeliveryStartStop from './DeliveryStartStop'
+
+import DeliveryUndo from './DeliveryUndo'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
@@ -66,7 +69,7 @@ export default function MyOutstanding (props) {
       
     }
 
-
+  
 
     const classes = useStyles();
   
@@ -134,11 +137,24 @@ export default function MyOutstanding (props) {
                   <Grid item xs={12} sm={3}>
 
                     <DeliveryStartStop nostyle = {true} delivery_id = {value} reloadPage = {removeDelivery}  />
+                    <br/> <br/>
+        
+                    <DeliveryUndo
+                      reloadPage = {removeDelivery} 
+                      delivery_id ={value} 
+                      setdeliveryID = {props.setdeliveryID}
+                    >
+
+                    </DeliveryUndo>
+
+
                   </Grid>
+                 
                 <Grid item xs={12} sm={3}>
                   <ReqMeals delivery_id = {value}/>
+
                 </Grid>
-                
+      
               </Grid>
             </ListItem>
             
