@@ -22,6 +22,8 @@ import PickMeals from './PickMeals'
 import MyConfirmed from './MyConfirmed'
 import DeliveryDriving from './DeliveryDriving'
 
+import CompletedDeliveries from './CompletedDeliveries'
+
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
       width: '100%',
@@ -168,7 +170,6 @@ function DelivererPortal(props) {
                         url = {"http://"+window.location.hostname+":3000/volunteer/getAssignedIntransit"}/>
                         
                         : 
-                        // deliveryID > -1 ? 
                             <PickMeals 
                             del_ID = {deliveryID} 
                             user_id = {props.user_id} 
@@ -176,13 +177,17 @@ function DelivererPortal(props) {
                             branch_id = {branchID}>
 
                             </PickMeals>
-                            // : 
-                            // <DeliveryDriving  
-                            //     delivery_id = {myConfirmed.deliveryID} 
-                            //     confirmedState = {myConfirmed}
-                            //     setConfirmedState = {setMyConfirmed}
-                            //     setdeliveryID = {setdeliveryID}/>
-                            }
+                        }
+                </TabPanel>
+                <TabPanel value={value} index={3} dir={theme.direction}>
+                    <CompletedDeliveries 
+                        title = "Completed Deliveries" 
+                        url = {"http://"+window.location.hostname+":3000/volunteer/getCompletedDeliveries"}
+                        user_id = {props.user_id}
+                        branch_id = {branchID}
+                    >
+                    </CompletedDeliveries>
+                    
                 </TabPanel>
                 
             </SwipeableViews>
@@ -200,6 +205,7 @@ function DelivererPortal(props) {
                 <Tab label="Branch Outstanding" {...a11yProps(0)} />
                 <Tab label="My Outstanding" {...a11yProps(1)} />
                 <Tab label="My Confirmed" {...a11yProps(2)} />
+                <Tab label="My Completed" {...a11yProps(3)} />
                 </Tabs>
             </AppBar>
         </div>
