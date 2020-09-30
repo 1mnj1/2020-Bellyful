@@ -481,6 +481,27 @@ router.post('/updateStartStop', function(req, res, next) {
     })
   })
 
+  router.post('/updateStartStopAndStatus', function(req, res, next) {
+    console.log('inside the startstop')
+    var sql = "UPDATE `delivery` SET `delivery_start` = ?, `delivery_end` = ?, 'delivery_status' = ? WHERE `delivery`.`delivery_id` = ?"
+    var sqlVars = [
+        req.body.start,
+        req.body.end,
+        req.body.status,
+        req.body.delivery_id
+    ]
+    
+    
+      con.query(sql, sqlVars,function (err, result) {
+        if (err) {
+  
+             console.log(err)
+              return
+       };
+        res.sendStatus(200)
+      })
+    })
+
     router.post('/getMapAddresses', function(req, res, next) {
       //needs to return:
       // [{address:"21 springwater vale unsworth heights auckland", type: "Start"},
