@@ -61,7 +61,7 @@ router.post('/getAddress', function(req, res, next) {
 
            console.log(err)
             return
-     };
+          };
           
           if(result.length == 0){
             res.send("-1")
@@ -70,6 +70,32 @@ router.post('/getAddress', function(req, res, next) {
           }
       });
 });
+
+// router.post('/getAddressforDelivery', function(req, res, next) {
+//   sql = 'SELECT CONCAT(add_num, " ",add_street, ", ", add_suburb, ", ", add_city, ", ", add_postcode) FROM ((address \
+//           JOIN person ON person.add_id = address.add_id) \
+//           JOIN delivery ON delivery.recipient_id = person.person_id) \
+//           WHERE delivery.delivery_id = ?'
+  
+//   console.log("DELID : ",req.body.del_id)
+
+//   con.query(sql, req.body.del_id, function(err, result) {
+//       console.log("DATABASE RESULT : ", result)
+//       if(err) {
+//         console.log(err) 
+//         return
+//       };
+//       if(result.length == 0){
+//         res.send("-1")
+//       } else {
+        
+//         res.send(String(result))
+//       }
+//   })
+
+  
+// })
+
 function findAddress(req,success){
   var address_ID = req.body.address_id
   

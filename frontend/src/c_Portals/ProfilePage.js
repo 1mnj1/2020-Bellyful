@@ -42,18 +42,6 @@ function ProfilePage(props) {
                             <h2>First Name</h2>
                             <h2>Last Name</h2>
                     </Grid>
-                    <Grid item xs={3}>
-                        <Paper onClick = {() => {console.log("CLICK")}} className={classes.paper}>xs=3</Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Paper className={classes.paper}>xs=3</Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Paper className={classes.paper}>xs=3</Paper>
-                    </Grid>
-                    <Grid item xs={3}>
-                        <Paper className={classes.paper}>xs=3</Paper>
-                    </Grid>
                 </Grid>
             </Paper>
         </div>
