@@ -15,6 +15,7 @@ import DeliveryDetail from './DeliveryDetail'
 import ReqMeals from '../c_Freezer/ReqMeals'
 import Grid from '@material-ui/core/Grid';
 import DeliveryStartStop from './DeliveryStartStop'
+
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100vw",
@@ -32,6 +33,8 @@ export default function MyOutstanding (props) {
 
     const state = props.state
     const setState = props.setState
+
+    const [selDel, setselDel] = React.useState();
     
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
     console.log("User id: ", props.user_id)
@@ -66,6 +69,19 @@ export default function MyOutstanding (props) {
       
     }
 
+   const getDirections = ()=>{
+    //   console.log(selDelID)
+    //   $.post("http://"+window.location.hostname+":3000/delivery/getAddressforDelivery", [{name:'del_id',value:selDelID}], function(returnable) {
+    //     console.log(returnable)
+    //     if(returnable === null) return 
+    //     if (returnable === undefined) return 
+    //     if(returnable.length === 0) return 
+    //     setselDel(returnable)
+    //   })
+      
+    //   console.log( "Value of SelDEL is : ",selDel)
+     }
+
 
 
     const classes = useStyles();
@@ -73,6 +89,8 @@ export default function MyOutstanding (props) {
   
     console.log(state.data.length)
     console.log(state.data)
+
+
     const createList = state.data.map((row, index) => {
       const value = row[state.columns[0]]
       const labelId = `checkbox-list-label-${value}`;
@@ -102,7 +120,7 @@ export default function MyOutstanding (props) {
                           variant="body2"
                           className={classes.inline}
                           color="textPrimary"
-                          //name
+                          //street
                         >
                           {row[state.columns[2]]}
                         </Typography>
@@ -113,7 +131,7 @@ export default function MyOutstanding (props) {
                           className={classes.inline}
                           color="textPrimary"
                           style={{whiteSpace: 'pre-line'}}
-                          // street
+                          // phone
                         >
                           <br/>{row[state.columns[3]]}
                         </Typography>
@@ -135,8 +153,15 @@ export default function MyOutstanding (props) {
 
                     <DeliveryStartStop nostyle = {true} delivery_id = {value} reloadPage = {removeDelivery}  />
                   </Grid>
-                <Grid item xs={12} sm={3}>
+                <Grid item xs={6} sm={3}>
                   <ReqMeals delivery_id = {value}/>
+                </Grid>
+                <Grid item xs = {6}>
+                  <Button onClick = {() => {
+                    let url = 'https://www.google.com/maps/search/?api=1&query=' + escape(row[state.columns[2]])
+                    window.open(url, '_blank')
+                    
+                  }}>Get Directions</Button>
                 </Grid>
                 
               </Grid>
@@ -147,6 +172,7 @@ export default function MyOutstanding (props) {
         </div>
       );
     })
+
     return (
       <div style = {{overflowX: "hidden", paddingBottom: "20vh"}}>
         <h2>{props.title}</h2> 
@@ -159,12 +185,8 @@ export default function MyOutstanding (props) {
          <List className={classes.list}>
             {createList}
         </List>}
-        {/* https://www.google.co.nz/maps/place/Massey+University,+Auckland+Campus/@-36.7337425,174.6971653,16z/data=!4m8!1m2!2m1!1smassey+univerity!3m4!1s0x6d0d3bec3accd2e5:0xf92ffe426da0a3d0!8m2!3d-36.7337425!4d174.7015427
-        
-        */}
-      {/* <a href="http://maps.google.com/maps?daddr=lat,long&amp;ll=">Take me there!</a> */}
-      <a href="http://maps.google.com/maps?daddr=-36.7337425,174.6971653&amp;ll=" target="_blank" >Get Directions</a>
 
+      
 
       </div>
     );
