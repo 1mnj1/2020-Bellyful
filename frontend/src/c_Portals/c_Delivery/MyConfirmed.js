@@ -36,7 +36,7 @@ export default function MyOutstanding (props) {
     const state = props.state
     const setState = props.setState
 
-    const [selDel, setselDel] = React.useState();
+    
     
     //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
     console.log("User id: ", props.user_id)
@@ -150,6 +150,7 @@ export default function MyOutstanding (props) {
                       </React.Fragment>
                     }
                   /> 
+  
                   </Grid>
                   <Grid item xs={12} sm={3}>
 
@@ -159,23 +160,17 @@ export default function MyOutstanding (props) {
                     <DeliveryUndo
                       reloadPage = {removeDelivery} 
                       delivery_id ={value} 
-                      setdeliveryID = {props.setdeliveryID}
-                    >
+                      setdeliveryID = {props.setdeliveryID}/>
 
-                    </DeliveryUndo>
-
+                    
 
                   </Grid>
-                <Grid item xs={6} sm={3}>
+                <Grid item xs={12} sm={3}>
                   <ReqMeals delivery_id = {value}/>
 
                 </Grid>
                 <Grid item xs = {6}>
-                  <Button onClick = {() => {
-                    let url = 'https://www.google.com/maps/search/?api=1&query=' + escape(row[state.columns[2]])
-                    window.open(url, '_blank')
-                    
-                  }}>Get Directions</Button>
+                  
                 </Grid>
                 
               </Grid>

@@ -751,6 +751,25 @@ router.post('/getCompletedDeliveries', function(req, res, next) {
     })
   });
 
+router.post('/getProfileDetails', function(req,res, next) {
+  var sql = "SELECT CONCAT(person.person_fname, ' ', person.person_lname) AS name, person.person_phone AS phone, \
+  person.person_email AS email, \
+  CONCAT(address.add_num, ' ', address.add_street, ', ' , address.add_suburb, ', ', address.add_city) AS address \
+  FROM person \
+  JOIN address ON person.add_id = address.add_id \
+  WHERE person.person_id = ?"
+
+  con.query(sql, [req.body.user_id], function(err, result){
+    if(err) {
+      console.log(err)
+      return
+    } else {
+      console.log(result)
+      res.send(result)
+    }
+  })
+});
+
 
 
 
