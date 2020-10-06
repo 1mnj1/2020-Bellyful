@@ -10,8 +10,8 @@ import Box from '@material-ui/core/Box';
  export default function DeliveryStartStop(props){
     const [state,setState] = React.useState({
         estTime: null,
-        start : null,
-        end: null
+        start : "0000-00-00 00:00:00",
+        end: "0000-00-00 00:00:00"
     })
     React.useEffect(()=>{
         $.post("http://"+window.location.hostname+":3000/volunteer/getStartStop",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
@@ -25,7 +25,7 @@ import Box from '@material-ui/core/Box';
     }, [props.delivery_id])
 
     const handleClick = (event)=> {
-      if( state.start == null ) {
+      if( state.start == "0000-00-00 00:00:00" ) {
         $.post("http://"+window.location.hostname+":3000/volunteer/setStart",[{"name":"delivery_id", "value":props.delivery_id}],(returnable)=>{
             // console.log("Meal Detials: ",returnable)
             if(returnable === null) return 
@@ -52,7 +52,7 @@ import Box from '@material-ui/core/Box';
 
 
     function buttonColour () {
-        return state.start == null ? "#24A85B" : "#DD4A4E"
+        return state.start == "0000-00-00 00:00:00" ? "#24A85B" : "#DD4A4E"
     }
 
 return (
@@ -62,7 +62,7 @@ return (
         onClick = {handleClick}  
         style = {{ width: '100%', backgroundColor: buttonColour(), color : 'white', margin : 'auto', borderRadius: 12, fontWeight : 'bold', textTransform: 'none', fontSize: '16px'}}
     >
-        {state.start == null ? "Start" : "Stop"}
+        {state.start == "0000-00-00 00:00:00" ? "Start" : "Stop"}
     </Button> 
     
 </div> )
