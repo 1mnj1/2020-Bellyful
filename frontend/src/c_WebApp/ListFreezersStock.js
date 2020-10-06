@@ -69,10 +69,10 @@ function ListFreezerStock(props){
                 direction="row"
                 justify="center"
                 alignItems="center">
-                <Grid item xs = {40} sm = {20} style = {{"width": "20%",backgroundColor : 'white'}}>Totals</Grid>
+                <Grid item xs = {40} sm = {20} style = {{"width": "20%",backgroundColor : 'white'}}><b>Totals</b></Grid>
                 {   
                 Object.keys(totals).map((key)=>{
-                    return <Grid item style = {{"width": "20%",backgroundColor : 'white'}} >{totals[key]}</Grid>
+                    return <Grid item style = {{"width": "20%",backgroundColor : 'white'}} ><b>{totals[key]}</b></Grid>
                 })
                 
                 }
