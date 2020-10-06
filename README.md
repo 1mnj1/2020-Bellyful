@@ -16,7 +16,7 @@ This application is a stock and delivery management system for the charity Belly
 
 
 ### Future Features
-- Maps feature - In 'My Confirmed Deliveries' implement a feature that will allow the user to click a button that will take then to the address in Google Maps or their phones native Maps application.
+- Maps feature - In 'My Confirmed Deliveries' implement a feature that will allow the user to click a button that will take them to the address in Google Maps or their phones native Maps application.
 - Notifications - currently the application does not have the ability to send any push notifications
 - Offline use - The ability for users to use the app offline
 - A few style changes still need to be made e.g. font type
