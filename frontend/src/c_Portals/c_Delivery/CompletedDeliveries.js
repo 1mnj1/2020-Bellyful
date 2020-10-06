@@ -2,19 +2,18 @@
 import React from "react"
 import $ from 'jquery'
 
-import Alert from '@material-ui/lab/Alert';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 // import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
+
 import Typography from '@material-ui/core/Typography';
 import DeliveryDoneDetails from './DeliveryDoneDetails'
 import Grid from '@material-ui/core/Grid';
 
+import DeliveryReset from './DeliveryReset'
 
 
 
@@ -106,9 +105,35 @@ export default function UnassignedDeliveries (props) {
         })
   }
 
-  const mobileCheck = function() {
-    return window.screen.width < 620
-  };
+  const removeDelivery = (del_id)=>
+  {
+    var oldState = {...state}
+    for (var i = 0; i < oldState.data.length; ++i){
+      if(oldState.data[i][state.columns[0]] == del_id){
+        oldState.data.splice(i, 1)
+        break
+      }
+
+    }
+    setState(oldState)
+    
+  }
+
+  const resetTime = () => {
+    //   '2020-09-15 14:07:43'
+    //    2020-09-09 17:12:00
+    var sendData = [
+        {"name": "delivery_id", "value": props.delivery_id},
+        {"name": "start", "value": state.start},
+        {"name": "end", "value": state.end}
+    ]
+
+    $.post("http://"+window.location.hostname+":3000/volunteer/updateStartStopAndStatus",sendData,(_)=>{
+        console.log("Updated the start and stop times!")
+    })
+  }
+
+
 
 
   const createList = state.data.map((row, index) => {
@@ -159,12 +184,21 @@ export default function UnassignedDeliveries (props) {
               />
               </Grid>
                 <Grid item xs={12} sm={3}>
-                <Button 
-                      variant="contained"  
-                      style = {{ width: '100%', backgroundColor: '#2983F7', color : 'white', margin : 'auto', borderRadius: 6, fontWeight : 'bold', fontSize: '16px'}}
-                    >
-                        Completed
-                    </Button> 
+                  <Button 
+                    variant="contained"  
+                    style = {{ width: '100%', backgroundColor: '#2983F7', color : 'white', margin : 'auto', borderRadius: 6, fontWeight : 'bold', fontSize: '16px'}}
+                  >
+                    Completed
+                  </Button>
+                  <DeliveryReset
+                    reloadPage = {removeDelivery} 
+                    delivery_id ={value} 
+                    setdeliveryID = {props.setdeliveryID}
+                    url = ""
+                    status = "Assigned"
+                  >
+
+                  </DeliveryReset>
                 </Grid>
               </Grid>
             </ListItem>

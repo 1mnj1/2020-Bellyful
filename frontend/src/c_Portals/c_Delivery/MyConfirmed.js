@@ -160,7 +160,12 @@ export default function MyOutstanding (props) {
                     <DeliveryUndo
                       reloadPage = {removeDelivery} 
                       delivery_id ={value} 
-                      setdeliveryID = {props.setdeliveryID}/>
+                      setdeliveryID = {props.setdeliveryID}
+                      status = "To Contact"
+                      url = {"http://"+window.location.hostname+":3000/volunteer/updateDelState"}
+                    >
+
+                    </DeliveryUndo>
 
                     
 
