@@ -18,7 +18,8 @@ import Box from '@material-ui/core/Box';
         var sendData = [
             {"name": "delivery_id", "value": props.delivery_id},
             {"name": "start", "value": start},
-            {"name": "end", "value": stop}
+            {"name": "end", "value": stop},
+            {"name": "status", "value": 2},
         ]
         
         $.post("http://"+window.location.hostname+":3000/volunteer/updateStartStopAndStatus",sendData,(_)=>{
