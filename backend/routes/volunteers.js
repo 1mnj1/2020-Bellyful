@@ -483,7 +483,7 @@ router.post('/updateStartStop', function(req, res, next) {
 
   router.post('/updateStartStopAndStatus', function(req, res, next) {
     console.log('inside the startstop')
-    var sql = "UPDATE `delivery` SET `delivery_start` = ?, `delivery_end` = ?, 'delivery_status' = ? WHERE `delivery_id` = ?"
+    var sql = "UPDATE `delivery` SET `delivery_start` = ?, `delivery_end` = ?, `delivery_status` = ? WHERE `delivery_id` = ?"
     var sqlVars = [
         req.body.start,
         req.body.end,
