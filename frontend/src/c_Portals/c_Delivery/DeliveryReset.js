@@ -22,7 +22,7 @@ import Box from '@material-ui/core/Box';
         ]
         
         $.post("http://"+window.location.hostname+":3000/volunteer/updateStartStopAndStatus",sendData,(_)=>{
-            console.log("Updated the start and stop times!")
+            console.log("Updated the status!")
         })
         props.reloadPage(props.delivery_id)
         event.preventDefault();
