@@ -11,14 +11,11 @@ import Box from '@material-ui/core/Box';
    
     const resetTimeAndStatus = (event) => {
 
-        var start = "00-00-00:000000"
-        var stop = "00-00-00:000000"
-
         console.log('inside resetTimeAndStatus')
         var sendData = [
             {"name": "delivery_id", "value": props.delivery_id},
-            {"name": "start", "value": start},
-            {"name": "end", "value": stop},
+            {"name": "start", "value": "0000-00-00 00:00:00"},
+            {"name": "end", "value": "0000-00-00 00:00:00"},
             {"name": "status", "value": 2},
         ]
         
