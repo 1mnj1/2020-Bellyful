@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 10, 2020 at 10:05 AM
+-- Generation Time: Oct 13, 2020 at 01:37 AM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -118,7 +118,14 @@ INSERT INTO `address` (`add_id`, `add_num`, `add_street`, `add_suburb`, `add_cit
 (25, '23', 'arosa place', 'Forrest hill', 'auckland', '0620'),
 (26, '208', 'Beach Road', 'Campbells Bay', 'Auckland', '0630'),
 (27, '208', 'Beach Road', 'Campbells Bay', 'Auckland', '0630'),
-(28, '', '', '', '', '');
+(28, '', '', '', '', ''),
+(29, '89', 'annandale road', 'taupaki', 'auckland', '0782'),
+(30, '89', 'annandale road', 'taupaki', 'auckland', '0782'),
+(31, '89', 'annandale road', 'taupaki', 'auckland', '0783'),
+(32, '89', 'annandale road', 'taupaki', 'auckland', '0783'),
+(33, '89', 'annandale road', 'taupaki', 'auckland', '0632'),
+(34, '12', 'springwater vale', 'unsworth heights', 'auckland', '0632'),
+(35, '12', 'springwater vale', 'unsworth heights', 'auckland', '0632');
 
 -- --------------------------------------------------------
 
@@ -169,20 +176,23 @@ CREATE TABLE `delivery` (
   `delivery_status` int(11) NOT NULL,
   `delivery_start` timestamp NULL DEFAULT NULL,
   `delivery_end` timestamp NULL DEFAULT NULL,
-  `branch_id` int(11) NOT NULL
+  `branch_id` int(11) NOT NULL,
+  `notes` varchar(50) NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `delivery`
 --
 
-INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, `delivery_start`, `delivery_end`, `branch_id`) VALUES
-(1, 2, 3, 1, 2, '2020-09-08 22:42:40', '2020-09-10 00:34:09', 1),
-(4, 2, 3, 1, 1, '2020-09-06 23:07:21', '2020-09-06 23:07:23', 1),
-(5, 2, 3, 19, 1, NULL, NULL, 1),
-(11, NULL, 9, 5, 8, NULL, NULL, 2),
-(12, 2, NULL, 9, 8, NULL, NULL, 1),
-(13, 2, 24, 25, 8, NULL, NULL, 1);
+INSERT INTO `delivery` (`delivery_id`, `vol_id`, `ref_id`, `recipient_id`, `delivery_status`, `delivery_start`, `delivery_end`, `branch_id`, `notes`) VALUES
+(1, 26, 3, 1, 8, '2020-08-29 12:44:00', '2020-10-06 01:35:01', 1, '0asdf'),
+(4, 2, 3, 1, 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, '0asdf'),
+(5, 2, 3, 19, 8, '2020-09-23 00:37:45', '2020-09-23 02:07:44', 1, '0asdf'),
+(11, NULL, 9, 5, 8, NULL, NULL, 2, '0asdf'),
+(12, 2, 9, 9, 8, '2020-09-30 02:37:31', '2020-09-30 02:37:32', 1, 'Theres a dog outside'),
+(13, 2, 24, 25, 8, '2020-09-30 01:26:29', '2020-09-30 01:26:30', 1, '0asfdbruh'),
+(14, 26, 30, 30, 8, '2020-09-29 21:27:45', '2020-09-29 21:27:47', 1, '0sdf'),
+(15, 2, 33, 33, 8, NULL, NULL, 1, 'THere are dogs in the backyard.');
 
 -- --------------------------------------------------------
 
@@ -265,7 +275,7 @@ CREATE TABLE `meal` (
 
 INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`, `vol_id`) VALUES
 (200, 1, NULL, 13, NULL),
-(204, 1, 2, 5, NULL),
+(204, 1, NULL, 5, NULL),
 (205, 1, 2, 12, NULL),
 (206, 2, 2, 12, NULL),
 (223, 2, 1, 12, NULL),
@@ -275,23 +285,72 @@ INSERT INTO `meal` (`meal_id`, `meal_type`, `freezer_id`, `delivery_id`, `vol_id
 (231, 1, 1, 13, NULL),
 (232, 1, 1, 13, NULL),
 (305, 1, NULL, 11, NULL),
-(306, 1, NULL, 11, NULL),
+(306, 1, NULL, 4, NULL),
 (307, 1, 1, 1, NULL),
 (308, 1, 1, 1, NULL),
 (309, 1, 1, 1, NULL),
 (310, 1, 1, 1, NULL),
 (311, 1, 1, 1, NULL),
-(312, 2, 1, NULL, NULL),
-(313, 2, 1, NULL, NULL),
-(314, 1, 1, NULL, NULL),
-(315, 1, 1, NULL, NULL),
-(316, 1, 1, NULL, NULL),
-(317, 1, 1, NULL, NULL),
-(318, 1, 1, NULL, NULL),
-(319, 1, 1, NULL, NULL),
-(320, 1, 1, NULL, NULL),
-(321, 1, 1, NULL, NULL),
-(322, 1, 1, NULL, NULL);
+(312, 2, 1, NULL, 2),
+(313, 2, 1, NULL, 2),
+(314, 1, 1, 4, NULL),
+(315, 1, 1, 4, NULL),
+(316, 1, NULL, NULL, 2),
+(317, 4, 1, NULL, 2),
+(318, 1, 1, NULL, 2),
+(319, 1, 1, NULL, 2),
+(320, 1, 1, NULL, 2),
+(321, 1, 1, NULL, 2),
+(322, 1, 1, NULL, 2),
+(323, 2, NULL, 11, NULL),
+(324, 2, NULL, 11, NULL),
+(325, 1, 1, 4, 2),
+(326, 1, 1, NULL, 2),
+(329, 1, NULL, 12, NULL),
+(330, 1, NULL, 14, NULL),
+(331, 1, NULL, 14, NULL),
+(332, 1, NULL, 14, NULL),
+(333, 1, NULL, 14, NULL),
+(334, 2, NULL, 14, NULL),
+(335, 2, NULL, 14, NULL),
+(336, 2, NULL, 14, NULL),
+(337, 3, NULL, 14, NULL),
+(338, 3, NULL, 14, NULL),
+(339, 2, NULL, 13, NULL),
+(340, 2, NULL, 13, NULL),
+(341, 1, NULL, 15, NULL),
+(342, 1, NULL, 15, NULL),
+(343, 1, NULL, 15, NULL),
+(344, 1, NULL, 15, NULL),
+(345, 1, NULL, 15, NULL),
+(346, 1, NULL, 12, NULL),
+(347, 1, NULL, 12, NULL),
+(348, 1, NULL, 12, NULL),
+(349, 1, NULL, 12, NULL),
+(350, 1, NULL, 12, NULL),
+(351, 1, NULL, 12, NULL),
+(352, 1, NULL, 12, NULL),
+(353, 1, NULL, 12, NULL),
+(354, 2, NULL, 12, NULL),
+(355, 2, NULL, 12, NULL),
+(356, 2, NULL, 12, NULL),
+(357, 1, 1, NULL, NULL),
+(358, 1, 1, NULL, NULL),
+(359, 1, 1, NULL, NULL),
+(360, 2, 1, NULL, NULL),
+(361, 2, 1, NULL, NULL),
+(362, 2, 1, NULL, NULL),
+(363, 1, NULL, 1, NULL),
+(364, 1, NULL, 1, NULL),
+(365, 1, NULL, 1, NULL),
+(366, 2, NULL, 1, NULL),
+(367, 1, NULL, 4, NULL),
+(368, 1, NULL, 4, NULL),
+(369, 1, NULL, 4, NULL),
+(370, 1, NULL, 1, NULL),
+(371, 1, NULL, 1, NULL),
+(372, 1, NULL, 1, NULL),
+(373, 1, NULL, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -310,10 +369,10 @@ CREATE TABLE `meal_type` (
 --
 
 INSERT INTO `meal_type` (`MT_id`, `meal_type`) VALUES
-(1, 'Lasagna'),
-(2, 'Mac & Cheese'),
-(3, 'Spaghetti Bolognese'),
-(4, 'Vege Soup');
+(1, 'lasagna'),
+(2, 'Mac and Cheese'),
+(3, 'Spag Bol'),
+(4, 'Tomato and lentil Soup');
 
 -- --------------------------------------------------------
 
@@ -350,9 +409,13 @@ INSERT INTO `person` (`person_id`, `person_phone`, `person_email`, `person_fname
 (19, '20020002020', 'themeg@gmail.com', 'Megan', 'Johnson', 'P@ssword', 0, 16),
 (20, '02002000', 'cjmac@gmail.com', 'Chris', 'Macdonald', 'P@ssword', 0, 17),
 (21, '0299292928', 'dani@gmail.com', 'Dan', 'Frazer', 'P@ssword', 0, 18),
-(23, '02102625325', 'MJLawrence@hotmail.com', 'Michael', 'Lawrence', 'P@ssword', 0, 22),
+(23, '02102625325', 'MJLawrence@hotmail.com', 'Michael', 'Lawrence', 'P@ssword', 1, 22),
 (24, '094332167', 'Jo@gmail.com', 'Joan', 'Soap', 'P@ssword', 0, 24),
-(25, '0220220267', 'SiyaBM@gmail.com', 'Siya', 'Mfecane', 'P@ssword', 0, 25);
+(25, '0220220267', 'SiyaBM@gmail.com', 'Siya', 'Mfecane', 'P@ssword', 0, 25),
+(26, '02120220220', 'Test@gmail.com', 'Clark', 'Kent', '12345', 1, 33),
+(30, '021348328822', 'Arzoo@gmail.com', 'Atiq', 'Arzoo', 'P@ssword', 0, 31),
+(32, '0220202020', 'brandon@gmail.com', 'Brandon', 'Yole', 'P@ssword', 0, 22),
+(33, '0212202020', 'megV@gmail.com', 'Megan', 'Van Staden', 'P@ssword', 0, 34);
 
 -- --------------------------------------------------------
 
@@ -378,10 +441,12 @@ CREATE TABLE `recipient` (
 
 INSERT INTO `recipient` (`person_id`, `rec_dogs`, `rec_children_under_5`, `rec_children_between_5_10`, `rec_children_between_11_17`, `rec_adults`, `rec_dietary_req`, `rec_allergies`) VALUES
 (1, 0, 0, 0, 0, 1, 'None', 'None'),
-(5, 1, 1, 1, 1, 1, 'blah', 'de de de de de de de  blah'),
-(9, 1, 1, 1, 1, 1, '1', '1'),
+(5, 0, 1, 1, 1, 1, 'blah', 'de de de de de de de  blah'),
+(9, 0, 1, 1, 1, 1, '1', '1'),
 (19, 0, 0, 0, 0, 1, 'None', 'None'),
-(25, 1, 1, 1, 1, 2, 'Vegan', 'None');
+(25, 0, 1, 1, 1, 2, 'Vegan', 'None'),
+(30, 0, 1, 1, 1, 2, 'Nothing', 'Nothing'),
+(33, 0, 0, 0, 0, 1, 'none', 'none');
 
 -- --------------------------------------------------------
 
@@ -402,10 +467,13 @@ CREATE TABLE `referrer` (
 --
 
 INSERT INTO `referrer` (`person_id`, `RT_type`, `notes`, `organisation`) VALUES
-(3, 5, 'Herro Blah', 'Cool Cats'),
+(3, 5, 'Working till 6pm', 'Cool Cats'),
 (9, 7, 'blah', 'Self Referral'),
 (20, 5, 'None', 'Massey Uni'),
-(24, 4, 'Dog outside', 'ORG');
+(24, 4, 'Dog outside', 'ORG'),
+(26, 7, '', 'Self Referral'),
+(30, 7, '', 'Self Referral'),
+(33, 7, '', 'Self Referral');
 
 -- --------------------------------------------------------
 
@@ -454,7 +522,8 @@ INSERT INTO `volunteer` (`person_id`, `ice_id`, `branch_id`, `vol_status`) VALUE
 (2, 3, 1, 1),
 (4, 1, 1, 1),
 (5, 4, 1, 1),
-(23, 9, 1, 3);
+(23, 9, 1, 3),
+(26, 32, 1, 3);
 
 --
 -- Triggers `volunteer`
@@ -601,7 +670,7 @@ ALTER TABLE `vol_status`
 -- AUTO_INCREMENT for table `address`
 --
 ALTER TABLE `address`
-  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `add_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `branch`
@@ -613,7 +682,7 @@ ALTER TABLE `branch`
 -- AUTO_INCREMENT for table `delivery`
 --
 ALTER TABLE `delivery`
-  MODIFY `delivery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `delivery_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `delivery_status`
@@ -631,7 +700,7 @@ ALTER TABLE `freezer`
 -- AUTO_INCREMENT for table `meal`
 --
 ALTER TABLE `meal`
-  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=323;
+  MODIFY `meal_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=374;
 
 --
 -- AUTO_INCREMENT for table `meal_type`
@@ -643,7 +712,7 @@ ALTER TABLE `meal_type`
 -- AUTO_INCREMENT for table `person`
 --
 ALTER TABLE `person`
-  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `person_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `referrer_type`
