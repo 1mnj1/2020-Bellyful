@@ -6,11 +6,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-// import Divider from '@material-ui/core/Divider';
-// import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider'
-// import Checkbox from '@material-ui/core/Checkbox';
 import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
 

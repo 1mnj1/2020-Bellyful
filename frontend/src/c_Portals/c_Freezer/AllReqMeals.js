@@ -1,25 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-
 import $ from 'jquery'
-
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
-import LocalShippingIcon from '@material-ui/icons/LocalShipping'
-import AcUnitIcon from '@material-ui/icons/AcUnit'
-import PersonIcon from '@material-ui/icons/Person'
-
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-//import UnassignedDeliveries from './UnassignedDeliveries';
-import FreezerLog from './FreezerLog';
-import FreezerManagers from './FreezerManagers';
-import FreezerManagerDetail from './FreezerManagerDetail';
 
 
 export default function AllReqMeals (props) {

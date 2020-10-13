@@ -1,17 +1,11 @@
 import React from "react"
-import $, { data } from 'jquery'
+import $ from 'jquery'
 import Divider from '@material-ui/core/Divider';
-import Alert from '@material-ui/lab/Alert';
-import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-// import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListItemText from '@material-ui/core/ListItemText';
-import Checkbox from '@material-ui/core/Checkbox';
 import Typography from '@material-ui/core/Typography';
-import DeliveryDetail from './DeliveryDetail'
 import ReqMeals from '../c_Freezer/ReqMeals'
 import Grid from '@material-ui/core/Grid';
 import DeliveryStartStop from './DeliveryStartStop'

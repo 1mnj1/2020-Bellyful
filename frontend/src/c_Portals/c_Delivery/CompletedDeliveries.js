@@ -20,7 +20,6 @@ import DeliveryReset from './DeliveryReset'
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
-    // textAlign: "center",
     padding : 0,
     backgroundColor: theme.palette.background.paper,
   },
@@ -41,9 +40,6 @@ export default function UnassignedDeliveries (props) {
       visible: []
   });
   var updateProps = 1
-
-//   console.log("before the get data request for completed deliveries")
-//   console.log(props.url)
 
   //use effect copied from https://reactjs.org/docs/hooks-effect.html#tip-optimizing-performance-by-skipping-effects
   const setData = () => {

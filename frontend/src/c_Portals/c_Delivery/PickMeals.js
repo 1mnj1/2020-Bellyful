@@ -28,9 +28,6 @@ function PickMeals(props) {
         );
       }
 
-    const [branchManagerClicked, setBranchManagerClicked] = React.useState(-1);
-    const [freezerManagerId, setFreezerManagerId] = React.useState(-1);
-
     const [branchManagers, setBranchManagers] = React.useState({
         columns: [ {}, ],
         data: [  ],

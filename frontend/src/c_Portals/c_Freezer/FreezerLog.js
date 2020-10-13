@@ -1,8 +1,5 @@
 import React, {useState} from "react"
 import $ from 'jquery'
-
-import Alert from '@material-ui/lab/Alert';
-import AlertTitle from '@material-ui/lab/AlertTitle';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
@@ -18,7 +15,6 @@ import TextField from '@material-ui/core/TextField';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    // textAlign: "center",
     backgroundColor: theme.palette.background.paper,
   },
   label: {

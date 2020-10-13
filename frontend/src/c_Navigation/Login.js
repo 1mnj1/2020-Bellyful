@@ -1,7 +1,6 @@
 //from https://gist.github.com/EduardoSaverin/04d7d9529dfaf8cc9a404bb458bb8dbb
 import React from 'react';
-import { Paper, withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Typography } from '@material-ui/core';
-import { Face, Fingerprint, Height, WrapText } from '@material-ui/icons'
+import { withStyles, Grid, TextField, Button, FormControlLabel, Checkbox, Typography } from '@material-ui/core';
 import $ from 'jquery'
 import blogo from "../Images/login-screen-logo.png"
 import Container from '@material-ui/core/Container';

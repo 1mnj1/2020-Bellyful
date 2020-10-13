@@ -1,10 +1,6 @@
 import React from 'react';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-// import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
-import LocalShippingIcon from '@material-ui/icons/LocalShipping'
-// import AcUnitIcon from '@material-ui/icons/AcUnit'
-import PersonIcon from '@material-ui/icons/Person'
 import RefferrerForm from '../../c_Forms/ReferrerForm'
 import RecipientForm from '../../c_Forms/RecipientForm'
 import DeliveryForm from '../../c_Forms/DeliveryForm'

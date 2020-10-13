@@ -4,8 +4,7 @@ import AutoTable from './AutoTable'
 import VolunteerForm from '../c_Forms/VolunteerForm';
 import $ from 'jquery'
 import FreezerForm from '../c_Forms/FreezerForm';
-import { makeStyles } from '@material-ui/core/styles';
-import {Typography, List, ListItem} from '@material-ui/core'
+import {Typography} from '@material-ui/core'
 
 function DeliveryQueue(props){
     const [vol,setVol] = React.useState([{}]);

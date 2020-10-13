@@ -12,14 +12,11 @@ import $ from 'jquery'
 
 import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
 import LocalShippingIcon from '@material-ui/icons/LocalShipping'
-import AcUnitIcon from '@material-ui/icons/AcUnit'
-import PersonIcon from '@material-ui/icons/Person'
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-//import UnassignedDeliveries from './UnassignedDeliveries';
+
 import FreezerLog from './FreezerLog';
 import FreezerManagers from './FreezerManagers';
-import FreezerManagerDetail from './FreezerManagerDetail';
 
 const useStyles = makeStyles((theme) => ({
     Navigation_root: {
@@ -70,16 +67,11 @@ function a11yProps(index) {
   
 function FreezerPortal(props) {
 
-  
     //Used for the Navigation Drawer
     const classes = useStyles();
     const theme = useTheme();
 
-
     const [value, setValue] = React.useState(1);
-    const [branchManagerClicked, setBranchManagerClicked] = React.useState(-1);
-    const [freezerManagerId, setFreezerManagerId] = React.useState(-1);
-
     const [branchManagers, setBranchManagers] = React.useState({
         columns: [ {}, ],
         data: [  ],

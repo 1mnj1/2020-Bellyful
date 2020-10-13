@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-// import BottomNavigation from '@material-ui/core/BottomNavigation';
-// import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -9,10 +7,6 @@ import SwipeableViews from 'react-swipeable-views';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import $ from 'jquery'
-import NotificationsActiveIcon from '@material-ui/icons/NotificationsActive'
-import LocalShippingIcon from '@material-ui/icons/LocalShipping'
-import AcUnitIcon from '@material-ui/icons/AcUnit'
-import PersonIcon from '@material-ui/icons/Person'
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import UnassignedDeliveries from './UnassignedDeliveries';
@@ -20,7 +14,6 @@ import UnassignedDeliveries from './UnassignedDeliveries';
 import MyOustanding from './MyOutstanding'
 import PickMeals from './PickMeals'
 import MyConfirmed from './MyConfirmed'
-import DeliveryDriving from './DeliveryDriving'
 
 import CompletedDeliveries from './CompletedDeliveries'
 
